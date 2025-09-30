@@ -1,0 +1,7 @@
+{
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La ruta {unavailable-route} no se encuentra disponible.",
+    "go-home": "Ir a Inicio"
+  }
+}
