@@ -7,12 +7,9 @@ import AppSidebar from "../../../shared/presentation/components/app-sidebar.vue"
 <template>
   <div class="relative-layout">
     <app-header />
-    <div class="layout-body">
-      <app-sidebar class="sidebar" />
-      <main class="main-content">
-        <router-view />
-      </main>
-    </div>
+    <main class="main-content">
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -21,23 +18,14 @@ import AppSidebar from "../../../shared/presentation/components/app-sidebar.vue"
   display: flex;
   flex-direction: column;
   height: 100vh;
-}
-
-.layout-body {
-  display: flex;
-  flex: 1;
-  margin-top: 60px;
-}
-
-.sidebar {
-  width: 220px;
-  background-color: #f5f6fa;
+  width: 100%;
 }
 
 .main-content {
-  flex: 1;
+  margin-top: 60px;
   padding: 2rem;
   background: #fff;
   overflow-y: auto;
+  flex: 1;
 }
 </style>
