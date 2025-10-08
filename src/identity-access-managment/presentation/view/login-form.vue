@@ -28,11 +28,10 @@ const handleLogin= () => {
   console.log(user);
   if (!user) {
     alert(t('login.invalid_credentials'));
-    //router.push({ name: 'dashboard', params: {id, role} });
     return;
   }
   if (user.role === "relative"){
-    //router.push({ name: 'dashboard', params: {id, role} });
+    //router.push({ name: 'dashboard' });
   }
   const {id, role} = user;
   console.log(id, role)
@@ -48,7 +47,7 @@ const handleLogin= () => {
     </div>
     <div class="flex flex-column items-center justify-center gap-2 bg-white mx-auto">
       <pv-input-text type="text" :placeholder="t('iam.login-form.email-placeholder')" v-model="email"  class="login-input surface-800"/>
-      <pv-input-text v-model="password" :placeholder="t('iam.login-form.password-placeholder')" class="login-input surface-800"/>
+      <pv-password v-model="password" :placeholder="t('iam.login-form.password-placeholder')" :feedback="false" toggle-mask class="login-input surface-800" input-class="surface-800"/>
       <p class="text-blue-500">{{ t('iam.login-form.forgot-password')}}</p>
     </div>
     <div>
@@ -70,4 +69,7 @@ h1 {
   color: #000;
 }
 
+:deep(.p-password-input) {
+  color: #000;
+}
 </style>
