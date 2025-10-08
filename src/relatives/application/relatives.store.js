@@ -13,8 +13,8 @@ const USER_EXAMPLE_DATA_1 = {
 
 const USER_EXAMPLE_DATA_2 = {
     "id": 1,
-    "email": "valeria@gmail.com",
-    "password": "valeria123",
+    "email": "juan@gmail.com",
+    "password": "juan123",
     "role": "relative",
     "entityId": 2
 }
@@ -22,12 +22,11 @@ const USER_EXAMPLE_DATA_2 = {
 const relativesApi = new RelativesApi()
 
 export const useRelativesStore = defineStore('relatives', () => {
-    // State
     const relative = ref(null);
     const errors = ref([]);
 
     function fetchRelativeData(){
-        relativesApi.getRelativeById(USER_EXAMPLE_DATA_1.entityId)
+        relativesApi.getRelativeById(USER_EXAMPLE_DATA_2.entityId)
             .then(response => {
                 relative.value = RelativeAssembler.toEntityFromResource(response.data);
                 console.log("Relative Entity:", relative.value);
