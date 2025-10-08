@@ -1,94 +1,59 @@
 <script setup lang="ts">
 import LanguageSwitcher from "./language-switcher.vue";
-import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
+import {computed} from "vue";
 
-// Definir props y emits
-const props = defineProps<{
-  visible: boolean;
-}>();
+const route = useRoute();
 
-const emit = defineEmits<{
-  'update:visible': [value: boolean];
-}>();
+const relativeId = computed(() => route.params.id);
 
-// Función para cerrar el sidebar
-const closeSidebar = () => {
-  emit('update:visible', false);
-};
-
-// 1. **Definición de Roles y Opciones:**
-const menuOptions = [
-  // Opciones para Admin Clínica: DoctorList, PatientsList, Support
-  // Opciones para Doctors y Cuidadores: ListPatients, Support
-  { name: "Doctor List", icon: "/src/assets/doctor.png", roles: ["admin-clinica"] },
-  { name: "Patients List", icon: "/src/assets/list.png", roles: ["admin-clinica", "admin-casa-reposo", "doctors", "cuidadores"] },
-  { name: "Support", icon: "/src/assets/support.png", roles: ["admin-clinica", "admin-casa-reposo", "doctors", "cuidadores", "allegado-premium"] },
-
-  // Opciones para Admin Casa de Reposo: CuidadorList, PatientsList, Support
-  { name: "Cuidador List", icon: "/src/assets/nurse.png", roles: ["admin-casa-reposo"] },
-
-  // Opciones para Patient Selected, Allegado Premium y Freemium: Senior Citizen, Stats, Alerts
-  { name: "Senior Citizen", icon: "/src/assets/senior.png", roles: ["patient-selected", "allegado-premium", "allegado-freemium"] },
-  { name: "Stats", icon: "/src/assets/stats.png", roles: ["patient-selected", "allegado-premium", "allegado-freemium"] },
-  { name: "Alerts", icon: "/src/assets/notification.png", roles: ["patient-selected", "allegado-premium", "allegado-freemium"] },
-];
-
-// 2. **Rol del Usuario (Variable Clave):**
-const userRole = ref('admin-clinica'); // <-- **AJUSTA ESTE ROL PARA PROBAR**
-
-// Estado para el item seleccionado
-const selectedItem = ref(null);
-
-// Función para seleccionar un item
-const selectItem = (itemName) => {
-  selectedItem.value = itemName;
-  console.log(`Item seleccionado: ${itemName}`);
-}
-
-// 3. **Lógica de Filtrado (Propiedad Computada):**
-const filteredOptions = computed(() => {
-  return menuOptions.filter(option =>
-      option.roles.includes(userRole.value)
-  );
-});
-
-const toggleRole = () => {
-  const roles = ['admin-clinica', 'admin-casa-reposo', 'doctors', 'cuidadores', 'patient-selected', 'allegado-premium', 'allegado-freemium'];
-  const currentIndex = roles.indexOf(userRole.value);
-  const nextIndex = (currentIndex + 1) % roles.length;
-  userRole.value = roles[nextIndex];
-  console.log(`Rol cambiado a: ${userRole.value}`);
-}
+const menuItems = computed(() => [
+  {
+    label: "Alerts",
+    path: `/relative/${relativeId.value}/alerts`,
+    icon: "pi pi-bell",
+  },
+  {
+    label: "Profile",
+    path: `/relative/${relativeId.value}/profile`,
+    icon: "pi pi-user",
+  },
+  {
+    label: "Statistics",
+    path: `/relative/${relativeId.value}/statistics`,
+    icon: "pi pi-chart-bar",
+  },
+  {
+    label: "Support",
+    path: `/relative/${relativeId.value}/support`,
+    icon: "pi pi-question-circle",
+  },
+])
 </script>
 
 <template>
-  <pv-drawer :visible="props.visible" >
-    <template #container="{ closeCallback }" class="sidebar-container">
-      <span>
-        <pv-button type="button" @click="closeSidebar" icon="pi pi-times" rounded severity="contrast" variant="outlined" ></pv-button>
-      </span>
-      <nav class="sidebar-menu">
-        <div
-            v-for="option in filteredOptions"
-            :key="option.name"
-            class="menu-item"
-            @click="selectItem(option.name)"
-            :class="{ 'selected': selectedItem === option.name }"
-        >
-          <img :src="option.icon" :alt="option.name" class="icon-image" />
-          <span class="text">{{ option.name }}</span>
-        </div>
-      </nav>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2 class="logo">MediTrack</h2>
+    </div>
 
-      <button @click="toggleRole" class="role-switcher">
-        Cambiar Rol (Actual: {{ userRole.toUpperCase().replace('-', ' ') }})
-      </button>
+    <nav class="menu">
+      <RouterLink
+          v-for="item in menuItems"
+          :key="item.path"
+          :to="item.path"
+          class="menu-item"
+          active-class="active"
+      >
+        <i :class="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </RouterLink>
+    </nav>
 
-      <div class="language-switcher-wrapper">
-        <language-switcher></language-switcher>
-      </div>
-    </template>
-  </pv-drawer>
+    <div class="sidebar-footer">
+      <LanguageSwitcher />
+    </div>
+  </aside>
 </template>
 
 <style scoped>

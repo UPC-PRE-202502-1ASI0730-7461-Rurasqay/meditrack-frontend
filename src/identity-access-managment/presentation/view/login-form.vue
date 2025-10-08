@@ -31,7 +31,7 @@ const handleLogin= () => {
     return;
   }
   if (user.role === "relative"){
-    //router.push({ name: 'dashboard' });
+    router.push(`/relative/${user.id}`)
   }
   const {id, role} = user;
   console.log(id, role)

@@ -2,6 +2,7 @@ import {RelativesApi} from "../infrastructure/relatives-api.js";
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {RelativeAssembler} from "../infrastructure/relative.assembler.js";
+import useIAMStore from "../../identity-access-managment/application/iam.store.js";
 
 const USER_EXAMPLE_DATA_1 = {
     "id": 1,
@@ -26,7 +27,9 @@ export const useRelativesStore = defineStore('relatives', () => {
     const errors = ref([]);
 
     function fetchRelativeData(){
-        relativesApi.getRelativeById(USER_EXAMPLE_DATA_2.entityId)
+        const iamStore = useIAMStore()
+        const entityId = iamStore.currentUser.entityId;
+        relativesApi.getRelativeById(entityId)
             .then(response => {
                 relative.value = RelativeAssembler.toEntityFromResource(response.data);
                 console.log("Relative Entity:", relative.value);
