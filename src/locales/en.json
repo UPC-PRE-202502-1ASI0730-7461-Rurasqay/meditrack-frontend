@@ -10,6 +10,16 @@
       "sign-up": "Sign Up"
     }
   },
+  "organization": {
+    "doctor-list": {
+      "not-exist-doctors": "There are no doctors in this organization.",
+      "add-doctor": "Add Doctor",
+      "doctor-id": "Doctor ID",
+      "doctor-name": "Doctor Name",
+      "doctor-specialty": "Specialty",
+      "add-doctor-button": "Add Doctor"
+    }
+  },
   "page-not-found": {
     "title": "Page Not Found",
     "content": "The path {unavailable-route} is not available.",

@@ -31,7 +31,7 @@ const fetchCurrentTime = async () => {
     currentTime.value = formatDateTime(data.datetime);
     isLoading.value = false;
   } catch (error) {
-    console.error('Error fetching time:', error);
+    //console.error('Error fetching time:', error);
     // Fallback a hora local
     currentTime.value = new Date().toLocaleString('es-PE', {
       hour: '2-digit',

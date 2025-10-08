@@ -10,6 +10,16 @@
       "sign-up": "Registrarse"
     }
   },
+  "organization": {
+    "doctor-list": {
+      "not-exist-doctors": "No existen doctores en esta organización.",
+      "add-doctor": "Agregar Doctor",
+      "doctor-id": "ID del Doctor",
+      "doctor-name": "Nombre del Doctor",
+      "doctor-specialty": "Especialidad",
+      "add-doctor-button": "Agregar Doctor"
+    }
+  },
   "page-not-found": {
     "title": "Página no encontrada",
     "content": "La ruta {unavailable-route} no se encuentra disponible.",

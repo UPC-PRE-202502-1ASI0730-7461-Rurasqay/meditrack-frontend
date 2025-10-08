@@ -4,6 +4,7 @@ import {useRouter} from "vue-router";
 import useIAMStore from "../../application/iam.store.js";
 import {onMounted, ref} from "vue";
 import {Button as PvButton, InputText as PvInputText, Password as PvPassword} from "primevue";
+import {storeToRefs} from "pinia";
 
 const {t} = useI18n();
 const router = useRouter();
@@ -11,14 +12,15 @@ const store = useIAMStore();
 const email = ref('');
 const password = ref('');
 
-const {currentUser, currentUserLoaded, usersLoaded, fetchUsers, login } = store;
+const {currentUser, currentUserLoaded, usersLoaded} = storeToRefs(store);
+const {fetchUsers, login} = store;
 
 onMounted( () => {
-  if (!usersLoaded) {
+  if (!usersLoaded.value) {
      fetchUsers();
-     console.log("usersLoaded:", usersLoaded);
+     console.log("usersLoaded:", usersLoaded.value);
   }
-  if (currentUserLoaded && currentUser) {
+  if (currentUserLoaded.value && currentUser.value) {
     //router.push({ name: 'dashboard' });
   }
 })
@@ -30,8 +32,16 @@ const handleLogin= () => {
     alert(t('login.invalid_credentials'));
     return;
   }
-  if (user.role === "relative"){
-    //router.push({ name: 'dashboard' });
+  switch (user.role){
+    case "relative":
+      //router.push({ name: '' });
+      break;
+    case "organizationAdmin":
+      router.push({ name: 'organization-doctors' });
+      break;
+    default:
+      alert(t('login.unknown_role'));
+      return;
   }
   const {id, role} = user;
   console.log(id, role)

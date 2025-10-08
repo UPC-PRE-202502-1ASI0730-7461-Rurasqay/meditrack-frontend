@@ -1,10 +1,10 @@
 import {Organization} from "./organization.entity.js";
 
 /**
- * Class DoctorAssembler
- * Responsible for converting raw API responses into Doctor entity instances.
+ * Class OrganizationAssembler
+ * Responsible for converting raw API responses into Organization entity instances.
  */
-export class DoctorAssembler {
+export class OrganizationAssembler {
 
     /**
      * Converts a raw resource object into a Doctor entity.
