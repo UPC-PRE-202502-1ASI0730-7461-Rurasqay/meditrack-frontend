@@ -1,4 +1,15 @@
 {
+  "iam": {
+    "login-form": {
+      "login-title": "Bienvenido a MediTrack",
+      "email-placeholder": "Correo electrónico",
+      "password-placeholder": "Contraseña",
+      "forgot-password": "¿Olvidaste tu contraseña?",
+      "login-button": "Iniciar sesión",
+      "dont-have-account": "¿No tienes una cuenta?",
+      "sign-up": "Registrarse"
+    }
+  },
   "page-not-found": {
     "title": "Página no encontrada",
     "content": "La ruta {unavailable-route} no se encuentra disponible.",
