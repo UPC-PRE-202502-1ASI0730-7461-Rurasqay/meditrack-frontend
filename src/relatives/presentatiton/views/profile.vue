@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="relative && relative.seniorCitizen" class="profile-container p-4">
+  <div v-if="relative && relative.seniorCitizen" class="profile-container p-4 text-black-alpha-90">
     <pv-panel header="Patient Profile" toggleable>
       <template #icons>
         <button class="p-panel-header-icon p-link mr-2">
@@ -36,7 +36,7 @@ onMounted(() => {
         </div>
 
         <div class="col-12 text-center mb-5">
-          <h2 class="text-900">
+          <h2 class="text-black-alpha-90">
             {{ relative.seniorCitizen.firstName }} {{ relative.seniorCitizen.lastName }}
           </h2>
         </div>
