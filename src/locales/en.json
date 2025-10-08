@@ -18,6 +18,15 @@
       "doctor-name": "Doctor Name",
       "doctor-specialty": "Specialty",
       "add-doctor-button": "Add Doctor"
+    },
+    "doctor-form": {
+      "doctor-name": "Doctor Name",
+      "doctor-lastname": "Doctor Last Name",
+      "doctor-specialty": "Specialty",
+      "doctor-email": "Email",
+      "doctor-phone": "Phone Number",
+      "doctor-age": "Age",
+      "save-doctor-button": "Save Doctor"
     }
   },
   "page-not-found": {

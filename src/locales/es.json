@@ -18,6 +18,15 @@
       "doctor-name": "Nombre del Doctor",
       "doctor-specialty": "Especialidad",
       "add-doctor-button": "Agregar Doctor"
+    },
+    "doctor-form": {
+      "doctor-name": "Nombre del Doctor",
+      "doctor-lastname": "Apellido del Doctor",
+      "doctor-specialty": "Especialidad",
+      "doctor-email": "Correo Electrónico",
+      "doctor-phone": "Teléfono",
+      "doctor-age": "Edad",
+      "save-doctor-button": "Guardar Doctor"
     }
   },
   "page-not-found": {
