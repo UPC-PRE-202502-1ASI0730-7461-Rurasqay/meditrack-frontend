@@ -17,6 +17,7 @@ const formatDateTime = (datetime) => {
   return date.toLocaleString('es-PE', {
     hour: '2-digit',
     minute: '2-digit',
+    second: '2-digit',
     hour12: false
   });
 };
@@ -35,6 +36,7 @@ const fetchCurrentTime = async () => {
     currentTime.value = new Date().toLocaleString('es-PE', {
       hour: '2-digit',
       minute: '2-digit',
+      second: '2-digit',
       hour12: false
     });
     isLoading.value = false;
@@ -46,7 +48,7 @@ onMounted(async () => {
   await fetchCurrentTime();
 
   // Actualizar cada minuto
-  timeInterval = setInterval(fetchCurrentTime, 60000);
+  timeInterval = setInterval(fetchCurrentTime, 1000);
 });
 
 // Limpiar interval cuando el componente se desmonta
