@@ -16,7 +16,6 @@
     },
     { "id": 3, "email": "luis@clinic.com", "password": "luis123", "role": "doctor", "entityId": 3 }
   ],
-
   "relatives": [
     {
       "id": 1,
@@ -133,6 +132,50 @@
           }
         ]
       }
+    }
+  ],
+  "organizations": [
+    {
+      "id": 1,
+      "name": "Clínica San José",
+      "type": "clinic"
+    },
+    {
+      "id": 2,
+      "name": "Casa de Reposo Amanecer",
+      "type": "residence"
+    }
+  ],
+  "doctors": [
+    {
+      "id": 3,
+      "fullName": "Luis Herrera",
+      "specialty": "Neurología",
+      "organizationId": 1
+    },
+    {
+      "id": 4,
+      "fullName": "Ana Paredes",
+      "specialty": "Cardiología",
+      "organizationId": 1
+    },
+    {
+      "id": 5,
+      "fullName": "Marta Castillo",
+      "specialty": "Geriatría",
+      "organizationId": 1
+    }
+  ],
+  "caregivers": [
+    {
+      "id": 1,
+      "fullName": "Ricardo Torres",
+      "organizationId": 2
+    },
+    {
+      "id": 2,
+      "fullName": "Laura Campos",
+      "organizationId": 2
     }
   ]
 }
