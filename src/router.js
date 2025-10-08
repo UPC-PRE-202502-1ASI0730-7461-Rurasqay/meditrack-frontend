@@ -4,6 +4,7 @@ import login from "./shared/presentation/views/login.vue";
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 const routes = [
+    {path: '/', redirect: '/login'},
     {path: '/login', name: 'login', component: login, meta: {title: 'Login'}},
     {path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: {title: 'Page not found'}},
 ];
