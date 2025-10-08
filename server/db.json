@@ -1,3 +1,171 @@
 {
-
+  "users": [
+    {
+      "id": 1,
+      "email": "allegado.valeria@gmail.com",
+      "password": "valeria123",
+      "role": "relative",
+      "entityId": 1
+    },
+    {
+      "id": 2,
+      "email": "allegado.juan@gmail.com",
+      "password": "juan123",
+      "role": "relative",
+      "entityId": 2
+    },
+    {
+      "id": 3,
+      "email": "luis@clinic.com",
+      "password": "luis123",
+      "role": "doctor",
+      "entityId": 3
+    },
+    {
+      "id": 4,
+      "email": "ana@clinic.com",
+      "password": "ana123",
+      "role": "doctor",
+      "entityId": 4
+    },
+    {
+      "id": 5,
+      "email": "marta@clinic.com",
+      "password": "marta123",
+      "role": "doctor",
+      "entityId": 5
+    },
+    {
+      "id": 6,
+      "email": "ricardo@residence.com",
+      "password": "ricardo123",
+      "role": "caregiver",
+      "entityId": 1
+    },
+    {
+      "id": 7,
+      "email": "laura@residence.com",
+      "password": "laura123",
+      "role": "caregiver",
+      "entityId": 2
+    },
+    {
+      "id": 8,
+      "email": "admin@clinic.com",
+      "password": "admin123",
+      "role": "organizationAdmin",
+      "entityId": 1
+    },
+    {
+      "id": 9,
+      "email": "admin@residence.com",
+      "password": "admin123",
+      "role": "organizationAdmin",
+      "entityId": 2
+    }
+  ],
+  "relatives": [
+    {
+      "id": 1,
+      "name": "Valeria López",
+      "plan": "premium",
+      "seniorCitizen": {
+        "id": 1,
+        "name": "Carlos López",
+        "age": 79,
+        "height": 1.7,
+        "weight": 68,
+        "vitals": {
+          "bloodPressure": "120/80",
+          "heartRate": 72,
+          "temperature": 36.5,
+          "oxygenLevel": 97
+        },
+        "alerts": [
+          {
+            "id": 1,
+            "type": "heart_rate",
+            "message": "Frecuencia cardíaca fuera de rango",
+            "date": "2025-10-06T10:15:00Z"
+          },
+          {
+            "id": 2,
+            "type": "oxygen",
+            "message": "Nivel de oxígeno bajo",
+            "date": "2025-10-06T10:45:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Juan Pérez",
+      "plan": "free",
+      "seniorCitizen": {
+        "id": 2,
+        "name": "Rosa Pérez",
+        "age": 82,
+        "height": 1.58,
+        "weight": 59,
+        "vitals": {
+          "bloodPressure": "125/85",
+          "heartRate": 76,
+          "temperature": 36.9,
+          "oxygenLevel": 95
+        },
+        "alerts": [
+          {
+            "id": 3,
+            "type": "temperature",
+            "message": "Temperatura corporal elevada",
+            "date": "2025-10-06T11:00:00Z"
+          }
+        ]
+      }
+    }
+  ],
+  "organizations": [
+    {
+      "id": 1,
+      "name": "Clínica San José",
+      "type": "clinic"
+    },
+    {
+      "id": 2,
+      "name": "Casa de Reposo Amanecer",
+      "type": "residence"
+    }
+  ],
+  "doctors": [
+    {
+      "id": 3,
+      "fullName": "Luis Herrera",
+      "specialty": "Neurología",
+      "organizationId": 1
+    },
+    {
+      "id": 4,
+      "fullName": "Ana Paredes",
+      "specialty": "Cardiología",
+      "organizationId": 1
+    },
+    {
+      "id": 5,
+      "fullName": "Marta Castillo",
+      "specialty": "Geriatría",
+      "organizationId": 1
+    }
+  ],
+  "caregivers": [
+    {
+      "id": 1,
+      "fullName": "Ricardo Torres",
+      "organizationId": 2
+    },
+    {
+      "id": 2,
+      "fullName": "Laura Campos",
+      "organizationId": 2
+    }
+  ]
 }
