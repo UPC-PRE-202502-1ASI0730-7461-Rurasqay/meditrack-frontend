@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch, toRaw } from "vue";
 import { Chart, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const chartRef = ref(null);
 const chartInstance = ref(null);
+const isUnmounting = ref(false);
 
 const props = defineProps({
   bloodPressure: {
@@ -17,9 +18,15 @@ const props = defineProps({
 const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const updateChartData = () => {
+  if (isUnmounting.value) return;
   if (chartInstance.value && props.bloodPressure) {
-    chartInstance.value.data.datasets[0].data = props.bloodPressure;
-    chartInstance.value.update();
+    try {
+      const plainData = JSON.parse(JSON.stringify(toRaw(props.bloodPressure)));
+      chartInstance.value.data.datasets[0].data = plainData;
+      chartInstance.value.update();
+    } catch (error) {
+      console.error('Error updating chart:', error);
+    }
   }
 };
 
@@ -29,6 +36,7 @@ const initChart = () => {
       chartInstance.value.destroy();
     }
 
+    const plainData = JSON.parse(JSON.stringify(toRaw(props.bloodPressure)));
     const ctx = chartRef.value.getContext("2d");
     chartInstance.value = new Chart(ctx, {
       type: "bar",
@@ -37,7 +45,7 @@ const initChart = () => {
         datasets: [
           {
             label: "Blood Pressure (mmHg)",
-            data: props.bloodPressure,
+            data: plainData,
             backgroundColor: "rgba(255, 99, 132, 0.6)",
             borderColor: "rgba(255, 99, 132, 1)",
             borderWidth: 1
@@ -80,8 +88,22 @@ onMounted(() => {
   initChart();
 });
 
+onBeforeUnmount(() => {
+  isUnmounting.value = true;
+  if (chartInstance.value) {
+    try {
+      chartInstance.value.destroy();
+    } catch (error) {
+      console.error('Error destroying chart:', error);
+    }
+    chartInstance.value = null;
+  }
+});
+
 watch(() => props.bloodPressure, () => {
-  updateChartData()
+  if (!isUnmounting.value) {
+    updateChartData();
+  }
 }, { deep: true });
 
 </script>

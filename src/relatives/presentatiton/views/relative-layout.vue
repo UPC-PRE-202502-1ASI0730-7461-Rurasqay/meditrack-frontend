@@ -8,7 +8,7 @@ import AppSidebar from "../../../shared/presentation/components/app-sidebar.vue"
   <div class="relative-layout">
     <app-header />
     <main class="main-content">
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </main>
   </div>
 </template>

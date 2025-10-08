@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, ref, watch, onUnmounted } from "vue";
+import { onMounted, ref, watch, onUnmounted, toRaw } from "vue";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
 const chartRef = ref(null);
 let chartInstance = ref(null);
+const isUnmounting = ref(false);
 
 const props = defineProps({
   heartRate: {
@@ -18,17 +19,24 @@ const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 
 const updateChartData = () => {
+  if (isUnmounting.value) return; // Don't update if unmounting
   if (chartInstance.value && props.heartRate) {
-    chartInstance.value.data.datasets[0].data = props.heartRate;
-    chartInstance.value.update('active');
+    try {
+      // Convert Vue Proxy to plain array
+      const plainData = JSON.parse(JSON.stringify(toRaw(props.heartRate)));
+      chartInstance.value.data.datasets[0].data = plainData;
+      chartInstance.value.update('active');
+    } catch (error) {
+      console.error('Error updating chart:', error);
+    }
   }
 };
 
 
 const initChart = () => {
   if (chartRef.value && props.heartRate) {
+    const plainData = JSON.parse(JSON.stringify(toRaw(props.heartRate)));
     const ctx = chartRef.value.getContext("2d");
-
     chartInstance.value = new Chart(ctx, {
       type: "line",
       data: {
@@ -36,7 +44,7 @@ const initChart = () => {
         datasets: [
           {
             label: "Heart Rate (bpm)",
-            data: props.heartRate,
+            data: plainData,
             borderColor: "rgb(226,99,255)",
             backgroundColor: "rgba(255, 99, 132, 0.2)",
             tension: 0.3,
@@ -80,8 +88,22 @@ onMounted(() => {
   initChart();
 });
 
+onUnmounted(() => {
+  isUnmounting.value = true;
+  if (chartInstance.value) {
+    try {
+      chartInstance.value.destroy();
+    } catch (error) {
+      console.error('Error destroying chart:', error);
+    }
+    chartInstance.value = null;
+  }
+});
+
 watch(() => props.heartRate, () => {
-  updateChartData();
+  if (!isUnmounting.value) {
+    updateChartData();
+  }
 }, { deep: true });
 
 </script>

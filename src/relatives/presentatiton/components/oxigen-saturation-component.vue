@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, watch, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted, toRaw } from "vue";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
 const chartRef = ref(null);
 let chartInstance = ref(null);
+const isUnmounting = ref(false);
 
 const props = defineProps({
   oxygenLevel: {
@@ -17,19 +18,24 @@ const props = defineProps({
 const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const updateChartData = () => {
+  if (isUnmounting.value) return;
   if (chartInstance.value && props.oxygenLevel) {
-    const data = props.oxygenLevel.map(d => d.ox);
-    chartInstance.value.data.datasets[0].data = data;
-    chartInstance.value.update('active');
+    try {
+      const rawData = toRaw(props.oxygenLevel);
+      const data = JSON.parse(JSON.stringify(rawData)).map(d => d.ox);
+      chartInstance.value.data.datasets[0].data = data;
+      chartInstance.value.update('active');
+    } catch (error) {
+      console.error('Error updating chart:', error);
+    }
   }
 };
 
 const initChart = () => {
   if (chartRef.value && props.oxygenLevel) {
     const ctx = chartRef.value.getContext("2d");
-
-    const data = props.oxygenLevel.map(d => d.ox);
-
+    const rawData = toRaw(props.oxygenLevel);
+    const data = JSON.parse(JSON.stringify(rawData)).map(d => d.ox);
     chartInstance.value = new Chart(ctx, {
       type: "line",
       data: {
@@ -69,8 +75,22 @@ onMounted(() => {
   initChart();
 });
 
+onUnmounted(() => {
+  isUnmounting.value = true;
+  if (chartInstance.value) {
+    try {
+      chartInstance.value.destroy();
+    } catch (error) {
+      console.error('Error destroying chart:', error);
+    }
+    chartInstance.value = null;
+  }
+});
+
 watch(() => props.oxygenLevel, () => {
-  updateChartData();
+  if (!isUnmounting.value) {
+    updateChartData();
+  }
 }, { deep: true });
 
 

@@ -32,7 +32,6 @@ export const useRelativesStore = defineStore('relatives', () => {
         relativesApi.getRelativeById(entityId)
             .then(response => {
                 relative.value = RelativeAssembler.toEntityFromResource(response.data);
-                console.log("Relative Entity:", relative.value);
             })
     }
 

@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, watch, onUnmounted } from "vue";
+import { ref, onMounted, watch, onUnmounted, toRaw } from "vue";
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
 const chartRef = ref(null);
 let chartInstance = ref(null);
+const isUnmounting = ref(false);
 
 // Definir props para recibir datos del padre
 const props = defineProps({
@@ -21,10 +22,16 @@ const props = defineProps({
 
 const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
- const updateChartData = () => {
+const updateChartData = () => {
+  if (isUnmounting.value) return;
   if (chartInstance.value && props.temperature && props.temperature.length > 0) {
-    chartInstance.value.data.datasets[0].data = props.temperature;
-    chartInstance.value.update('active');
+    try {
+      const plainData = JSON.parse(JSON.stringify(toRaw(props.temperature)));
+      chartInstance.value.data.datasets[0].data = plainData;
+      chartInstance.value.update('active');
+    } catch (error) {
+      console.error('Error updating chart:', error);
+    }
   }
 };
 
@@ -32,6 +39,9 @@ const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const initChart = () => {
   if (chartRef.value && props.temperature && props.temperature.length > 0) {
     const ctx = chartRef.value.getContext("2d");
+
+    // Convert Vue Proxy to plain array
+    const plainData = JSON.parse(JSON.stringify(toRaw(props.temperature)));
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, "rgba(255, 0, 0, 0.5)");
@@ -45,7 +55,7 @@ const initChart = () => {
         datasets: [
           {
             label: "Temperature (°C)",
-            data: props.temperature,
+            data: plainData,
             fill: true,
             backgroundColor: gradient,
             borderColor: "rgba(255, 99, 132, 1)",
@@ -83,8 +93,20 @@ onMounted(() => {
   }
 });
 
+onUnmounted(() => {
+  isUnmounting.value = true;
+  if (chartInstance.value) {
+    try {
+      chartInstance.value.destroy();
+    } catch (error) {
+      console.error('Error destroying chart:', error);
+    }
+    chartInstance.value = null;
+  }
+});
+
 watch(() => props.temperature, () => {
-  if (props.isPremium) {
+  if (props.isPremium && !isUnmounting.value) {
     updateChartData();
   }
 }, { deep: true });

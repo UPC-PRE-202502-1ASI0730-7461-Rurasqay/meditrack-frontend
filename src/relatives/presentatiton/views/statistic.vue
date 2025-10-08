@@ -33,7 +33,6 @@ const hasTemperatureData = computed(() => {
 onMounted(async () => {
   await fetchRelativeData()
   isLoading.value = false
-  console.log("Blood Pressure Data:", relative.value?.seniorCitizen?.signalVitals?.bloodPressure)
 })
 
 

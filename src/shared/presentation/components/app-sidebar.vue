@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import LanguageSwitcher from "./language-switcher.vue";
-import { useRoute } from "vue-router";
-import {computed} from "vue";
+import { useRoute, useRouter } from "vue-router";
+import {computed, nextTick} from "vue";
 
 const route = useRoute();
+const router = useRouter();
 
 // Define props and emits for v-model
 const props = defineProps({
@@ -40,6 +41,14 @@ const menuItems = computed(() => [
   },
 ])
 
+const navigateTo = (path) => {
+  closeDrawer();
+  
+  setTimeout(() => {
+    router.push(path).catch(() => {});
+  }, 300);
+}
+
 const closeDrawer = () => {
   emit('update:visible', false);
 }
@@ -57,17 +66,17 @@ const closeDrawer = () => {
     </template>
 
     <nav class="menu">
-      <RouterLink
+      <a
           v-for="item in menuItems"
           :key="item.path"
-          :to="item.path"
+          :href="item.path"
           class="menu-item"
-          active-class="active"
-          @click="closeDrawer"
+          :class="{ active: route.path === item.path }"
+          @click.prevent="navigateTo(item.path)"
       >
         <i :class="item.icon"></i>
         <span>{{ item.label }}</span>
-      </RouterLink>
+      </a>
     </nav>
 
     <div class="sidebar-footer">
