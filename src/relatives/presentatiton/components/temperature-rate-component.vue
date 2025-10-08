@@ -83,7 +83,6 @@ onMounted(() => {
   }
 });
 
-
 watch(() => props.temperature, () => {
   if (props.isPremium) {
     updateChartData();
