@@ -1,9 +1,14 @@
 import {createRouter, createWebHistory} from "vue-router";
+import login from "./shared/presentation/views/login.vue";
+import relativesRoutes from "./relatives/presentatiton/relatives-routes.js";
 
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 const routes = [
-    { path: '/:pathMatch(.*)*', name: 'not-found',  component: pageNotFound,    meta: { title: 'Page not found' } },
+    {path: '/', redirect: '/login'},
+    {path: '/login', name: 'login', component: login, meta: {title: 'Login'}},
+    ...relativesRoutes,
+    {path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: {title: 'Page not found'}},
 ];
 
 const router = createRouter({
