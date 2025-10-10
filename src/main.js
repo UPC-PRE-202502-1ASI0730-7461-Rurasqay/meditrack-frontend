@@ -13,7 +13,7 @@ import {
     Column,
     ConfirmationService,
     ConfirmDialog, DataTable, Dialog,
-    DialogService, Drawer, FileUpload, FloatLabel, IconField, InputIcon, InputNumber, InputText, Menu,
+    DialogService, Drawer, FileUpload, FloatLabel, IconField, InputIcon, InputNumber, InputText, Menu, Password,
     Rating, Row, Select, SelectButton, Tag, Textarea, Toast,
     ToastService, Toolbar, Tooltip
 } from "primevue";
@@ -50,6 +50,7 @@ createApp(App)
     .component('pv-textarea', Textarea)
     .component('pv-toolbar', Toolbar)
     .component('pv-toast', Toast)
+    .component('pv-password', Password)
     .directive('tooltip', Tooltip)
     .use(router)
     .use(pinia)
