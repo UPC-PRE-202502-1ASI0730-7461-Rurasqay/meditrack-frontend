@@ -138,7 +138,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     function updateDoctor(doctor) {
         organizationApi.updateDoctor(doctor).then((response) => {
             const resource = response.data;
-            const updatedDoctor = DoctorAssembler.toEntityFormResource(resource);
+            const updatedDoctor = DoctorAssembler.toEntityFromResource(resource);
             const index = doctors.value.findIndex(d => d.id === updatedDoctor.id);
             if (index !== -1) {
                 doctorsByOrganization.value[index] = updatedDoctor;
@@ -162,7 +162,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     function addDoctor(doctor) {
         organizationApi.createDoctor(doctor).then((response) => {
             const resource = response.data;
-            const newDoctor = DoctorAssembler.toEntityFormResource(resource);
+            const newDoctor = DoctorAssembler.toEntityFromResource(resource);
             doctorsByOrganization.value.push(newDoctor);
         }).catch((error) => {
             errors.value.push(error);
@@ -177,7 +177,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     function updateCaregiver(caregiver) {
         organizationApi.updateCaregiver(caregiver).then((response) => {
             const resource = response.data;
-            const updatedCaregiver = CaregiverAssembler.toEntityFormResource(resource);
+            const updatedCaregiver = CaregiverAssembler.toEntityFromResource(resource);
             const index = caregivers.value.findIndex(d => d.id === updatedCaregiver.id);
             if (index !== -1) {
                 caregiversByOrganization.value[index] = updatedCaregiver;
@@ -201,7 +201,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     function addCaregiver(caregiver) {
         organizationApi.createCaregiver(caregiver).then((response) => {
             const resource = response.data;
-            const newCaregiver = CaregiverAssembler.toEntityFormResource(resource);
+            const newCaregiver = CaregiverAssembler.toEntityFromResource(resource);
             caregiversByOrganization.value.push(newCaregiver);
         }).catch((error) => {
             errors.value.push(error);

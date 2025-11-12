@@ -164,13 +164,27 @@ export class OrganizationApi extends BaseApi {
     }
 
     assignSeniorCitizenToCaregiver(caregiverId, seniorCitizenId) {
-        return this.http.post(`${caregiversEndpointPath}/${caregiverId}/assignments`, {
-            seniorCitizenId: seniorCitizenId
-        });
+        // First get the senior citizen
+        return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
+            .then(response => {
+                const seniorCitizen = response.data;
+                // Update with the caregiver assignment
+                seniorCitizen.assignedCaregiverId = caregiverId;
+                // Use PUT to update the entire senior citizen
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+            });
     }
 
     unassignSeniorCitizenFromCaregiver(caregiverId, seniorCitizenId) {
-        return this.http.delete(`${caregiversEndpointPath}/${caregiverId}/assignments/${seniorCitizenId}`);
+        // First get the senior citizen
+        return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
+            .then(response => {
+                const seniorCitizen = response.data;
+                // Remove caregiver assignment
+                seniorCitizen.assignedCaregiverId = null;
+                // Use PUT to update the entire senior citizen
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+            });
     }
 
     // ========== Organization-specific queries ==========

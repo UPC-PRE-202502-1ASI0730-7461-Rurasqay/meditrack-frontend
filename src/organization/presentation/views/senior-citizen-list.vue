@@ -11,23 +11,36 @@ const store = useOrganizationStore();
 const router = useRouter();
 const confirm = useConfirm();
 
-// Mock data - in real implementation this would come from store
-const seniorCitizens = ref([]);
-const seniorCitizensLoaded = ref(false);
-const errors = ref([]);
+// Get data from store
+const {
+  seniorCitizens,
+  seniorCitizensLoaded,
+  errors
+} = storeToRefs(store);
+
+const {
+  fetchSeniorCitizens,
+  deleteSeniorCitizen
+} = store;
 
 const showForm = ref(false);
 const editingSeniorCitizen = ref(null);
 
 onMounted(async () => {
   console.log('SeniorCitizenList mounted');
-  // In real implementation, would load from store
-  // await store.fetchSeniorCitizens();
-  seniorCitizensLoaded.value = true;
+  if (!seniorCitizensLoaded.value) {
+    await fetchSeniorCitizens();
+    console.log('Senior citizens loaded:', seniorCitizensLoaded.value);
+    console.log('Senior citizens:', seniorCitizens.value);
+  }
+  // Also load caregivers to show names in assignments
+  if (!store.caregiversLoaded) {
+    await store.fetchCaregivers();
+  }
 });
 
 const haveSeniorCitizens = computed(() => {
-  return seniorCitizens.value.length > 0;
+  return seniorCitizens.value && seniorCitizens.value.length > 0;
 });
 
 const openAddSeniorCitizenForm = () => {
@@ -49,7 +62,7 @@ const confirmDelete = (seniorCitizen) => {
     header: t('senior-citizen.deleteHeader'),
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
-      // In real implementation: store.deleteSeniorCitizen(seniorCitizen);
+      deleteSeniorCitizen(seniorCitizen);
       console.log('Delete senior citizen:', seniorCitizen);
     }
   });
@@ -58,12 +71,12 @@ const confirmDelete = (seniorCitizen) => {
 // Helper to get assigned person name (doctor or caregiver)
 const getAssignedPerson = (seniorCitizen) => {
   if (seniorCitizen.assignedDoctorId) {
-    // In real implementation, get doctor name from store
-    return { type: 'doctor', name: 'Dr. Example' };
+    const doctor = store.doctors.find(d => d.id === seniorCitizen.assignedDoctorId);
+    return { type: 'doctor', name: doctor ? doctor.fullName : `Doctor ID: ${seniorCitizen.assignedDoctorId}` };
   }
   if (seniorCitizen.assignedCaregiverId) {
-    // In real implementation, get caregiver name from store
-    return { type: 'caregiver', name: 'Caregiver Example' };
+    const caregiver = store.caregivers.find(c => c.id === seniorCitizen.assignedCaregiverId);
+    return { type: 'caregiver', name: caregiver ? caregiver.fullName : `Caregiver ID: ${seniorCitizen.assignedCaregiverId}` };
   }
   return null;
 };

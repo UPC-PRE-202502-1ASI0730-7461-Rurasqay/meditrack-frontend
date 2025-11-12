@@ -39,9 +39,10 @@ const institutionEmailDomain = computed(() => {
 const errors = ref({});
 
 onMounted(() => {
-  // Set organization ID
-  if (organization.value) {
-    form.value.organizationId = organization.value.id;
+  // Set organization ID from route params
+  const organizationId = route.params.organizationId;
+  if (organizationId) {
+    form.value.organizationId = parseInt(organizationId);
   }
 
   // Load caregiver data if editing
@@ -56,7 +57,7 @@ onMounted(() => {
         email: caregiverData.email || '',
         phoneNumber: caregiverData.phoneNumber || '',
         imageUrl: caregiverData.imageUrl || '',
-        organizationId: caregiverData.organizationId
+        organizationId: caregiverData.organizationId || parseInt(organizationId)
       };
     }
   }
@@ -133,11 +134,13 @@ const onSubmit = () => {
     addCaregiver(caregiverData);
   }
 
-  router.push({ name: 'caregiver-list' });
+  const organizationId = route.params.organizationId;
+  router.push(`/organization/${organizationId}/caregivers`);
 };
 
 const onCancel = () => {
-  router.push({ name: 'caregiver-list' });
+  const organizationId = route.params.organizationId;
+  router.push(`/organization/${organizationId}/caregivers`);
 };
 </script>
 

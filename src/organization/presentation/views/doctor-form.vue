@@ -4,10 +4,11 @@ import {Button as PvButton, InputText as PvInputText} from "primevue";
 import {useI18n} from "vue-i18n";
 import {ref} from "vue";
 import {useOrganizationStore} from "../../application/organization.store.js";
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 import {storeToRefs} from "pinia";
 
-const router = useRouter()
+const router = useRouter();
+const route = useRoute();
 
 const {t} = useI18n();
 
@@ -26,16 +27,18 @@ const {organization} = storeToRefs(store);
 const {addDoctor} = store;
 
 const navigateBack = () => {
-  router.push({name: "organization-doctors"});
+  const organizationId = route.params.organizationId;
+  router.push(`/organization/${organizationId}/doctors`);
 }
+
 const saveDoctor = () => {
-  const doctor = new Doctor({
-    id: Date.now().toString(),
+  const organizationId = route.params.organizationId;
+  const doctorData = {
     fullName: `${form.value.name} ${form.value.lastname}`,
     specialty: form.value.specialty,
-    organizationId: organization ? organization.value.id : null
-  });
-  addDoctor(doctor);
+    organizationId: organizationId ? parseInt(organizationId) : null
+  };
+  addDoctor(doctorData);
   navigateBack();
 }
 

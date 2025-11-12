@@ -2,8 +2,8 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import useOrganizationStore from '../../application/organization.store.js';
-import useIAMStore from '../../../identity-access-managment/application/iam.store.js';
+import { useOrganizationStore } from '../../application/organization.store.js';
+import { useIAMStore } from '../../../identity-access-managment/application/iam.store.js';
 import LanguageSwitcher from '../../../shared/presentation/components/language-switcher.vue';
 import { TimeApiService } from '../../../shared/infrastructure/time.service.js';
 
@@ -29,9 +29,12 @@ const userId = computed(() => route.params.userId || iamStore.currentUser?.id);
 const userRole = computed(() => route.params.userRole || iamStore.currentUser?.role);
 
 // Get current organization
-const currentOrganization = computed(() => 
-  organizationStore.organizations.find(org => org.id === parseInt(organizationId.value))
-);
+const currentOrganization = computed(() => {
+  if (!organizationStore.organizations || !Array.isArray(organizationStore.organizations)) {
+    return organizationStore.organization; // Fallback to single organization
+  }
+  return organizationStore.organizations.find(org => org.id === parseInt(organizationId.value));
+});
 
 const organizationType = computed(() => currentOrganization.value?.type || 'clinic');
 const isClinic = computed(() => organizationType.value === 'clinic');
@@ -43,10 +46,14 @@ const isResidentHome = computed(() =>
 // Navigation items based on organization type and user role
 const navigationItems = computed(() => {
   const baseItems = [];
+  const role = userRole.value;
+  
+  // Check if user is an admin (organizationAdmin or admin)
+  const isAdmin = role === 'organizationAdmin' || role === 'admin';
   
   if (isClinic.value) {
     // Clinic navigation
-    if (userRole.value === 'admin') {
+    if (isAdmin) {
       baseItems.push(
         { 
           label: t('doctor.title'), 
@@ -59,7 +66,7 @@ const navigationItems = computed(() => {
           to: `/organization/${organizationId.value}/senior-citizens`
         }
       );
-    } else if (userRole.value === 'doctor') {
+    } else if (role === 'doctor') {
       baseItems.push(
         { 
           label: t('senior-citizen.myPatients'), 
@@ -70,7 +77,7 @@ const navigationItems = computed(() => {
     }
   } else {
     // Resident home navigation
-    if (userRole.value === 'admin') {
+    if (isAdmin) {
       baseItems.push(
         { 
           label: t('caregiver.title'), 
@@ -83,7 +90,7 @@ const navigationItems = computed(() => {
           to: `/organization/${organizationId.value}/senior-citizens`
         }
       );
-    } else if (userRole.value === 'caregiver') {
+    } else if (role === 'caregiver') {
       baseItems.push(
         { 
           label: t('senior-citizen.myPatients'), 
@@ -140,7 +147,7 @@ const loadOrganization = async () => {
   
   isLoadingOrganization.value = true;
   try {
-    await organizationStore.fetchOrganizationById(organizationId.value);
+    await organizationStore.fetchOrganizationById(parseInt(organizationId.value));
   } catch (error) {
     console.error('Error loading organization:', error);
   } finally {
@@ -168,9 +175,12 @@ onMounted(async () => {
   
   // Auto-redirect if no specific route is matched
   if (route.name === 'organization' && organizationId.value) {
-    if (isClinic.value && userRole.value === 'admin') {
+    const role = userRole.value;
+    const isAdmin = role === 'organizationAdmin' || role === 'admin';
+    
+    if (isClinic.value && isAdmin) {
       router.push(`/organization/${organizationId.value}/doctors`);
-    } else if (isResidentHome.value && userRole.value === 'admin') {
+    } else if (isResidentHome.value && isAdmin) {
       router.push(`/organization/${organizationId.value}/caregivers`);
     } else {
       router.push(`/organization/${organizationId.value}/senior-citizens`);

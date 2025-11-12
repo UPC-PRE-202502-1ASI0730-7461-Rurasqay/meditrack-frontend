@@ -134,7 +134,7 @@ const onSubmit = () => {
                   <label for="problemType" class="block mb-2 font-semibold">
                     {{ t('support.problemType') }} <span class="text-red-500">*</span>
                   </label>
-                  <pv-dropdown
+                  <pv-select
                       id="problemType"
                       v-model="supportForm.problemType"
                       :options="problemTypes"

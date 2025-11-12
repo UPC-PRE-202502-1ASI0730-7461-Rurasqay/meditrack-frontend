@@ -39,18 +39,29 @@ const genderOptions = [
 const errors = ref({});
 
 onMounted(() => {
-  // Set organization ID
-  if (organization) {
-    form.value.organizationId = organization.id;
+  // Set organization ID from route params
+  const organizationId = route.params.organizationId;
+  if (organizationId) {
+    form.value.organizationId = parseInt(organizationId);
   }
 
   // Load senior citizen data if editing
   if (isEditMode.value && seniorCitizenId.value) {
-    // In real implementation: load from store
-    // const seniorCitizen = store.getSeniorCitizenById(seniorCitizenId.value);
-    // if (seniorCitizen) {
-    //   form.value = { ...seniorCitizen };
-    // }
+    const seniorCitizen = store.getSeniorCitizenById(seniorCitizenId.value);
+    if (seniorCitizen) {
+      form.value = {
+        firstName: seniorCitizen.firstName,
+        lastName: seniorCitizen.lastName,
+        birthDate: seniorCitizen.birthDate ? new Date(seniorCitizen.birthDate) : '',
+        gender: seniorCitizen.gender,
+        weight: seniorCitizen.weight,
+        height: seniorCitizen.height,
+        dni: seniorCitizen.dni,
+        imageUrl: seniorCitizen.imageUrl,
+        deviceId: seniorCitizen.deviceId,
+        organizationId: seniorCitizen.organizationId
+      };
+    }
   }
 });
 
@@ -113,20 +124,24 @@ const onSubmit = () => {
     dni: form.value.dni,
     imageUrl: form.value.imageUrl || '/assets/default-senior-citizen.png',
     deviceId: parseInt(form.value.deviceId),
-    organizationId: form.value.organizationId
+    organizationId: form.value.organizationId,
+    assignedDoctorId: null,
+    assignedCaregiverId: null
   };
 
   try {
     if (isEditMode.value && seniorCitizenId.value) {
       seniorCitizenData.id = seniorCitizenId.value;
-      // In real implementation: store.updateSeniorCitizen(seniorCitizenData);
       console.log('Update senior citizen:', seniorCitizenData);
+      store.updateSeniorCitizen(seniorCitizenData);
     } else {
-      // In real implementation: store.addSeniorCitizen(seniorCitizenData);
       console.log('Add senior citizen:', seniorCitizenData);
+      store.addSeniorCitizen(seniorCitizenData);
     }
 
-    router.push({ name: 'senior-citizen-list' });
+    // Navigate back to list
+    const organizationId = route.params.organizationId;
+    router.push(`/organization/${organizationId}/senior-citizens`);
   } catch (error) {
     console.error('Error creating/updating senior citizen:', error);
     alert(error.message || t('senior-citizen.errors.saveError'));
@@ -193,7 +208,7 @@ const onCancel = () => {
           <div class="col-12 md:col-6">
             <div class="field">
               <label for="gender" class="block mb-2">{{ t('senior-citizen.gender') }}:</label>
-              <pv-dropdown
+              <pv-select
                   id="gender"
                   v-model="form.gender"
                   :options="genderOptions"

@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
 import { useConfirm } from "primevue/useconfirm";
+import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
 const store = useOrganizationStore();
@@ -11,45 +12,71 @@ const router = useRouter();
 const route = useRoute();
 const confirm = useConfirm();
 
+const { seniorCitizens, doctors } = storeToRefs(store);
+
 const {
-  caregiversByOrganization,
-  getCaregiversById
+  getCaregiversById,
+  assignSeniorCitizenToCaregiver,
+  unassignSeniorCitizenFromCaregiver
 } = store;
 
 const caregiverId = computed(() => route.params.id ? parseInt(route.params.id) : null);
+const organizationId = computed(() => route.params.organizationId ? parseInt(route.params.organizationId) : null);
 const caregiver = ref(null);
 const selectedSeniorCitizenId = ref(null);
 
-// Mock data for senior citizens - this would come from the store in real implementation
-const assignedSeniorCitizens = ref([]);
-const availableSeniorCitizens = ref([]);
+// Computed properties for senior citizens
+const assignedSeniorCitizens = computed(() => {
+  if (!caregiver.value || !seniorCitizens.value || seniorCitizens.value.length === 0) return [];
+  return seniorCitizens.value.filter(sc => sc.assignedCaregiverId === caregiver.value.id);
+});
 
-onMounted(() => {
-  if (caregiverId.value) {
-    loadCaregiver(caregiverId.value);
+const availableSeniorCitizens = computed(() => {
+  if (!caregiver.value || !seniorCitizens.value || seniorCitizens.value.length === 0) return [];
+  // Show senior citizens from the same organization that are not assigned to this caregiver
+  return seniorCitizens.value.filter(sc => 
+    sc.organizationId === caregiver.value.organizationId && 
+    sc.assignedCaregiverId !== caregiver.value.id
+  );
+});
+
+onMounted(async () => {
+  if (caregiverId.value && organizationId.value) {
+    // Load caregiver data
+    await loadCaregiver(caregiverId.value);
+    
+    // Load senior citizens from the same organization
+    await store.fetchSeniorCitizensByOrganization(organizationId.value);
+    
+    // Load doctors for displaying assignments
+    await store.fetchDoctorsByOrganization(organizationId.value);
   }
 });
 
-const loadCaregiver = (id) => {
+const loadCaregiver = async (id) => {
   const caregiverData = getCaregiversById(id);
   if (caregiverData && caregiverData.length > 0) {
     caregiver.value = caregiverData[0];
-    
-    // In a real implementation, these would be loaded from the store
-    // based on the caregiver's assignedSeniorIds
-    assignedSeniorCitizens.value = [];
-    availableSeniorCitizens.value = [];
   }
 };
 
 const getAssignedPersonName = (seniorCitizen) => {
-  // This would check if the senior citizen is assigned to a doctor or another caregiver
+  if (seniorCitizen.assignedDoctorId) {
+    const doctor = doctors.value.find(d => d.id === seniorCitizen.assignedDoctorId);
+    return doctor ? `Dr. ${doctor.fullName}` : `Doctor ID: ${seniorCitizen.assignedDoctorId}`;
+  }
+  if (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId !== caregiver.value?.id) {
+    const caregiverData = getCaregiversById(seniorCitizen.assignedCaregiverId);
+    const otherCaregiver = caregiverData && caregiverData.length > 0 ? caregiverData[0] : null;
+    return otherCaregiver ? otherCaregiver.fullName : `Caregiver ID: ${seniorCitizen.assignedCaregiverId}`;
+  }
   return null;
 };
 
 const isAssignedToAnother = (seniorCitizen) => {
-  // Check if assigned to another caregiver or to a doctor
-  return false;
+  // Check if assigned to a doctor or another caregiver
+  return seniorCitizen.assignedDoctorId || 
+         (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId !== caregiver.value?.id);
 };
 
 const canAssignSelectedSeniorCitizen = computed(() => {
@@ -60,7 +87,7 @@ const canAssignSelectedSeniorCitizen = computed(() => {
   return !selectedSenior.assignedDoctorId;
 });
 
-const onAssignSeniorCitizen = () => {
+const onAssignSeniorCitizen = async () => {
   if (selectedSeniorCitizenId.value && caregiver.value) {
     // Check if the selected senior citizen is already assigned to another
     const selectedSenior = availableSeniorCitizens.value.find(sc => sc.id === selectedSeniorCitizenId.value);
@@ -73,9 +100,8 @@ const onAssignSeniorCitizen = () => {
     }
     
     try {
-      // This would call the store method to assign senior citizen to caregiver
-      // store.assignSeniorCitizenToCaregiver(caregiver.value.id, selectedSeniorCitizenId.value);
-      
+      await assignSeniorCitizenToCaregiver(caregiver.value.id, selectedSeniorCitizenId.value);
+      console.log('Senior citizen assigned successfully');
       selectedSeniorCitizenId.value = null;
     } catch (error) {
       console.error('Error assigning senior citizen:', error);
@@ -89,19 +115,21 @@ const onUnassignSeniorCitizen = (seniorCitizen) => {
     message: t('caregiver.confirmUnassign', { name: seniorCitizen.fullName }),
     header: t('caregiver.unassignHeader'),
     icon: 'pi pi-exclamation-triangle',
-    accept: () => {
+    accept: async () => {
       try {
-        // This would call the store method to unassign senior citizen from caregiver
-        // store.unassignSeniorCitizenFromCaregiver(caregiver.value.id, seniorCitizen.id);
+        await unassignSeniorCitizenFromCaregiver(caregiver.value.id, seniorCitizen.id);
+        console.log('Senior citizen unassigned successfully');
       } catch (error) {
         console.error('Error unassigning senior citizen:', error);
+        alert(error.message || t('caregiver.errors.assignError'));
       }
     }
   });
 };
 
 const onBackToList = () => {
-  router.push({ name: 'caregiver-list' });
+  const orgId = route.params.organizationId;
+  router.push(`/organization/${orgId}/caregivers`);
 };
 </script>
 
@@ -153,21 +181,17 @@ const onBackToList = () => {
             >
               <pv-card class="senior-citizen-card">
                 <template #content>
-                  <div class="flex align-items-center justify-content-between">
-                    <div class="flex align-items-center gap-3">
-                      <img
-                          :src="seniorCitizen.imageUrl || '/assets/default-senior-citizen.png'"
-                          :alt="seniorCitizen.fullName"
-                          class="senior-citizen-avatar"
-                          style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;"
-                      />
-                      <div>
-                        <p class="font-bold">{{ seniorCitizen.fullName }}</p>
-                      </div>
-                    </div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                    <img
+                        :src="seniorCitizen.imageUrl || '/assets/default-senior-citizen.png'"
+                        :alt="seniorCitizen.fullName"
+                        style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; flex-shrink: 0;"
+                    />
+                    <span style="flex: 1; font-weight: bold;">{{ seniorCitizen.fullName }}</span>
                     <pv-button
                         icon="pi pi-times"
                         class="p-button-rounded p-button-danger p-button-text"
+                        style="flex-shrink: 0;"
                         :title="t('caregiver.unassignSeniorCitizen')"
                         @click="onUnassignSeniorCitizen(seniorCitizen)"
                     />
@@ -186,7 +210,7 @@ const onBackToList = () => {
         </template>
         <template #content>
           <div class="flex gap-2">
-            <pv-dropdown
+            <pv-select
                 v-model="selectedSeniorCitizenId"
                 :options="availableSeniorCitizens"
                 option-label="fullName"
@@ -202,7 +226,7 @@ const onBackToList = () => {
                   </span>
                 </div>
               </template>
-            </pv-dropdown>
+            </pv-select>
             
             <pv-button
                 :label="t('caregiver.assign')"
@@ -247,5 +271,11 @@ const onBackToList = () => {
 
 .senior-citizen-card {
   height: 100%;
+}
+
+.senior-citizen-card :deep(.p-card-content) {
+  padding: 1.25rem !important;
+  padding-right: 3.50rem !important;
+  overflow: visible !important;
 }
 </style>

@@ -11,7 +11,7 @@ export class OrganizationAssembler {
      * @param resource
      * @returns {Organization}
      */
-    static toEntityFormResource(resource) {
+    static toEntityFromResource(resource) {
         return new Organization(resource);
     }
 
@@ -26,6 +26,6 @@ export class OrganizationAssembler {
             return [];
         }
         let resources = response.data instanceof Array ? response.data : response.data["organizations"];
-        return resources.map(resource => this.toEntityFormResource(resource));
+        return resources.map(resource => this.toEntityFromResource(resource));
     }
 }

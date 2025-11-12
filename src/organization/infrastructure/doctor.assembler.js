@@ -8,7 +8,7 @@ export class DoctorAssembler {
      * @param resource
      * @returns {Doctor}
      */
-    static toEntityFormResource(resource) {
+    static toEntityFromResource(resource) {
         return new Doctor(resource);
     }
 
@@ -23,6 +23,6 @@ export class DoctorAssembler {
             return [];
         }
         let resources = response.data instanceof Array ? response.data : response.data["doctors"];
-        return resources.map(resource => this.toEntityFormResource(resource));
+        return resources.map(resource => this.toEntityFromResource(resource));
     }
 }
