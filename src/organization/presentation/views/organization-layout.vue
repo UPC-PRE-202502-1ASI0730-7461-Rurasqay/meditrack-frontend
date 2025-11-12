@@ -18,6 +18,7 @@ const sidebarVisible = ref(false);
 const currentTime = ref('');
 const isLoading = ref(true);
 const isLoadingOrganization = ref(false);
+const serverTimeOffset = ref(0); // Offset between server time and local time
 
 // Services
 const timeService = new TimeApiService();
@@ -122,23 +123,58 @@ const formatDateTime = (datetime) => {
   });
 };
 
-// Fetch current time
-const fetchCurrentTime = async () => {
+// Fetch server time only once and calculate offset
+const fetchServerTime = async () => {
+  // Check if we already have a cached offset in sessionStorage
+  const cachedOffset = sessionStorage.getItem('serverTimeOffset');
+  
+  if (cachedOffset !== null) {
+    // Use cached offset
+    serverTimeOffset.value = parseInt(cachedOffset);
+    updateLocalTime();
+    isLoading.value = false;
+    return;
+  }
+  
   try {
+    const localTime = Date.now();
     const response = await timeService.getTime();
     const data = response.data;
-    currentTime.value = formatDateTime(data.datetime);
+    const serverTime = new Date(data.datetime).getTime();
+    
+    // Calculate offset between server time and local time
+    serverTimeOffset.value = serverTime - localTime;
+    
+    // Cache the offset for this session
+    sessionStorage.setItem('serverTimeOffset', serverTimeOffset.value.toString());
+    
+    updateLocalTime();
     isLoading.value = false;
   } catch (error) {
-    // Fallback to local time
-    currentTime.value = new Date().toLocaleString('es-PE', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    });
+    // Don't log the full error to avoid console spam
+    if (error.response?.status === 429) {
+      console.warn('Time API rate limit reached, using local time');
+    } else {
+      console.warn('Could not fetch server time, using local time');
+    }
+    
+    // Use local time if server fails
+    serverTimeOffset.value = 0;
+    sessionStorage.setItem('serverTimeOffset', '0');
+    updateLocalTime();
     isLoading.value = false;
   }
+};
+
+// Update time using local clock + offset
+const updateLocalTime = () => {
+  const adjustedTime = new Date(Date.now() + serverTimeOffset.value);
+  currentTime.value = adjustedTime.toLocaleString('es-PE', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
 };
 
 // Load organization data
@@ -169,8 +205,10 @@ const logout = () => {
 
 // Lifecycle hooks
 onMounted(async () => {
-  await fetchCurrentTime();
-  timeInterval = setInterval(fetchCurrentTime, 1000);
+  // Fetch server time only once
+  await fetchServerTime();
+  // Update display every second using local clock + offset
+  timeInterval = setInterval(updateLocalTime, 1000);
   await loadOrganization();
   
   // Auto-redirect if no specific route is matched
@@ -379,6 +417,68 @@ watch(() => organizationId.value, (newId) => {
   flex: 1;
   background-color: #f5f5f5;
   min-height: calc(100vh - 60px);
+  color: #333;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .content-area {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  
+  .toolbar {
+    background-color: #0d47a1;
+  }
+  
+  /* Sidebar dark mode with :deep() to override PrimeVue styles */
+  .organization-sidebar :deep(.p-drawer) {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .organization-sidebar :deep(.p-drawer-header) {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #424242;
+  }
+  
+  .organization-sidebar :deep(.p-drawer-content) {
+    background-color: #2d2d2d;
+  }
+  
+  .sidebar-header {
+    background-color: #1e1e1e !important;
+  }
+  
+  .sidebar-header h3 {
+    color: #e0e0e0 !important;
+  }
+  
+  .sidebar-content {
+    background-color: #2d2d2d !important;
+  }
+  
+  .menu-item {
+    color: #e0e0e0 !important;
+  }
+  
+  .menu-item:hover {
+    background-color: #3d3d3d !important;
+  }
+  
+  .menu-item.active {
+    background-color: #1a237e !important;
+    color: #64b5f6 !important;
+  }
+  
+  .sidebar-footer {
+    background-color: #2d2d2d !important;
+    border-top: 1px solid #424242;
+  }
+  
+  .loading-container {
+    color: #e0e0e0;
+  }
 }
 
 .loading-container {
@@ -402,7 +502,7 @@ watch(() => organizationId.value, (newId) => {
 
 .sidebar-header h3 {
   margin: 0;
-  color: #495057;
+  color: #474747;
 }
 
 .sidebar-content {

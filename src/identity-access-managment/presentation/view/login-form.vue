@@ -198,6 +198,42 @@ const handleLogin = async () => {
   text-decoration: underline;
 }
 
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-form-container {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .login-form-title {
+    color: #e0e0e0;
+  }
+  
+  .login-input :deep(.p-inputtext),
+  .login-input :deep(.p-password-input) {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #424242;
+  }
+  
+  .login-input :deep(.p-inputtext:enabled:hover),
+  .login-input :deep(.p-password-input:enabled:hover) {
+    border-color: #64b5f6;
+  }
+  
+  .forgot-password {
+    color: #64b5f6;
+  }
+  
+  .signup-text {
+    color: #e0e0e0;
+  }
+  
+  .signup-link {
+    color: #64b5f6;
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 786px) {
   .login-form-container {
