@@ -1,17 +1,47 @@
 /**
- * Class representing an Organization entity.
- * @class Organization
+ * Organization entity representing a clinic or residence.
+ * Acts as the Aggregate Root for the organization bounded context.
+ * This entity ensures multi-tenant data isolation.
  */
 export class Organization {
-    /**
-     * Creates an instance of Organization.
-     * @param id - The unique identifier of the organization.
-     * @param name - The name of the organization.
-     * @param type - The type of the organization (e.g., hospital, clinic).
-     */
-    constructor({id = null, name = "", type =""}) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
+    constructor({
+                    id = 0,
+                    name = '',
+                    type = 'clinic' // puede ser 'clinic' o 'resident'
+                } = {}) {
+        this._id = id;
+        this._name = name;
+        this._type = type;
+    }
+
+    get id() {
+        return this._id;
+    }
+    set id(value) {
+        this._id = value;
+    }
+
+    get name() {
+        return this._name;
+    }
+    set name(value) {
+        this._name = value;
+    }
+
+    get type() {
+        return this._type;
+    }
+    set type(value) {
+        this._type = value;
+    }
+
+    // Domain logic: Checks if this organization is a clinic
+    isClinic() {
+        return this._type === 'clinic';
+    }
+
+    // Domain logic: Checks if this organization is a residence
+    isResidence() {
+        return this._type === 'resident';
     }
 }
