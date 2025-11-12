@@ -170,14 +170,86 @@
   ],
   "caregivers": [
     {
+      "firstName": "Alexander",
+      "lastName": "Gol",
+      "age": 45,
+      "email": "name@gmail.com",
+      "phoneNumber": "1234",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "organizationId": 1,
+      "id": 1
+    },
+    {
+      "firstName": "Alex",
+      "lastName": "GOl",
+      "age": 123,
+      "email": "alex@gmail.com",
+      "phoneNumber": "1234",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "organizationId": 2,
+      "id": 2
+    }
+  ],
+  "senior-citizens": [
+    {
       "id": 1,
-      "fullName": "Ricardo Torres",
-      "organizationId": 2
+      "firstName": "Carlos",
+      "lastName": "López",
+      "birthDate": "1946-03-15",
+      "gender": "M",
+      "weight": 68,
+      "height": 170,
+      "dni": "10234567",
+      "imageUrl": "https://via.placeholder.com/150",
+      "deviceId": 1001,
+      "organizationId": 1,
+      "assignedDoctorId": 3,
+      "assignedCaregiverId": null
     },
     {
       "id": 2,
-      "fullName": "Laura Campos",
-      "organizationId": 2
+      "firstName": "Rosa",
+      "lastName": "Pérez",
+      "birthDate": "1943-07-22",
+      "gender": "F",
+      "weight": 59,
+      "height": 158,
+      "dni": "10345678",
+      "imageUrl": "https://via.placeholder.com/150",
+      "deviceId": 1002,
+      "organizationId": 1,
+      "assignedDoctorId": 4,
+      "assignedCaregiverId": null
+    },
+    {
+      "id": 3,
+      "firstName": "Miguel",
+      "lastName": "Torres",
+      "birthDate": "1945-11-10",
+      "gender": "M",
+      "weight": 75,
+      "height": 175,
+      "dni": "10456789",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "deviceId": 1003,
+      "organizationId": 2,
+      "assignedDoctorId": null,
+      "assignedCaregiverId": 2
+    },
+    {
+      "id": 4,
+      "firstName": "Juan",
+      "lastName": "Valdera",
+      "birthDate": "2025-10-08T05:00:00.000Z",
+      "gender": "M",
+      "weight": 56,
+      "height": 156,
+      "dni": "12345",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "deviceId": 1,
+      "organizationId": 2,
+      "assignedDoctorId": null,
+      "assignedCaregiverId": 2
     }
   ]
 }
