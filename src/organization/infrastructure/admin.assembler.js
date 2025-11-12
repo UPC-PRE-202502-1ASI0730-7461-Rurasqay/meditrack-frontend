@@ -11,7 +11,7 @@ export class AdminAssembler {
      * @returns {Admin}
      */
     static toEntityFromResource(resource) {
-        return new Admin(resource);
+        return new Admin({...resource});
     }
 
     /**

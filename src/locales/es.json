@@ -11,6 +11,8 @@
     }
   },
   "organization": {
+    "clinic": "Clínica",
+    "residentHome": "Casa de Reposo",
     "doctor-list": {
       "not-exist-doctors": "No existen doctores en esta organización.",
       "add-doctor": "Agregar Doctor",
@@ -80,6 +82,7 @@
   },
   "senior-citizen": {
     "title": "Adultos Mayores",
+    "myPatients": "Mis Pacientes",
     "empty": "No se encontraron adultos mayores",
     "add": "Agregar Adulto Mayor",
     "newTitle": "Nuevo Adulto Mayor",
@@ -158,7 +161,13 @@
     }
   },
   "doctor": {
-    "title": "Dr."
+    "title": "Doctores"
+  },
+  "common": {
+    "menu": "Menú",
+    "loading": "Cargando",
+    "logout": "Cerrar Sesión",
+    "home": "Inicio"
   },
   "errors": {
     "occurred": "Ocurrió un error"

@@ -25,26 +25,45 @@ onMounted( () => {
   }
 })
 
-const handleLogin= () => {
+const handleLogin = async () => {
   const user = login(email.value, password.value);
   console.log(user);
   if (!user) {
-    alert(t('login.invalid_credentials'));
+    alert('Invalid credentials');
     return;
   }
+  
+  // Navigate based on user role
   switch (user.role){
     case "relative":
-      //router.push({ name: '' });
+      // TODO: Implement relative dashboard
+      alert('Relative dashboard not implemented yet');
       break;
     case "organizationAdmin":
-      router.push({ name: 'organization-doctors' });
+      // For organization admins, entityId is the organizationId
+      router.push(`/organization/${user.entityId}/doctors`);
+      break;
+    case "doctor":
+      // For doctors, entityId is the doctor's ID
+      // We need to fetch the doctor to get the organizationId
+      // For now, we'll use a workaround by navigating to organization 1
+      // TODO: Fetch doctor data to get the correct organizationId
+      router.push(`/organization/1/senior-citizens`);
+      break;
+    case "caregiver":
+      // For caregivers, entityId is the caregiver's ID
+      // We need to fetch the caregiver to get the organizationId
+      // For now, we'll use a workaround by navigating to organization 2
+      // TODO: Fetch caregiver data to get the correct organizationId
+      router.push(`/organization/2/senior-citizens`);
       break;
     default:
-      alert(t('login.unknown_role'));
+      alert('Unknown role');
       return;
   }
-  const {id, role} = user;
-  console.log(id, role)
+  
+  const {id, role, entityId} = user;
+  console.log(`User ${id} with role ${role} logged in. EntityId: ${entityId}`);
 };
 
 </script>

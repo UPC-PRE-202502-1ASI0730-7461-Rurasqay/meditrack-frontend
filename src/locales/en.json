@@ -11,6 +11,8 @@
     }
   },
   "organization": {
+    "clinic": "Clinic",
+    "residentHome": "Resident Home",
     "doctor-list": {
       "not-exist-doctors": "There are no doctors in this organization.",
       "add-doctor": "Add Doctor",
@@ -80,6 +82,7 @@
   },
   "senior-citizen": {
     "title": "Senior Citizens",
+    "myPatients": "My Patients",
     "empty": "No senior citizens found",
     "add": "Add Senior Citizen",
     "newTitle": "New Senior Citizen",
@@ -158,7 +161,13 @@
     }
   },
   "doctor": {
-    "title": "Dr."
+    "title": "Doctors"
+  },
+  "common": {
+    "menu": "Menu",
+    "loading": "Loading",
+    "logout": "Logout",
+    "home": "Home"
   },
   "errors": {
     "occurred": "An error occurred"

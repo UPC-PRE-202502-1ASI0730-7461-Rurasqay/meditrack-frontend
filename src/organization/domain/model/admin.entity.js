@@ -1,10 +1,16 @@
 export class Admin {
-    constructor(admin) {
-        this._id = admin.id ?? 0;
-        this._organizationId = admin.organizationId;
-        this._userId = admin.userId ?? null;
-        this._firstName = admin.firstName ?? '';
-        this._lastName = admin.lastName ?? '';
+    constructor({
+                    id = 0,
+                    organizationId,
+                    userId = null,
+                    firstName = '',
+                    lastName = ''
+                } = {}) {
+        this._id = id;
+        this._organizationId = organizationId;
+        this._userId = userId;
+        this._firstName = firstName;
+        this._lastName = lastName;
     }
 
     get id() {
