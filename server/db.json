@@ -178,16 +178,6 @@
       "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
       "organizationId": 1,
       "id": 1
-    },
-    {
-      "firstName": "Alex",
-      "lastName": "GOl",
-      "age": 123,
-      "email": "alex@gmail.com",
-      "phoneNumber": "1234",
-      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
-      "organizationId": 2,
-      "id": 2
     }
   ],
   "senior-citizens": [
@@ -249,7 +239,7 @@
       "deviceId": 1,
       "organizationId": 2,
       "assignedDoctorId": null,
-      "assignedCaregiverId": 2
+      "assignedCaregiverId": null
     }
   ]
 }

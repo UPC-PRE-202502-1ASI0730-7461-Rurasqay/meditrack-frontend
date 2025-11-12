@@ -115,7 +115,7 @@ export const useOrganizationStore = defineStore('organization', () => {
 
     function fetchCaregivers() {
         return organizationApi.getCaregivers().then((response) => {
-            caregivers.value = DoctorAssembler.toEntitiesFromResponse(response);
+            caregivers.value = CaregiverAssembler.toEntitiesFromResponse(response);
             caregiversLoaded.value = true;
             console.log("caregiversLoaded", caregiversLoaded.value)
             console.log(caregivers.value);
@@ -189,9 +189,15 @@ export const useOrganizationStore = defineStore('organization', () => {
 
     function deleteCaregiver(caregiver) {
         organizationApi.deleteCaregiver(caregiver.id).then((response) => {
-            const index = caregivers.value.findIndex(d => d.id === caregiver.id);
+            // Remove from main caregivers array
+            const index = caregivers.value.findIndex(c => c.id === caregiver.id);
             if (index !== -1) {
-                caregiversByOrganization.value.splice(index, 1);
+                caregivers.value.splice(index, 1);
+            }
+            // Remove from filtered array
+            const filteredIndex = caregiversByOrganization.value.findIndex(c => c.id === caregiver.id);
+            if (filteredIndex !== -1) {
+                caregiversByOrganization.value.splice(filteredIndex, 1);
             }
         }).catch((error) => {
             errors.value.push(error);
