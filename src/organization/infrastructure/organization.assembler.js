@@ -1,4 +1,4 @@
-import {Organization} from "./organization.entity.js";
+import {Organization} from "../domain/model/organization.entity.js";
 
 /**
  * Class OrganizationAssembler

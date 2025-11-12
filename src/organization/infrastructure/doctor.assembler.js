@@ -1,4 +1,4 @@
-import {Doctor} from "./doctor.entity.js";
+import {Doctor} from "../domain/model/doctor.entity.js";
 /** * Class DoctorAssembler
  * Responsible for converting raw API responses into Doctor entity instances.
  */

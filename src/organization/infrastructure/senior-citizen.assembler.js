@@ -1,4 +1,4 @@
-import { SeniorCitizen } from "./senior-citizen.entity.js";
+import { SeniorCitizen } from "../domain/model/senior-citizen.entity.js";
 
 /**
  * Class SeniorCitizenAssembler

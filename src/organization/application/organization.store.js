@@ -1,10 +1,10 @@
 import {OrganizationApi} from "../infrastructure/organization-api.js";
 import {computed, ref} from "vue";
-import {DoctorAssembler} from "../domain/model/doctor.assembler.js";
-import {OrganizationAssembler} from "../domain/model/organization.assembler.js";
-import {CaregiverAssembler} from "../domain/model/caregiver.assembler.js";
-import {SeniorCitizenAssembler} from "../domain/model/senior-citizen.assembler.js";
-import {AdminAssembler} from "../domain/model/admin.assembler.js";
+import {DoctorAssembler} from "../infrastructure/doctor.assembler.js";
+import {OrganizationAssembler} from "../infrastructure/organization.assembler.js";
+import {CaregiverAssembler} from "../infrastructure/caregiver.assembler.js";
+import {SeniorCitizenAssembler} from "../infrastructure/senior-citizen.assembler.js";
+import {AdminAssembler} from "../infrastructure/admin.assembler.js";
 import {defineStore} from "pinia";
 
 const organizationApi = new OrganizationApi()

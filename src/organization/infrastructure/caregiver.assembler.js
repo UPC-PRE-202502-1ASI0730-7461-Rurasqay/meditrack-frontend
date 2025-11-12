@@ -1,4 +1,4 @@
-import { Caregiver } from "./caregiver.entity.js";
+import { Caregiver } from "../domain/model/caregiver.entity.js";
 
 /**
  * Class CaregiverAssembler

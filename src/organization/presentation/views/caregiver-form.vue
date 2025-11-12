@@ -3,7 +3,7 @@ import { useOrganizationStore } from "../../application/organization.store.js";
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
-import { CaregiverAssembler } from "../../domain/model/caregiver.assembler.js";
+import { CaregiverAssembler } from "../../infrastructure/caregiver.assembler.js";
 
 const { t } = useI18n();
 const store = useOrganizationStore();

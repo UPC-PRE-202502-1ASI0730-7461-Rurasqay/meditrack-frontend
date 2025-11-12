@@ -1,4 +1,4 @@
-import { Admin } from "./admin.entity.js";
+import { Admin } from "../domain/model/admin.entity.js";
 
 /**
  * Class AdminAssembler
