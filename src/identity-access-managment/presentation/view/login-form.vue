@@ -69,36 +69,166 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="inline-flex flex-column align-items-center justify-content-center gap-8 bg-white border-round-md my-auto p-4">
-    <div class="flex flex-column align-items-center justify-content-center gap-5">
-      <h2 class="text-black-alpha-90 text-5xl font-normal text-center">{{ t('iam.login-form.login-title')}}</h2>
-      <img src="/logo.png" alt="Logo" class="w-6rem h-6rem mx-auto"/>
+  <div class="login-form-container">
+    <div class="login-form-header">
+      <h2 class="login-form-title">{{ t('iam.login-form.login-title')}}</h2>
+      <img src="/logo.png" alt="Logo" class="login-form-logo"/>
     </div>
-    <div class="flex flex-column items-center justify-center gap-2 bg-white mx-auto">
-      <pv-input-text type="text" :placeholder="t('iam.login-form.email-placeholder')" v-model="email"  class="login-input surface-800"/>
-      <pv-password v-model="password" :placeholder="t('iam.login-form.password-placeholder')" :feedback="false" toggle-mask class="login-input surface-800" input-class="surface-800"/>
-      <p class="text-blue-500">{{ t('iam.login-form.forgot-password')}}</p>
+    
+    <div class="login-form-inputs">
+      <pv-input-text 
+        type="text" 
+        :placeholder="t('iam.login-form.email-placeholder')" 
+        v-model="email"  
+        class="login-input w-full"
+      />
+      <pv-password 
+        v-model="password" 
+        :placeholder="t('iam.login-form.password-placeholder')" 
+        :feedback="false" 
+        toggle-mask 
+        class="login-input w-full" 
+        input-class="w-full"
+      />
+      <p class="forgot-password">{{ t('iam.login-form.forgot-password')}}</p>
     </div>
-    <div>
-      <pv-button type="button" :label="t('iam.login-form.login-button')" @click="handleLogin" class="bg-blue-600 text-white-alpha-90"/>
+    
+    <div class="login-form-button">
+      <pv-button 
+        type="button" 
+        :label="t('iam.login-form.login-button')" 
+        @click="handleLogin" 
+        class="w-full"
+      />
     </div>
-    <div class="flex flex-column items-center justify-center gap-0 bg-white">
-      <p class="text-black-alpha-80">{{ t('iam.login-form.dont-have-account')}}</p>
-      <a href="#" class="text-blue-300">{{ t('iam.login-form.sign-up')}}</a>
+    
+    <div class="login-form-footer">
+      <p class="signup-text">{{ t('iam.login-form.dont-have-account')}}</p>
+      <a href="#" class="signup-link">{{ t('iam.login-form.sign-up')}}</a>
     </div>
   </div>
 </template>
 
 <style scoped>
-h1 {
-  max-width: 345px;
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.login-form-title {
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
+.login-form-logo {
+  width: 5rem;
+  height: 5rem;
+}
+
+.login-form-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
 }
 
 .login-input {
   color: #000;
 }
 
-:deep(.p-password-input) {
+.login-input :deep(.p-password-input) {
   color: #000;
+}
+
+.forgot-password {
+  color: #3b82f6;
+  text-align: center;
+  cursor: pointer;
+  margin: 0;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.login-form-button :deep(.p-button) {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.login-form-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.signup-text {
+  color: rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+.signup-link {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 786px) {
+  .login-form-container {
+    padding: 1.5rem;
+    gap: 1.5rem;
+    max-width: 100%;
+  }
+  
+  .login-form-title {
+    font-size: 1.5rem;
+  }
+  
+  .login-form-logo {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form-container {
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+  
+  .login-form-title {
+    font-size: 1.25rem;
+  }
+  
+  .login-form-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 }
 </style>

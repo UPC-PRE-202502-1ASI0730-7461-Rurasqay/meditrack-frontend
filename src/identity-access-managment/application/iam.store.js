@@ -5,7 +5,7 @@ import {ref} from "vue";
 
 const iamApi = new IamApi();
 
-const useIAMStore = defineStore('iam', () => {
+export const useIAMStore = defineStore('iam', () => {
     const users = ref([]);
     const errors = ref([]);
     const usersLoaded = ref(false);
