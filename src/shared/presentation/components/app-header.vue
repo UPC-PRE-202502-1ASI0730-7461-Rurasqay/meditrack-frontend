@@ -7,14 +7,58 @@ import { TimeApiService } from "../../infrastructure/time.service.js";
 const visible = ref(false);
 const currentTime = ref('');
 const isLoading = ref(true);
+const serverTimeOffset = ref(0);
 
 const timeService = new TimeApiService();
 let timeInterval = null;
 
-// Función para formatear la fecha/hora
-const formatDateTime = (datetime) => {
-  const date = new Date(datetime);
-  return date.toLocaleString('es-PE', {
+// Fetch server time only once and calculate offset
+const fetchServerTime = async () => {
+  // Check if we already have a cached offset in sessionStorage
+  const cachedOffset = sessionStorage.getItem('serverTimeOffset');
+  
+  if (cachedOffset !== null) {
+    // Use cached offset
+    serverTimeOffset.value = parseInt(cachedOffset);
+    updateLocalTime();
+    isLoading.value = false;
+    return;
+  }
+  
+  try {
+    const localTime = Date.now();
+    const response = await timeService.getTime();
+    const data = response.data;
+    const serverTime = new Date(data.datetime).getTime();
+    
+    // Calculate offset between server time and local time
+    serverTimeOffset.value = serverTime - localTime;
+    
+    // Cache the offset for this session
+    sessionStorage.setItem('serverTimeOffset', serverTimeOffset.value.toString());
+    
+    updateLocalTime();
+    isLoading.value = false;
+  } catch (error) {
+    // Don't log the full error to avoid console spam
+    if (error.response?.status === 429) {
+      console.warn('Time API rate limit reached, using local time');
+    } else {
+      console.warn('Could not fetch server time, using local time');
+    }
+    
+    // Use local time if server fails
+    serverTimeOffset.value = 0;
+    sessionStorage.setItem('serverTimeOffset', '0');
+    updateLocalTime();
+    isLoading.value = false;
+  }
+};
+
+// Update time using local clock + offset
+const updateLocalTime = () => {
+  const adjustedTime = new Date(Date.now() + serverTimeOffset.value);
+  currentTime.value = adjustedTime.toLocaleString('es-PE', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
@@ -22,33 +66,12 @@ const formatDateTime = (datetime) => {
   });
 };
 
-// Función para obtener la hora actual
-const fetchCurrentTime = async () => {
-  try {
-    const response = await timeService.getTime();
-    const data = response.data;
-
-    currentTime.value = formatDateTime(data.datetime);
-    isLoading.value = false;
-  } catch (error) {
-    console.error('Error fetching time:', error);
-    // Fallback a hora local
-    currentTime.value = new Date().toLocaleString('es-PE', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    });
-    isLoading.value = false;
-  }
-};
-
 // Inicializar cuando el componente se monta
 onMounted(async () => {
-  await fetchCurrentTime();
-
-  // Actualizar cada minuto
-  timeInterval = setInterval(fetchCurrentTime, 1000);
+  // Fetch server time only once
+  await fetchServerTime();
+  // Update display every second using local clock + offset
+  timeInterval = setInterval(updateLocalTime, 1000);
 });
 
 // Limpiar interval cuando el componente se desmonta
