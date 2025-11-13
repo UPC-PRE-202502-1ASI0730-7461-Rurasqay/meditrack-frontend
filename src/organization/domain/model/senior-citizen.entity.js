@@ -17,6 +17,7 @@ export class SeniorCitizen {
                     deviceId = 0,
                     assignedDoctorId = null,
                     assignedCaregiverId = null,
+                    planType = 'freemium',
                     signalVitals = null,
                     alerts = []
                 } = {}) {
@@ -42,6 +43,7 @@ export class SeniorCitizen {
         this._deviceId = deviceId;
         this._assignedDoctorId = assignedDoctorId;
         this._assignedCaregiverId = assignedCaregiverId;
+        this._planType = planType;
 
         this._signalVitals = signalVitals ? new SignalVitals(signalVitals) : undefined;
         this._alerts = alerts ? alerts.map(a => new Alert(a)) : [];
@@ -107,6 +109,9 @@ export class SeniorCitizen {
 
     get assignedCaregiverId() { return this._assignedCaregiverId; }
     set assignedCaregiverId(value) { this._assignedCaregiverId = value; }
+
+    get planType() { return this._planType; }
+    set planType(value) { this._planType = value; }
 
     get signalVitals() { return this._signalVitals; }
 
