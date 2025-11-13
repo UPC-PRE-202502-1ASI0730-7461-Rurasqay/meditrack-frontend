@@ -1,4 +1,8 @@
 {
+  "languages": {
+    "en": "EN",
+    "es": "ES"
+  },
   "iam": {
     "login-form": {
       "login-title": "Welcome to MediTrack",
