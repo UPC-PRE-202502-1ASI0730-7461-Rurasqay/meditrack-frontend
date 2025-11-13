@@ -186,6 +186,27 @@ const loadOrganization = async () => {
   isLoadingOrganization.value = true;
   try {
     await organizationStore.fetchOrganizationById(parseInt(organizationId.value));
+    
+    // Auto-redirect after organization is loaded
+    if (route.name === 'organization' && userId.value && userRole.value) {
+      const role = userRole.value;
+      const isAdmin = role === 'organizationAdmin' || role === 'admin';
+      const baseUrl = `/organization/${organizationId.value}/${role}/${userId.value}`;
+      
+      if (currentOrganization.value) {
+        const orgType = currentOrganization.value.type;
+        if ((orgType === 'clinic') && isAdmin) {
+          router.push(`${baseUrl}/doctors`);
+        } else if ((orgType === 'residence' || orgType === 'resident') && isAdmin) {
+          router.push(`${baseUrl}/caregivers`);
+        } else {
+          router.push(`${baseUrl}/senior-citizens`);
+        }
+      } else {
+        // Fallback if organization not loaded
+        router.push(`${baseUrl}/senior-citizens`);
+      }
+    }
   } catch (error) {
     console.error('Error loading organization:', error);
   } finally {
@@ -207,26 +228,20 @@ const logout = () => {
 
 // Lifecycle hooks
 onMounted(async () => {
+  // Set current user in organization store for filtering
+  if (userId.value && userRole.value && organizationId.value) {
+    organizationStore.setCurrentUser(
+      parseInt(userId.value), 
+      userRole.value, 
+      parseInt(organizationId.value)
+    );
+  }
+  
   // Fetch server time only once
   await fetchServerTime();
   // Update display every second using local clock + offset
   timeInterval = setInterval(updateLocalTime, 1000);
   await loadOrganization();
-  
-  // Auto-redirect if no specific route is matched
-  if (route.name === 'organization' && organizationId.value && userId.value && userRole.value) {
-    const role = userRole.value;
-    const isAdmin = role === 'organizationAdmin' || role === 'admin';
-    const baseUrl = `/organization/${organizationId.value}/${role}/${userId.value}`;
-    
-    if (isClinic.value && isAdmin) {
-      router.push(`${baseUrl}/doctors`);
-    } else if (isResidentHome.value && isAdmin) {
-      router.push(`${baseUrl}/caregivers`);
-    } else {
-      router.push(`${baseUrl}/senior-citizens`);
-    }
-  }
 });
 
 onUnmounted(() => {

@@ -18,6 +18,7 @@
     "clinic": "Clínica",
     "residentHome": "Casa de Reposo",
     "doctor-list": {
+      "title": "Lista de Doctores",
       "not-exist-doctors": "No existen doctores en esta organización.",
       "add-doctor": "Agregar Doctor",
       "doctor-id": "ID del Doctor",
@@ -25,14 +26,24 @@
       "doctor-specialty": "Especialidad",
       "add-doctor-button": "Agregar Doctor"
     },
+    "doctor-details": {
+      "age": "Edad",
+      "years": "años",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "back": "Volver a la Lista",
+      "not-found": "Doctor no encontrado con ID: {id}"
+    },
     "doctor-form": {
+      "title": "Agregar Nuevo Doctor",
       "doctor-name": "Nombre del Doctor",
       "doctor-lastname": "Apellido del Doctor",
       "doctor-specialty": "Especialidad",
       "doctor-email": "Correo Electrónico",
       "doctor-phone": "Teléfono",
       "doctor-age": "Edad",
-      "save-doctor-button": "Guardar Doctor"
+      "save-doctor-button": "Guardar Doctor",
+      "cancel-button": "Cancelar"
     }
   },
   "caregiver": {

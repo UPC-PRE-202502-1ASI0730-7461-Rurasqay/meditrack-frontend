@@ -19,7 +19,7 @@ const userId = computed(() => route.params.userId);
 
 // Get data from store
 const {
-  seniorCitizens,
+  filteredSeniorCitizens,
   seniorCitizensLoaded,
   errors
 } = storeToRefs(store);
@@ -46,7 +46,12 @@ onMounted(async () => {
 });
 
 const haveSeniorCitizens = computed(() => {
-  return seniorCitizens.value && seniorCitizens.value.length > 0;
+  return filteredSeniorCitizens.value && filteredSeniorCitizens.value.length > 0;
+});
+
+// Check if user can modify senior citizens (only admins can)
+const canModifySeniorCitizens = computed(() => {
+  return userRole.value === 'admin';
 });
 
 const openAddSeniorCitizenForm = () => {
@@ -126,6 +131,7 @@ const getAssignedPerson = (seniorCitizen) => {
     <div v-if="!haveSeniorCitizens && !errors.length" class="empty-state text-center p-6">
       <p class="text-xl mb-4">{{ t('senior-citizen.empty') }}</p>
       <pv-button
+          v-if="canModifySeniorCitizens"
           :label="t('senior-citizen.add')"
           icon="pi pi-plus"
           class="p-button-primary"
@@ -136,6 +142,7 @@ const getAssignedPerson = (seniorCitizen) => {
     <!-- List of senior citizens -->
     <div v-else-if="haveSeniorCitizens">
       <pv-button
+          v-if="canModifySeniorCitizens"
           :label="t('senior-citizen.add')"
           class="mb-3"
           icon="pi pi-plus"
@@ -144,7 +151,7 @@ const getAssignedPerson = (seniorCitizen) => {
       
       <pv-data-table
           :loading="!seniorCitizensLoaded"
-          :value="seniorCitizens"
+          :value="filteredSeniorCitizens"
           paginator
           :rows="5"
           :rows-per-page-options="[5, 10, 20]"
@@ -193,7 +200,7 @@ const getAssignedPerson = (seniorCitizen) => {
           </template>
         </pv-column>
         
-        <pv-column :header="t('senior-citizen.actions')">
+        <pv-column v-if="canModifySeniorCitizens" :header="t('senior-citizen.actions')">
           <template #body="slotProps">
             <pv-button
                 icon="pi pi-pencil"

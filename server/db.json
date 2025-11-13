@@ -82,29 +82,80 @@
         "age": 79,
         "dni": "06813334",
         "gender": "male",
-        "height": 1.70,
+        "height": 1.7,
         "weight": 68,
         "image": "https://static7.depositphotos.com/1024916/785/i/950/depositphotos_7854131-stock-photo-portrait-of-a-grandfather.jpg",
         "signalVitals": {
           "bloodPressure": [
-            [90, 130],
-            [85, 125],
-            [111, 128],
-            [82, 120],
-            [123, 112],
-            [88, 128],
-            [83, 113]
+            [
+              90,
+              130
+            ],
+            [
+              85,
+              125
+            ],
+            [
+              111,
+              128
+            ],
+            [
+              82,
+              120
+            ],
+            [
+              123,
+              112
+            ],
+            [
+              88,
+              128
+            ],
+            [
+              83,
+              113
+            ]
           ],
-          "heartRate": [75, 72, 73, 76, 74, 70, 78],
-          "temperature": [37.0, 36.5, 36.7, 36.7, 36.6, 36.8, 36.9],
+          "heartRate": [
+            75,
+            72,
+            73,
+            76,
+            74,
+            70,
+            78
+          ],
+          "temperature": [
+            37,
+            36.5,
+            36.7,
+            36.7,
+            36.6,
+            36.8,
+            36.9
+          ],
           "oxygenLevel": [
-            { "ox": 95 },
-            { "ox": 97 },
-            { "ox": 97 },
-            { "ox": 96 },
-            { "ox": 96 },
-            { "ox": 98 },
-            { "ox": 97 }
+            {
+              "ox": 95
+            },
+            {
+              "ox": 97
+            },
+            {
+              "ox": 97
+            },
+            {
+              "ox": 96
+            },
+            {
+              "ox": 96
+            },
+            {
+              "ox": 98
+            },
+            {
+              "ox": 97
+            }
           ]
         },
         "alerts": [
@@ -149,24 +200,67 @@
         "image": "https://i.scdn.co/image/ab67616d00001e0260822f4c5a89931cf7b2694c",
         "signalVitals": {
           "bloodPressure": [
-            [80, 125],
-            [82, 120],
-            [88, 128],
-            [90, 130],
-            [83, 113],
-            [123, 112],
-            [111, 128]
+            [
+              80,
+              125
+            ],
+            [
+              82,
+              120
+            ],
+            [
+              88,
+              128
+            ],
+            [
+              90,
+              130
+            ],
+            [
+              83,
+              113
+            ],
+            [
+              123,
+              112
+            ],
+            [
+              111,
+              128
+            ]
           ],
-          "heartRate": [72, 76, 70, 75, 78, 74, 73],
+          "heartRate": [
+            72,
+            76,
+            70,
+            75,
+            78,
+            74,
+            73
+          ],
           "temperature": null,
           "oxygenLevel": [
-            { "ox": 92 },
-            { "ox": 91 },
-            { "ox": 91 },
-            { "ox": 92 },
-            { "ox": 93 },
-            { "ox": 94 },
-            { "ox": 93 }
+            {
+              "ox": 92
+            },
+            {
+              "ox": 91
+            },
+            {
+              "ox": 91
+            },
+            {
+              "ox": 92
+            },
+            {
+              "ox": 93
+            },
+            {
+              "ox": 94
+            },
+            {
+              "ox": 93
+            }
           ]
         },
         "alerts": [
@@ -214,16 +308,43 @@
       "organizationId": 1
     },
     {
-      "id": "1759958864204",
+      "id": 1759958864204,
       "fullName": "Joaquin Cuba Joaquín Cuba",
       "specialty": "sadfsafsdf",
       "organizationId": 1
     },
     {
-      "id": "1759958884843",
+      "id": 1759958884843,
       "fullName": "sadfsdf asdfdsf",
       "specialty": "asdfdsf",
       "organizationId": 1
+    },
+    {
+      "fullName": "Juan Las",
+      "specialty": "Ortopedia",
+      "organizationId": 2,
+      "id": 1759958884844
+    },
+    {
+      "fullName": "Juani To",
+      "specialty": "Loro",
+      "organizationId": 1,
+      "id": 1759958884845
+    },
+    {
+      "fullName": "Pollo Broster",
+      "specialty": "Geriatria",
+      "organizationId": 1,
+      "id": 1759958884846
+    },
+    {
+      "fullName": "Juan Juan",
+      "specialty": "Geriatria",
+      "age": 34,
+      "phoneNumber": "24234",
+      "email": "juan@gmail.com",
+      "organizationId": 1,
+      "id": 1759958884847
     }
   ],
   "caregivers": [
@@ -236,6 +357,16 @@
       "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
       "organizationId": 1,
       "id": 1
+    },
+    {
+      "firstName": "Laura",
+      "lastName": "Martínez",
+      "age": 38,
+      "email": "laura@residence.com",
+      "phoneNumber": "5678",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "organizationId": 2,
+      "id": 2
     }
   ],
   "senior-citizens": [
@@ -255,10 +386,77 @@
       "assignedCaregiverId": null,
       "planType": "premium",
       "signalVitals": {
-        "bloodPressure": [[80, 120], [82, 118], [78, 122], [85, 125], [80, 120], [83, 119], [81, 121]],
-        "heartRate": [72, 75, 70, 78, 74, 73, 71],
-        "oxygenLevel": [{"ox": 97}, {"ox": 98}, {"ox": 96}, {"ox": 97}, {"ox": 98}, {"ox": 97}, {"ox": 96}],
-        "temperature": [36.5, 36.7, 36.4, 36.6, 36.8, 36.5, 36.6]
+        "bloodPressure": [
+          [
+            80,
+            120
+          ],
+          [
+            82,
+            118
+          ],
+          [
+            78,
+            122
+          ],
+          [
+            85,
+            125
+          ],
+          [
+            80,
+            120
+          ],
+          [
+            83,
+            119
+          ],
+          [
+            81,
+            121
+          ]
+        ],
+        "heartRate": [
+          72,
+          75,
+          70,
+          78,
+          74,
+          73,
+          71
+        ],
+        "oxygenLevel": [
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 96
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 96
+          }
+        ],
+        "temperature": [
+          36.5,
+          36.7,
+          36.4,
+          36.6,
+          36.8,
+          36.5,
+          36.6
+        ]
       },
       "alerts": [
         {
@@ -291,13 +489,72 @@
       "imageUrl": "https://via.placeholder.com/150",
       "deviceId": 1002,
       "organizationId": 1,
-      "assignedDoctorId": 4,
-      "assignedCaregiverId": null,
+      "assignedDoctorId": null,
+      "assignedCaregiverId": 1,
       "planType": "freemium",
       "signalVitals": {
-        "bloodPressure": [[75, 115], [78, 118], [76, 116], [80, 120], [77, 117], [79, 119], [76, 115]],
-        "heartRate": [68, 70, 72, 69, 71, 68, 70],
-        "oxygenLevel": [{"ox": 98}, {"ox": 97}, {"ox": 98}, {"ox": 96}, {"ox": 97}, {"ox": 98}, {"ox": 97}],
+        "bloodPressure": [
+          [
+            75,
+            115
+          ],
+          [
+            78,
+            118
+          ],
+          [
+            76,
+            116
+          ],
+          [
+            80,
+            120
+          ],
+          [
+            77,
+            117
+          ],
+          [
+            79,
+            119
+          ],
+          [
+            76,
+            115
+          ]
+        ],
+        "heartRate": [
+          68,
+          70,
+          72,
+          69,
+          71,
+          68,
+          70
+        ],
+        "oxygenLevel": [
+          {
+            "ox": 98
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 96
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 97
+          }
+        ],
         "temperature": []
       },
       "alerts": [
@@ -327,10 +584,77 @@
       "assignedCaregiverId": 2,
       "planType": "premium",
       "signalVitals": {
-        "bloodPressure": [[82, 125], [85, 128], [80, 122], [88, 130], [83, 126], [84, 127], [82, 124]],
-        "heartRate": [76, 78, 80, 75, 77, 79, 76],
-        "oxygenLevel": [{"ox": 95}, {"ox": 96}, {"ox": 95}, {"ox": 97}, {"ox": 96}, {"ox": 95}, {"ox": 96}],
-        "temperature": [36.6, 36.8, 37.0, 36.7, 36.9, 36.6, 36.8]
+        "bloodPressure": [
+          [
+            82,
+            125
+          ],
+          [
+            85,
+            128
+          ],
+          [
+            80,
+            122
+          ],
+          [
+            88,
+            130
+          ],
+          [
+            83,
+            126
+          ],
+          [
+            84,
+            127
+          ],
+          [
+            82,
+            124
+          ]
+        ],
+        "heartRate": [
+          76,
+          78,
+          80,
+          75,
+          77,
+          79,
+          76
+        ],
+        "oxygenLevel": [
+          {
+            "ox": 95
+          },
+          {
+            "ox": 96
+          },
+          {
+            "ox": 95
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 96
+          },
+          {
+            "ox": 95
+          },
+          {
+            "ox": 96
+          }
+        ],
+        "temperature": [
+          36.6,
+          36.8,
+          37,
+          36.7,
+          36.9,
+          36.6,
+          36.8
+        ]
       },
       "alerts": [
         {
