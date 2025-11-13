@@ -91,6 +91,9 @@
     "add": "Add Senior Citizen",
     "newTitle": "New Senior Citizen",
     "editTitle": "Edit Senior Citizen",
+    "details": "Details",
+    "alerts": "Alerts",
+    "statistics": "Statistics",
     "id": "ID",
     "fullName": "Full Name",
     "firstName": "First Name",
@@ -118,6 +121,25 @@
     "deleteHeader": "Delete Senior Citizen",
     "assignedTo": "Assigned to",
     "unassigned": "Not assigned",
+    "alertsTab": {
+      "date": "Date",
+      "time": "Time",
+      "dataRegistered": "Data Registered",
+      "reason": "Reason",
+      "noAlerts": "No alerts available"
+    },
+    "statisticsTab": {
+      "bloodPressure": "Blood Pressure",
+      "heartRate": "Heart Rate",
+      "oxygenLevel": "Oxygen Level",
+      "temperature": "Temperature",
+      "dataAvailable": "Data available",
+      "noBloodPressure": "No blood pressure data available",
+      "noHeartRate": "No heart rate data available",
+      "noOxygenLevel": "No oxygen level data available",
+      "noTemperature": "No temperature data available",
+      "temperaturePremiumOnly": "Temperature monitoring is available only for Premium users"
+    },
     "errors": {
       "firstNameRequired": "First name is required",
       "lastNameRequired": "Last name is required",

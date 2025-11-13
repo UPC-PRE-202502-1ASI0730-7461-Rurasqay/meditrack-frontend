@@ -91,6 +91,9 @@
     "add": "Agregar Adulto Mayor",
     "newTitle": "Nuevo Adulto Mayor",
     "editTitle": "Editar Adulto Mayor",
+    "details": "Detalles",
+    "alerts": "Alertas",
+    "statistics": "Estadísticas",
     "id": "ID",
     "fullName": "Nombre Completo",
     "firstName": "Nombre",
@@ -118,6 +121,25 @@
     "deleteHeader": "Eliminar Adulto Mayor",
     "assignedTo": "Asignado a",
     "unassigned": "No asignado",
+    "alertsTab": {
+      "date": "Fecha",
+      "time": "Hora",
+      "dataRegistered": "Dato Registrado",
+      "reason": "Motivo",
+      "noAlerts": "No hay alertas disponibles"
+    },
+    "statisticsTab": {
+      "bloodPressure": "Presión Arterial",
+      "heartRate": "Frecuencia Cardíaca",
+      "oxygenLevel": "Nivel de Oxígeno",
+      "temperature": "Temperatura",
+      "dataAvailable": "Datos disponibles",
+      "noBloodPressure": "No hay datos de presión arterial disponibles",
+      "noHeartRate": "No hay datos de frecuencia cardíaca disponibles",
+      "noOxygenLevel": "No hay datos de nivel de oxígeno disponibles",
+      "noTemperature": "No hay datos de temperatura disponibles",
+      "temperaturePremiumOnly": "El monitoreo de temperatura está disponible solo para usuarios Premium"
+    },
     "errors": {
       "firstNameRequired": "El nombre es requerido",
       "lastNameRequired": "El apellido es requerido",

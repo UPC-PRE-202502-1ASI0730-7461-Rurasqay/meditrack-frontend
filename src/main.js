@@ -15,7 +15,7 @@ import {
     ConfirmDialog, DataTable, Dialog,
     DialogService, Drawer, FileUpload, FloatLabel, IconField, InputIcon, InputNumber, InputText, Menu, Password,
     Rating, Row, Select, SelectButton, Tag, Textarea, Toast,
-    ToastService, Toolbar, Tooltip, DatePicker, Badge, Message, ProgressSpinner
+    ToastService, Toolbar, Tooltip, DatePicker, Badge, Message, ProgressSpinner, TabView, TabPanel
 } from "primevue";
 import router from "./router.js";
 import pinia from "./pinia.js";
@@ -55,6 +55,8 @@ createApp(App)
     .component('pv-badge', Badge)
     .component('pv-message', Message)
     .component('pv-progress-spinner', ProgressSpinner)
+    .component('pv-tab-view', TabView)
+    .component('pv-tab-panel', TabPanel)
     .directive('tooltip', Tooltip)
     .use(router)
     .use(pinia)
