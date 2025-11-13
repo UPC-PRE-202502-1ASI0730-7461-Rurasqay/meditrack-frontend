@@ -61,8 +61,66 @@ button:focus-visible {
 #app {
   /**max-width: 1280px;**/
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 0;
+  text-align: left;
+}
+
+/* Dark mode defaults */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #e0e0e0;
+    background-color: #1e1e1e;
+  }
+  
+  /* PrimeVue components dark mode */
+  .p-component {
+    color: #e0e0e0;
+  }
+  
+  .p-datatable {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .p-datatable .p-datatable-thead > tr > th {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #424242;
+  }
+  
+  .p-datatable .p-datatable-tbody > tr {
+    background: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .p-datatable .p-datatable-tbody > tr:hover {
+    background: #3d3d3d;
+  }
+  
+  .p-card {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border-color: #424242;
+  }
+  
+  .p-card .p-card-title {
+    color: #e0e0e0;
+  }
+  
+  .p-inputtext,
+  .p-dropdown,
+  .p-calendar,
+  .p-inputnumber-input {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #424242;
+  }
+  
+  .p-inputtext:enabled:hover,
+  .p-dropdown:not(.p-disabled):hover,
+  .p-calendar:not(.p-disabled):hover {
+    border-color: #64b5f6;
+  }
 }
 
 @media (prefers-color-scheme: light) {

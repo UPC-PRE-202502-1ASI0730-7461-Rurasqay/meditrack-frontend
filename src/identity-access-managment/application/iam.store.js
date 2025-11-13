@@ -5,7 +5,7 @@ import {ref} from "vue";
 
 const iamApi = new IamApi();
 
-const useIAMStore = defineStore('iam', () => {
+export const useIAMStore = defineStore('iam', () => {
     const users = ref([]);
     const errors = ref([]);
     const usersLoaded = ref(false);
@@ -31,6 +31,11 @@ const useIAMStore = defineStore('iam', () => {
         return null;
     }
 
+    function logout() {
+        currentUser.value = null;
+        currentUserLoaded.value = false;
+    }
+
     return {
         currentUser,
         currentUserLoaded,
@@ -38,6 +43,7 @@ const useIAMStore = defineStore('iam', () => {
         errors,
         fetchUsers,
         login,
+        logout,
     }
 });
 

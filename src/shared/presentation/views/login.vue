@@ -3,11 +3,23 @@ import LoginForm from "../../../identity-access-managment/presentation/view/logi
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-blue-600 flex justify-content-center align-items-center">
+  <div class="login-container">
     <login-form/>
   </div>
 </template>
 
 <style scoped>
-
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #2563eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
 </style>
