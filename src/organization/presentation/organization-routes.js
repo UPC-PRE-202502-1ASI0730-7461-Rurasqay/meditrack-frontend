@@ -14,13 +14,17 @@ const caregiverDetails = () => import('./views/caregiver-details.vue');
 // Senior Citizen views
 const seniorCitizenList = () => import('./views/senior-citizen-list.vue');
 const seniorCitizenForm = () => import('./views/senior-citizen-form.vue');
+const seniorCitizenView = () => import('./views/senior-citizen-view.vue');
+const seniorCitizenDetails = () => import('./views/senior-citizen-details.vue');
+const seniorCitizenAlertList = () => import('./views/senior-citizen-alert-list.vue');
+const seniorCitizenStatistics = () => import('./views/senior-citizen-statistics.vue');
 
 // Support view
 const support = () => import('./views/support.vue');
 
 const organizationRoutes = [
     {
-        path: ':organizationId',
+        path: ':organizationId/:userRole/:userId',
         component: organizationLayout,
         children: [
             // Doctor routes
@@ -39,7 +43,16 @@ const organizationRoutes = [
             {path: 'senior-citizens', name: 'senior-citizen-list', component: seniorCitizenList, meta: {title: 'Senior Citizens'}},
             {path: 'senior-citizens/new', name: 'senior-citizen-new', component: seniorCitizenForm, meta: {title: 'New Senior Citizen'}},
             {path: 'senior-citizens/:id/edit', name: 'senior-citizen-edit', component: seniorCitizenForm, meta: {title: 'Edit Senior Citizen'}},
-            {path: 'senior-citizens/:id', name: 'senior-citizen-details', component: seniorCitizenList, meta: {title: 'Senior Citizen Details'}},
+            {
+                path: 'senior-citizens/:id',
+                component: seniorCitizenView,
+                redirect: { name: 'senior-citizen-details-tab' },
+                children: [
+                    {path: 'details', name: 'senior-citizen-details-tab', component: seniorCitizenDetails, meta: {title: 'Senior Citizen Details'}},
+                    {path: 'alerts', name: 'senior-citizen-alerts', component: seniorCitizenAlertList, meta: {title: 'Senior Citizen Alerts'}},
+                    {path: 'statistics', name: 'senior-citizen-statistics', component: seniorCitizenStatistics, meta: {title: 'Senior Citizen Statistics'}}
+                ]
+            },
             
             // Support route
             {path: 'support', name: 'support', component: support, meta: {title: 'Support'}}

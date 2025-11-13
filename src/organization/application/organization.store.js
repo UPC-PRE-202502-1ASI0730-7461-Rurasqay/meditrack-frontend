@@ -28,6 +28,7 @@ export const useOrganizationStore = defineStore('organization', () => {
 
     // Current context
     const organization = ref(null);
+    const currentSeniorCitizen = ref(null);
     const currentUserId = ref(null);
     const currentUserRole = ref('');
     const currentOrganizationId = ref(null);
@@ -248,6 +249,40 @@ export const useOrganizationStore = defineStore('organization', () => {
         return seniorCitizens.value.find((item) => item.id === idInt);
     }
 
+    function fetchSeniorCitizenById(id) {
+        loading.value = true;
+        let idInt = parseInt(id);
+        
+        // First check if we already have it in the local state
+        const localSeniorCitizen = seniorCitizens.value.find((item) => item.id === idInt);
+        if (localSeniorCitizen) {
+            currentSeniorCitizen.value = localSeniorCitizen;
+            loading.value = false;
+            return Promise.resolve(localSeniorCitizen);
+        }
+        
+        // If not, fetch from API
+        return organizationApi.getSeniorCitizenById(id).then((response) => {
+            const seniorCitizen = SeniorCitizenAssembler.toEntityFromResource(response.data);
+            currentSeniorCitizen.value = seniorCitizen;
+            
+            // Update the local array if not already there
+            const index = seniorCitizens.value.findIndex(sc => sc.id === idInt);
+            if (index === -1) {
+                seniorCitizens.value.push(seniorCitizen);
+            } else {
+                seniorCitizens.value[index] = seniorCitizen;
+            }
+            
+            loading.value = false;
+            return seniorCitizen;
+        }).catch((error) => {
+            errors.value.push(error);
+            loading.value = false;
+            throw error;
+        })
+    }
+
     function addSeniorCitizen(seniorCitizen) {
         loading.value = true;
         organizationApi.createSeniorCitizen(seniorCitizen).then((response) => {
@@ -463,6 +498,7 @@ export const useOrganizationStore = defineStore('organization', () => {
         adminsLoaded,
         loading,
         organization,
+        currentSeniorCitizen,
         doctorsByOrganization,
         caregiversByOrganization,
         
@@ -493,6 +529,7 @@ export const useOrganizationStore = defineStore('organization', () => {
         fetchSeniorCitizens,
         fetchSeniorCitizensByOrganization,
         getSeniorCitizenById,
+        fetchSeniorCitizenById,
         addSeniorCitizen,
         updateSeniorCitizen,
         deleteSeniorCitizen,

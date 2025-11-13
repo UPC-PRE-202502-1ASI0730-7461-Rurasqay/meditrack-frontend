@@ -26,7 +26,7 @@ let timeInterval = null;
 
 // Computed properties
 const organizationId = computed(() => route.params.organizationId);
-const userId = computed(() => route.params.userId || iamStore.currentUser?.id);
+const userId = computed(() => parseInt(route.params.userId) || iamStore.currentUser?.id);
 const userRole = computed(() => route.params.userRole || iamStore.currentUser?.role);
 
 // Get current organization
@@ -52,6 +52,8 @@ const navigationItems = computed(() => {
   // Check if user is an admin (organizationAdmin or admin)
   const isAdmin = role === 'organizationAdmin' || role === 'admin';
   
+  const baseUrl = `/organization/${organizationId.value}/${role}/${userId.value}`;
+  
   if (isClinic.value) {
     // Clinic navigation
     if (isAdmin) {
@@ -59,12 +61,12 @@ const navigationItems = computed(() => {
         { 
           label: t('doctor.title'), 
           icon: 'pi pi-users',
-          to: `/organization/${organizationId.value}/doctors`
+          to: `${baseUrl}/doctors`
         },
         { 
           label: t('senior-citizen.title'), 
           icon: 'pi pi-user',
-          to: `/organization/${organizationId.value}/senior-citizens`
+          to: `${baseUrl}/senior-citizens`
         }
       );
     } else if (role === 'doctor') {
@@ -72,7 +74,7 @@ const navigationItems = computed(() => {
         { 
           label: t('senior-citizen.myPatients'), 
           icon: 'pi pi-user',
-          to: `/organization/${organizationId.value}/senior-citizens`
+          to: `${baseUrl}/senior-citizens`
         }
       );
     }
@@ -83,12 +85,12 @@ const navigationItems = computed(() => {
         { 
           label: t('caregiver.title'), 
           icon: 'pi pi-users',
-          to: `/organization/${organizationId.value}/caregivers`
+          to: `${baseUrl}/caregivers`
         },
         { 
           label: t('senior-citizen.title'), 
           icon: 'pi pi-user',
-          to: `/organization/${organizationId.value}/senior-citizens`
+          to: `${baseUrl}/senior-citizens`
         }
       );
     } else if (role === 'caregiver') {
@@ -96,7 +98,7 @@ const navigationItems = computed(() => {
         { 
           label: t('senior-citizen.myPatients'), 
           icon: 'pi pi-user',
-          to: `/organization/${organizationId.value}/senior-citizens`
+          to: `${baseUrl}/senior-citizens`
         }
       );
     }
@@ -106,7 +108,7 @@ const navigationItems = computed(() => {
   baseItems.push({ 
     label: t('support.title'), 
     icon: 'pi pi-question-circle',
-    to: `/organization/${organizationId.value}/support`
+    to: `${baseUrl}/support`
   });
   
   return baseItems;
@@ -212,16 +214,17 @@ onMounted(async () => {
   await loadOrganization();
   
   // Auto-redirect if no specific route is matched
-  if (route.name === 'organization' && organizationId.value) {
+  if (route.name === 'organization' && organizationId.value && userId.value && userRole.value) {
     const role = userRole.value;
     const isAdmin = role === 'organizationAdmin' || role === 'admin';
+    const baseUrl = `/organization/${organizationId.value}/${role}/${userId.value}`;
     
     if (isClinic.value && isAdmin) {
-      router.push(`/organization/${organizationId.value}/doctors`);
+      router.push(`${baseUrl}/doctors`);
     } else if (isResidentHome.value && isAdmin) {
-      router.push(`/organization/${organizationId.value}/caregivers`);
+      router.push(`${baseUrl}/caregivers`);
     } else {
-      router.push(`/organization/${organizationId.value}/senior-citizens`);
+      router.push(`${baseUrl}/senior-citizens`);
     }
   }
 });

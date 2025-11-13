@@ -2,6 +2,8 @@
 import {useI18n} from "vue-i18n";
 import {useRouter} from "vue-router";
 import useIAMStore from "../../application/iam.store.js";
+import {useOrganizationStore} from "../../../organization/application/organization.store.js";
+import {OrganizationApi} from "../../../organization/infrastructure/organization-api.js";
 import {onMounted, ref} from "vue";
 import {Button as PvButton, InputText as PvInputText, Password as PvPassword} from "primevue";
 import {storeToRefs} from "pinia";
@@ -9,6 +11,8 @@ import {storeToRefs} from "pinia";
 const {t} = useI18n();
 const router = useRouter();
 const store = useIAMStore();
+const organizationStore = useOrganizationStore();
+const organizationApi = new OrganizationApi();
 const email = ref('');
 const password = ref('');
 
@@ -34,36 +38,69 @@ const handleLogin = async () => {
   }
   
   // Navigate based on user role
-  switch (user.role){
-    case "relative":
-      // TODO: Implement relative dashboard
-      alert('Relative dashboard not implemented yet');
-      break;
-    case "organizationAdmin":
-      // For organization admins, entityId is the organizationId
-      router.push(`/organization/${user.entityId}/doctors`);
-      break;
-    case "doctor":
-      // For doctors, entityId is the doctor's ID
-      // We need to fetch the doctor to get the organizationId
-      // For now, we'll use a workaround by navigating to organization 1
-      // TODO: Fetch doctor data to get the correct organizationId
-      router.push(`/organization/1/senior-citizens`);
-      break;
-    case "caregiver":
-      // For caregivers, entityId is the caregiver's ID
-      // We need to fetch the caregiver to get the organizationId
-      // For now, we'll use a workaround by navigating to organization 2
-      // TODO: Fetch caregiver data to get the correct organizationId
-      router.push(`/organization/2/senior-citizens`);
-      break;
-    default:
-      alert('Unknown role');
-      return;
+  try {
+    switch (user.role) {
+      case "relative":
+        // TODO: Implement relative dashboard
+        alert('Relative dashboard not implemented yet');
+        break;
+      
+      case "organizationAdmin":
+        // For organization admins, entityId is the organizationId
+        const organizationId = user.entityId;
+        const userId = user.id;
+        
+        // Set current user in organization store
+        organizationStore.setCurrentUser(userId, 'admin', organizationId);
+        
+        router.push(`/organization/${organizationId}/admin/${userId}/doctors`);
+        break;
+      
+      case "doctor":
+        // For doctors, entityId is the doctor's ID
+        // We need to fetch the doctor to get the organizationId
+        const doctorResponse = await organizationApi.getDoctorById(user.entityId);
+        const doctor = doctorResponse.data;
+        
+        if (!doctor || !doctor.organizationId) {
+          alert('Could not retrieve doctor information');
+          return;
+        }
+        
+        // Set current user in organization store
+        organizationStore.setCurrentUser(user.id, 'doctor', doctor.organizationId);
+        
+        router.push(`/organization/${doctor.organizationId}/doctor/${user.entityId}/senior-citizens`);
+        break;
+      
+      case "caregiver":
+        // For caregivers, entityId is the caregiver's ID
+        // We need to fetch the caregiver to get the organizationId
+        const caregiverResponse = await organizationApi.getCaregiverById(user.entityId);
+        const caregiver = caregiverResponse.data;
+        
+        if (!caregiver || !caregiver.organizationId) {
+          alert('Could not retrieve caregiver information');
+          return;
+        }
+        
+        // Set current user in organization store
+        organizationStore.setCurrentUser(user.id, 'caregiver', caregiver.organizationId);
+        
+        router.push(`/organization/${caregiver.organizationId}/caregiver/${user.entityId}/senior-citizens`);
+        break;
+      
+      default:
+        alert('Unknown role');
+        return;
+    }
+    
+    const {id, role, entityId} = user;
+    console.log(`User ${id} with role ${role} logged in. EntityId: ${entityId}`);
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('An error occurred during login. Please try again.');
   }
-  
-  const {id, role, entityId} = user;
-  console.log(`User ${id} with role ${role} logged in. EntityId: ${entityId}`);
 };
 
 </script>

@@ -3,13 +3,19 @@ import { useOrganizationStore } from "../../application/organization.store.js";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useConfirm } from "primevue/useconfirm";
 
 const { t } = useI18n();
 const store = useOrganizationStore();
 const router = useRouter();
+const route = useRoute();
 const confirm = useConfirm();
+
+// Get route params
+const organizationId = computed(() => route.params.organizationId);
+const userRole = computed(() => route.params.userRole);
+const userId = computed(() => route.params.userId);
 
 // Get data from store
 const {
@@ -45,15 +51,38 @@ const haveSeniorCitizens = computed(() => {
 
 const openAddSeniorCitizenForm = () => {
   editingSeniorCitizen.value = null;
-  router.push({ name: 'senior-citizen-new' });
+  router.push({ 
+    name: 'senior-citizen-new',
+    params: { 
+      organizationId: organizationId.value,
+      userRole: userRole.value,
+      userId: userId.value
+    }
+  });
 };
 
 const openEditSeniorCitizenForm = (seniorCitizen) => {
-  router.push({ name: 'senior-citizen-edit', params: { id: seniorCitizen.id } });
+  router.push({ 
+    name: 'senior-citizen-edit', 
+    params: { 
+      organizationId: organizationId.value,
+      userRole: userRole.value,
+      userId: userId.value,
+      id: seniorCitizen.id 
+    } 
+  });
 };
 
 const navigateToDetails = (id) => {
-  router.push({ name: 'senior-citizen-details', params: { id } });
+  router.push({ 
+    name: 'senior-citizen-details-tab', 
+    params: { 
+      organizationId: organizationId.value,
+      userRole: userRole.value,
+      userId: userId.value,
+      id 
+    } 
+  });
 };
 
 const confirmDelete = (seniorCitizen) => {
