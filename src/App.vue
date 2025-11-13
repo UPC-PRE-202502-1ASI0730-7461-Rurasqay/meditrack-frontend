@@ -1,11 +1,12 @@
 <script setup>
 import {useI18n} from "vue-i18n";
+import Layout from "./shared/presentation/components/layout.vue";
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <router-view />
+  <layout/>
 </template>
 
 <style scoped>

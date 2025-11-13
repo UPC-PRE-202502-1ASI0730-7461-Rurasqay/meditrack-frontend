@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 import login from "./shared/presentation/views/login.vue";
-import relativesRoutes from "./relatives/presentatiton/relatives-routes.js";
 import organizationRoutes from "./organization/presentation/organization-routes.js";
 import useIAMStore from "./identity-access-managment/application/iam.store.js";
 
@@ -8,7 +7,6 @@ const pageNotFound = () => import('./shared/presentation/views/page-not-found.vu
 
 const routes = [
     {path: '/', redirect: '/login'},
-    ...relativesRoutes,
     {path: '/login', name: 'login', component: login, meta: {title: 'Login', public: true}},
     {path: '/organization', name: 'organization', children: organizationRoutes, meta: {requiresAuth: true}},
     {path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: {title: 'Page not found'}},
