@@ -135,12 +135,16 @@ const onSubmit = () => {
   }
 
   const organizationId = route.params.organizationId;
-  router.push(`/organization/${organizationId}/caregivers`);
+  const userRole = route.params.userRole;
+  const userId = route.params.userId;
+  router.push(`/organization/${organizationId}/${userRole}/${userId}/caregivers`);
 };
 
 const onCancel = () => {
   const organizationId = route.params.organizationId;
-  router.push(`/organization/${organizationId}/caregivers`);
+  const userRole = route.params.userRole;
+  const userId = route.params.userId;
+  router.push(`/organization/${organizationId}/${userRole}/${userId}/caregivers`);
 };
 </script>
 

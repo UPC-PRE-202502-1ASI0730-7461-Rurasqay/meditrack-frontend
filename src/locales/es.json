@@ -198,7 +198,19 @@
     }
   },
   "doctor": {
-    "title": "Doctores"
+    "title": "Doctores",
+    "assignedSeniorCitizens": "Adultos Mayores Asignados",
+    "noAssignedSeniorCitizens": "No hay adultos mayores asignados a este doctor",
+    "selectSeniorCitizen": "Seleccionar Adulto Mayor",
+    "assign": "Asignar",
+    "unassign": "Desasignar",
+    "assignSeniorCitizen": "Asignar Adulto Mayor",
+    "confirmUnassign": "¿Está seguro de desasignar a {name}?",
+    "unassignHeader": "Desasignar Adulto Mayor",
+    "errors": {
+      "cannotAssignToCaregiver": "No se puede asignar: El adulto mayor ya está asignado a un cuidador",
+      "assignError": "Error al asignar adulto mayor"
+    }
   },
   "common": {
     "menu": "Menú",
