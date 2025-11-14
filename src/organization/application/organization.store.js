@@ -448,25 +448,14 @@ export const useOrganizationStore = defineStore('organization', () => {
     }
 
     function getCurrentUserEntityId() {
-        const userId = currentUserId.value;
-        if (!userId) return null;
-        
-        const role = getCurrentUserRole();
-        if (!role) return null;
-
-        if (role === 'doctor') {
-            const doctor = doctors.value.find(d => d.userId === userId);
-            return doctor ? doctor.id : null;
-        } else if (role === 'caregiver') {
-            const caregiver = caregivers.value.find(c => c.userId === userId);
-            return caregiver ? caregiver.id : null;
-        }
-
-        return null;
+        // For doctors and caregivers, currentUserId IS the entityId (doctor/caregiver ID)
+        // For admins, it's the user ID
+        return currentUserId.value;
     }
 
-    function setCurrentUser(userId, role, organizationIdValue) {
-        currentUserId.value = userId;
+    function setCurrentUser(entityId, role, organizationIdValue) {
+        // entityId is the doctor/caregiver ID for those roles, or user ID for admins
+        currentUserId.value = entityId;
         currentUserRole.value = role;
         currentOrganizationId.value = organizationIdValue;
     }

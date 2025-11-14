@@ -18,6 +18,7 @@
     "clinic": "Clínica",
     "residentHome": "Casa de Reposo",
     "doctor-list": {
+      "title": "Lista de Doctores",
       "not-exist-doctors": "No existen doctores en esta organización.",
       "add-doctor": "Agregar Doctor",
       "doctor-id": "ID del Doctor",
@@ -25,14 +26,24 @@
       "doctor-specialty": "Especialidad",
       "add-doctor-button": "Agregar Doctor"
     },
+    "doctor-details": {
+      "age": "Edad",
+      "years": "años",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "back": "Volver a la Lista",
+      "not-found": "Doctor no encontrado con ID: {id}"
+    },
     "doctor-form": {
+      "title": "Agregar Nuevo Doctor",
       "doctor-name": "Nombre del Doctor",
       "doctor-lastname": "Apellido del Doctor",
       "doctor-specialty": "Especialidad",
       "doctor-email": "Correo Electrónico",
       "doctor-phone": "Teléfono",
       "doctor-age": "Edad",
-      "save-doctor-button": "Guardar Doctor"
+      "save-doctor-button": "Guardar Doctor",
+      "cancel-button": "Cancelar"
     }
   },
   "caregiver": {
@@ -187,7 +198,19 @@
     }
   },
   "doctor": {
-    "title": "Doctores"
+    "title": "Doctores",
+    "assignedSeniorCitizens": "Adultos Mayores Asignados",
+    "noAssignedSeniorCitizens": "No hay adultos mayores asignados a este doctor",
+    "selectSeniorCitizen": "Seleccionar Adulto Mayor",
+    "assign": "Asignar",
+    "unassign": "Desasignar",
+    "assignSeniorCitizen": "Asignar Adulto Mayor",
+    "confirmUnassign": "¿Está seguro de desasignar a {name}?",
+    "unassignHeader": "Desasignar Adulto Mayor",
+    "errors": {
+      "cannotAssignToCaregiver": "No se puede asignar: El adulto mayor ya está asignado a un cuidador",
+      "assignError": "Error al asignar adulto mayor"
+    }
   },
   "common": {
     "menu": "Menú",

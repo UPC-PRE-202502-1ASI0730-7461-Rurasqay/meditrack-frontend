@@ -2,19 +2,67 @@
   "users": [
     {
       "id": 1,
-      "email": "valeria@gmail.com",
+      "email": "allegado.valeria@gmail.com",
       "password": "valeria123",
       "role": "relative",
       "entityId": 1
     },
     {
       "id": 2,
-      "email": "juan@gmail.com",
+      "email": "allegado.juan@gmail.com",
       "password": "juan123",
       "role": "relative",
       "entityId": 2
     },
-    { "id": 3, "email": "luis@clinic.com", "password": "luis123", "role": "doctor", "entityId": 3 }
+    {
+      "id": 3,
+      "email": "luis@clinic.com",
+      "password": "luis123",
+      "role": "doctor",
+      "entityId": 3
+    },
+    {
+      "id": 4,
+      "email": "ana@clinic.com",
+      "password": "ana123",
+      "role": "doctor",
+      "entityId": 4
+    },
+    {
+      "id": 5,
+      "email": "marta@clinic.com",
+      "password": "marta123",
+      "role": "doctor",
+      "entityId": 5
+    },
+    {
+      "id": 6,
+      "email": "ricardo@residence.com",
+      "password": "ricardo123",
+      "role": "caregiver",
+      "entityId": 1
+    },
+    {
+      "id": 7,
+      "email": "laura@residence.com",
+      "password": "laura123",
+      "role": "caregiver",
+      "entityId": 2
+    },
+    {
+      "id": 8,
+      "email": "admin@clinic.com",
+      "password": "admin123",
+      "role": "organizationAdmin",
+      "entityId": 1
+    },
+    {
+      "id": 9,
+      "email": "admin@residence.com",
+      "password": "admin123",
+      "role": "organizationAdmin",
+      "entityId": 2
+    }
   ],
   "relatives": [
     {
@@ -34,29 +82,80 @@
         "age": 79,
         "dni": "06813334",
         "gender": "male",
-        "height": 1.70,
+        "height": 1.7,
         "weight": 68,
         "image": "https://static7.depositphotos.com/1024916/785/i/950/depositphotos_7854131-stock-photo-portrait-of-a-grandfather.jpg",
         "signalVitals": {
           "bloodPressure": [
-            [90, 130],
-            [85, 125],
-            [111, 128],
-            [82, 120],
-            [123, 112],
-            [88, 128],
-            [83, 113]
+            [
+              90,
+              130
+            ],
+            [
+              85,
+              125
+            ],
+            [
+              111,
+              128
+            ],
+            [
+              82,
+              120
+            ],
+            [
+              123,
+              112
+            ],
+            [
+              88,
+              128
+            ],
+            [
+              83,
+              113
+            ]
           ],
-          "heartRate": [75, 72, 73, 76, 74, 70, 78],
-          "temperature": [37.0, 36.5, 36.7, 36.7, 36.6, 36.8, 36.9],
+          "heartRate": [
+            75,
+            72,
+            73,
+            76,
+            74,
+            70,
+            78
+          ],
+          "temperature": [
+            37,
+            36.5,
+            36.7,
+            36.7,
+            36.6,
+            36.8,
+            36.9
+          ],
           "oxygenLevel": [
-            { "ox": 95 },
-            { "ox": 97 },
-            { "ox": 97 },
-            { "ox": 96 },
-            { "ox": 96 },
-            { "ox": 98 },
-            { "ox": 97 }
+            {
+              "ox": 95
+            },
+            {
+              "ox": 97
+            },
+            {
+              "ox": 97
+            },
+            {
+              "ox": 96
+            },
+            {
+              "ox": 96
+            },
+            {
+              "ox": 98
+            },
+            {
+              "ox": 97
+            }
           ]
         },
         "alerts": [
@@ -101,24 +200,67 @@
         "image": "https://i.scdn.co/image/ab67616d00001e0260822f4c5a89931cf7b2694c",
         "signalVitals": {
           "bloodPressure": [
-            [80, 125],
-            [82, 120],
-            [88, 128],
-            [90, 130],
-            [83, 113],
-            [123, 112],
-            [111, 128]
+            [
+              80,
+              125
+            ],
+            [
+              82,
+              120
+            ],
+            [
+              88,
+              128
+            ],
+            [
+              90,
+              130
+            ],
+            [
+              83,
+              113
+            ],
+            [
+              123,
+              112
+            ],
+            [
+              111,
+              128
+            ]
           ],
-          "heartRate": [72, 76, 70, 75, 78, 74, 73],
+          "heartRate": [
+            72,
+            76,
+            70,
+            75,
+            78,
+            74,
+            73
+          ],
           "temperature": null,
           "oxygenLevel": [
-            { "ox": 92 },
-            { "ox": 91 },
-            { "ox": 91 },
-            { "ox": 92 },
-            { "ox": 93 },
-            { "ox": 94 },
-            { "ox": 93 }
+            {
+              "ox": 92
+            },
+            {
+              "ox": 91
+            },
+            {
+              "ox": 91
+            },
+            {
+              "ox": 92
+            },
+            {
+              "ox": 93
+            },
+            {
+              "ox": 94
+            },
+            {
+              "ox": 93
+            }
           ]
         },
         "alerts": [
@@ -166,16 +308,43 @@
       "organizationId": 1
     },
     {
-      "id": "1759958864204",
+      "id": 1759958864204,
       "fullName": "Joaquin Cuba Joaquín Cuba",
       "specialty": "sadfsafsdf",
       "organizationId": 1
     },
     {
-      "id": "1759958884843",
+      "id": 1759958884843,
       "fullName": "sadfsdf asdfdsf",
       "specialty": "asdfdsf",
       "organizationId": 1
+    },
+    {
+      "fullName": "Juan Las",
+      "specialty": "Ortopedia",
+      "organizationId": 2,
+      "id": 1759958884844
+    },
+    {
+      "fullName": "Juani To",
+      "specialty": "Loro",
+      "organizationId": 1,
+      "id": 1759958884845
+    },
+    {
+      "fullName": "Pollo Broster",
+      "specialty": "Geriatria",
+      "organizationId": 1,
+      "id": 1759958884846
+    },
+    {
+      "fullName": "Juan Juan",
+      "specialty": "Geriatria",
+      "age": 34,
+      "phoneNumber": "24234",
+      "email": "juan@gmail.com",
+      "organizationId": 1,
+      "id": 1759958884847
     }
   ],
   "caregivers": [
@@ -188,6 +357,26 @@
       "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
       "organizationId": 1,
       "id": 1
+    },
+    {
+      "firstName": "Laura",
+      "lastName": "Martínez",
+      "age": 38,
+      "email": "laura@residence.com",
+      "phoneNumber": "5678",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "organizationId": 2,
+      "id": 2
+    },
+    {
+      "firstName": "Juana2",
+      "lastName": "lopez",
+      "age": 45,
+      "email": "u202223279@upc.edu.pe",
+      "phoneNumber": "1245",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "organizationId": 2,
+      "id": 3
     }
   ],
   "senior-citizens": [
@@ -207,10 +396,77 @@
       "assignedCaregiverId": null,
       "planType": "premium",
       "signalVitals": {
-        "bloodPressure": [[80, 120], [82, 118], [78, 122], [85, 125], [80, 120], [83, 119], [81, 121]],
-        "heartRate": [72, 75, 70, 78, 74, 73, 71],
-        "oxygenLevel": [{"ox": 97}, {"ox": 98}, {"ox": 96}, {"ox": 97}, {"ox": 98}, {"ox": 97}, {"ox": 96}],
-        "temperature": [36.5, 36.7, 36.4, 36.6, 36.8, 36.5, 36.6]
+        "bloodPressure": [
+          [
+            80,
+            120
+          ],
+          [
+            82,
+            118
+          ],
+          [
+            78,
+            122
+          ],
+          [
+            85,
+            125
+          ],
+          [
+            80,
+            120
+          ],
+          [
+            83,
+            119
+          ],
+          [
+            81,
+            121
+          ]
+        ],
+        "heartRate": [
+          72,
+          75,
+          70,
+          78,
+          74,
+          73,
+          71
+        ],
+        "oxygenLevel": [
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 96
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 98
+          },
+          {
+            "ox": 97
+          },
+          {
+            "ox": 96
+          }
+        ],
+        "temperature": [
+          36.5,
+          36.7,
+          36.4,
+          36.6,
+          36.8,
+          36.5,
+          36.6
+        ]
       },
       "alerts": [
         {
@@ -232,91 +488,49 @@
       ]
     },
     {
-      "id": 2,
-      "firstName": "Rosa",
-      "lastName": "Pérez",
-      "birthDate": "1943-07-22",
-      "gender": "F",
-      "weight": 59,
-      "height": 158,
-      "dni": "10345678",
-      "imageUrl": "https://via.placeholder.com/150",
-      "deviceId": 1002,
-      "organizationId": 1,
-      "assignedDoctorId": 4,
-      "assignedCaregiverId": null,
-      "planType": "freemium",
-      "signalVitals": {
-        "bloodPressure": [[75, 115], [78, 118], [76, 116], [80, 120], [77, 117], [79, 119], [76, 115]],
-        "heartRate": [68, 70, 72, 69, 71, 68, 70],
-        "oxygenLevel": [{"ox": 98}, {"ox": 97}, {"ox": 98}, {"ox": 96}, {"ox": 97}, {"ox": 98}, {"ox": 97}],
-        "temperature": []
-      },
-      "alerts": [
-        {
-          "id": 3,
-          "alertTitle": "Oxygen Level Alert",
-          "date": "2025-11-11T08:45:00Z",
-          "time": "8:45 AM",
-          "dataRegistered": "Oxygen Level: 94%",
-          "reason": "Oxygen saturation below normal range"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "firstName": "Miguel",
-      "lastName": "Torres",
-      "birthDate": "1945-11-10",
-      "gender": "M",
-      "weight": 75,
-      "height": 175,
-      "dni": "10456789",
-      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
-      "deviceId": 1003,
-      "organizationId": 2,
-      "assignedDoctorId": null,
-      "assignedCaregiverId": 2,
-      "planType": "premium",
-      "signalVitals": {
-        "bloodPressure": [[82, 125], [85, 128], [80, 122], [88, 130], [83, 126], [84, 127], [82, 124]],
-        "heartRate": [76, 78, 80, 75, 77, 79, 76],
-        "oxygenLevel": [{"ox": 95}, {"ox": 96}, {"ox": 95}, {"ox": 97}, {"ox": 96}, {"ox": 95}, {"ox": 96}],
-        "temperature": [36.6, 36.8, 37.0, 36.7, 36.9, 36.6, 36.8]
-      },
-      "alerts": [
-        {
-          "id": 4,
-          "alertTitle": "Temperature Alert",
-          "date": "2025-11-12T12:00:00Z",
-          "time": "12:00 PM",
-          "dataRegistered": "Temperature: 37.5°C",
-          "reason": "Body temperature slightly elevated"
-        },
-        {
-          "id": 5,
-          "alertTitle": "Blood Pressure Alert",
-          "date": "2025-11-11T16:20:00Z",
-          "time": "4:20 PM",
-          "dataRegistered": "Blood Pressure: 145/92 mmHg",
-          "reason": "Blood pressure is above recommended levels"
-        }
-      ]
-    },
-    {
-      "id": 4,
       "firstName": "Juan",
-      "lastName": "Valdera",
-      "birthDate": "2025-10-08T05:00:00.000Z",
+      "lastName": "lopez",
+      "birthDate": "2025-11-01T05:00:00.000Z",
       "gender": "M",
       "weight": 56,
-      "height": 156,
+      "height": 123,
+      "dni": "123141",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "deviceId": 123,
+      "organizationId": 1,
+      "assignedDoctorId": null,
+      "assignedCaregiverId": null,
+      "id": 5
+    },
+    {
+      "firstName": "Juana",
+      "lastName": "Valdera",
+      "birthDate": "2025-11-01T05:00:00.000Z",
+      "gender": "M",
+      "weight": 14,
+      "height": 132,
       "dni": "12345",
       "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
-      "deviceId": 1,
+      "deviceId": 214,
+      "organizationId": 1,
+      "assignedDoctorId": null,
+      "assignedCaregiverId": null,
+      "id": 6
+    },
+    {
+      "firstName": "Juana",
+      "lastName": "Pérez",
+      "birthDate": "2025-11-01T05:00:00.000Z",
+      "gender": "F",
+      "weight": 67,
+      "height": 123,
+      "dni": "10345678",
+      "imageUrl": "https://thumbs.dreamstime.com/b/se%C3%B1ora-joven-hermosa-en-fondo-pardusco-128392593.jpg",
+      "deviceId": 1234,
       "organizationId": 2,
       "assignedDoctorId": null,
-      "assignedCaregiverId": null
+      "assignedCaregiverId": null,
+      "id": 7
     }
   ]
 }

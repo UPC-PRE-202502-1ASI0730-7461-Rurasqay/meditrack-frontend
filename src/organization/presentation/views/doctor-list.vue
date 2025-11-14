@@ -35,19 +35,21 @@ onMounted(async () => {
   console.log('DoctorList mounted');
   console.log('currentUser:', currentUser.value);
 
-  if (!currentUser.value) {
-    console.warn('No current user found.');
+  // Get organizationId from route params
+  const organizationIdFromRoute = router.currentRoute.value.params.organizationId;
+  
+  if (!organizationIdFromRoute) {
+    console.warn('No organizationId in route.');
     return;
   }
 
-  console.log('currentUser.entityId:', currentUser.value.entityId);
+  console.log('organizationId from route:', organizationIdFromRoute);
 
-  if (!organizationsLoaded.value) {
-    await fetchOrganizationById(currentUser.value.entityId);
-    console.log('fetching organization by id', currentUser.value.entityId);
-    console.log('organization loaded', organizationsLoaded.value);
-    console.log('organization:', organization.value);
-  }
+  // Always fetch organization first to ensure proper filtering
+  await fetchOrganizationById(parseInt(organizationIdFromRoute));
+  console.log('fetching organization by id', organizationIdFromRoute);
+  console.log('organization loaded', organizationsLoaded.value);
+  console.log('organization:', organization.value);
 
   if (!organization.value) {
     console.warn('No organization found for the current user.');
@@ -58,12 +60,11 @@ onMounted(async () => {
 
   switch (organization.value.type) {
     case 'clinic':
-      if (!doctorsLoaded.value) {
-        await fetchDoctors();
-        console.log('doctors loaded', doctorsLoaded.value);
-        console.log('doctorsByOrganization:', doctorsByOrganization.value);
-        console.log('doctorsByOrganizationCount:', doctorsByOrganizationCount.value);
-      }
+      // Always fetch doctors after organization is loaded to ensure proper filtering
+      await fetchDoctors();
+      console.log('doctors loaded', doctorsLoaded.value);
+      console.log('doctorsByOrganization:', doctorsByOrganization.value);
+      console.log('doctorsByOrganizationCount:', doctorsByOrganizationCount.value);
       break;
     case 'residence':
       if (!caregiversLoaded.value) {
@@ -92,6 +93,7 @@ const navigateToAddDoctor = () => {
 
 <template>
   <div class="flex flex-column align-items-center, justify-content-center gap-2">
+    <h1 class="text-3xl font-bold mb-4">{{ t('organization.doctor-list.title') }}</h1>
     <p v-if="!clinicHaveDoctors()">{{ t("organization.doctor-list.not-exist-doctors") }}</p>
     <pv-data-table
         v-else

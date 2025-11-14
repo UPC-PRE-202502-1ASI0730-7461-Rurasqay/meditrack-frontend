@@ -141,7 +141,10 @@ const onSubmit = () => {
 
     // Navigate back to list
     const organizationId = route.params.organizationId;
-    router.push(`/organization/${organizationId}/senior-citizens`);
+    const userRole = route.params.userRole;
+    const userId = route.params.userId;
+    router.push(`/organization/${organizationId}/${userRole}/${userId}/senior-citizens`);
+    
   } catch (error) {
     console.error('Error creating/updating senior citizen:', error);
     alert(error.message || t('senior-citizen.errors.saveError'));

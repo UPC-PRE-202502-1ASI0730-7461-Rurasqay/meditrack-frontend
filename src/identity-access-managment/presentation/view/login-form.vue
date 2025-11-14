@@ -53,7 +53,25 @@ const handleLogin = async () => {
         // Set current user in organization store
         organizationStore.setCurrentUser(userId, 'admin', organizationId);
         
-        router.push(`/organization/${organizationId}/admin/${userId}/doctors`);
+        // Fetch organization to determine type and redirect accordingly
+        const orgResponse = await organizationApi.getOrganizationById(organizationId);
+        const organization = orgResponse.data;
+        
+        if (!organization) {
+          alert('Could not retrieve organization information');
+          return;
+        }
+        
+        // Redirect based on organization type
+        const orgType = organization.type;
+        if (orgType === 'clinic') {
+          router.push(`/organization/${organizationId}/admin/${userId}/doctors`);
+        } else if (orgType === 'residence' || orgType === 'resident') {
+          router.push(`/organization/${organizationId}/admin/${userId}/caregivers`);
+        } else {
+          // Fallback to senior-citizens
+          router.push(`/organization/${organizationId}/admin/${userId}/senior-citizens`);
+        }
         break;
       
       case "doctor":

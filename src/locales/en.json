@@ -18,6 +18,7 @@
     "clinic": "Clinic",
     "residentHome": "Resident Home",
     "doctor-list": {
+      "title": "Doctors List",
       "not-exist-doctors": "There are no doctors in this organization.",
       "add-doctor": "Add Doctor",
       "doctor-id": "Doctor ID",
@@ -25,14 +26,24 @@
       "doctor-specialty": "Specialty",
       "add-doctor-button": "Add Doctor"
     },
+    "doctor-details": {
+      "age": "Age",
+      "years": "years",
+      "email": "Email",
+      "phone": "Phone",
+      "back": "Back to List",
+      "not-found": "Doctor not found with ID: {id}"
+    },
     "doctor-form": {
+      "title": "Add New Doctor",
       "doctor-name": "Doctor Name",
       "doctor-lastname": "Doctor Last Name",
       "doctor-specialty": "Specialty",
       "doctor-email": "Email",
       "doctor-phone": "Phone Number",
       "doctor-age": "Age",
-      "save-doctor-button": "Save Doctor"
+      "save-doctor-button": "Save Doctor",
+      "cancel-button": "Cancel"
     }
   },
   "caregiver": {
@@ -187,7 +198,19 @@
     }
   },
   "doctor": {
-    "title": "Doctors"
+    "title": "Doctors",
+    "assignedSeniorCitizens": "Assigned Senior Citizens",
+    "noAssignedSeniorCitizens": "No senior citizens assigned to this doctor",
+    "selectSeniorCitizen": "Select Senior Citizen",
+    "assign": "Assign",
+    "unassign": "Unassign",
+    "assignSeniorCitizen": "Assign Senior Citizen",
+    "confirmUnassign": "Are you sure you want to unassign {name}?",
+    "unassignHeader": "Unassign Senior Citizen",
+    "errors": {
+      "cannotAssignToCaregiver": "Cannot assign: Senior citizen is already assigned to a caregiver",
+      "assignError": "Error assigning senior citizen"
+    }
   },
   "common": {
     "menu": "Menu",

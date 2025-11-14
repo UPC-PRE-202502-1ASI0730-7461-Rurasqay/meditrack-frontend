@@ -128,8 +128,11 @@ const onUnassignSeniorCitizen = (seniorCitizen) => {
 };
 
 const onBackToList = () => {
-  const orgId = route.params.organizationId;
-  router.push(`/organization/${orgId}/caregivers`);
+  const organizationId = route.params.organizationId;
+  const userRole = route.params.userRole;
+  const userId = route.params.userId;
+  router.push(`/organization/${organizationId}/${userRole}/${userId}/caregivers`);
+  
 };
 </script>
 

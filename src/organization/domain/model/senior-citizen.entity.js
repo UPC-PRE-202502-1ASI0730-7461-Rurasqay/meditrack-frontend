@@ -76,7 +76,11 @@ export class SeniorCitizen {
         this._birthDate = new Date(today.getFullYear() - value, today.getMonth(), today.getDate());
     }
 
-    calculateAge(birthDate) {
+    calculateAge() {
+        if (!this._birthDate) {
+            return 'N/A';
+        }
+        const birthDate = new Date(this._birthDate);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
