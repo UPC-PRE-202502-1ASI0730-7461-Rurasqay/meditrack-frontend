@@ -154,13 +154,28 @@ export class OrganizationApi extends BaseApi {
     // ========== Assignment Methods ==========
 
     assignSeniorCitizenToDoctor(doctorId, seniorCitizenId) {
-        return this.http.post(`${doctorsEndpointPath}/${doctorId}/assignments`, {
-            seniorCitizenId: seniorCitizenId
-        });
+        // First get the senior citizen
+        return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
+            .then(response => {
+                const seniorCitizen = response.data;
+                // Update with the doctor assignment (and remove caregiver if exists)
+                seniorCitizen.assignedDoctorId = doctorId;
+                seniorCitizen.assignedCaregiverId = null;
+                // Use PUT to update the entire senior citizen
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+            });
     }
 
     unassignSeniorCitizenFromDoctor(doctorId, seniorCitizenId) {
-        return this.http.delete(`${doctorsEndpointPath}/${doctorId}/assignments/${seniorCitizenId}`);
+        // First get the senior citizen
+        return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
+            .then(response => {
+                const seniorCitizen = response.data;
+                // Remove doctor assignment
+                seniorCitizen.assignedDoctorId = null;
+                // Use PUT to update the entire senior citizen
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+            });
     }
 
     assignSeniorCitizenToCaregiver(caregiverId, seniorCitizenId) {
@@ -168,8 +183,9 @@ export class OrganizationApi extends BaseApi {
         return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
             .then(response => {
                 const seniorCitizen = response.data;
-                // Update with the caregiver assignment
+                // Update with the caregiver assignment (and remove doctor if exists)
                 seniorCitizen.assignedCaregiverId = caregiverId;
+                seniorCitizen.assignedDoctorId = null;
                 // Use PUT to update the entire senior citizen
                 return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
             });
