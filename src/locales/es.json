@@ -225,5 +225,142 @@
     "title": "Página no encontrada",
     "content": "La ruta {unavailable-route} no se encuentra disponible.",
     "go-home": "Ir a Inicio"
+  },
+
+  "login": {
+    "logginIn": "Iniciando sesión...",
+    "loginButton": "Iniciar sesión",
+    "welcome": "Bienvenido",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Regístrate aquí",
+
+    "errors": {
+      "invalidCredentials": "Correo o contraseña inválidos",
+      "adminNotFound": "Usuario administrador no encontrado",
+      "doctorNotFound": "Usuario doctor no encontrado",
+      "caregiverNotFound": "Usuario cuidador no encontrado",
+      "invalidCredentials": "Correo o contraseña inválidos"
+    },
+    "emailPlaceholder": "Ingresa tu correo",
+    "passwordPlaceholder": "Ingresa tu contraseña"
+  },
+
+  "billingInformation": {
+    "title": "Información de Facturación",
+    "card": "Tarjeta",
+    "cardNumberPlaceholder": "Número de tarjeta",
+    "expirationDatePlaceholder": "MM/AA",
+    "securityCodePlaceholder": "CVC",
+    "passwordPlaceholder": "Contraseña",
+    "confirmPasswordPlaceholder": "Confirmar contraseña",
+    "terms": "Acepto los términos y condiciones",
+    "startButton": "Comenzar",
+    "cardNumber": "Numero de Tarjeta",
+    "expirationDate": "Fecha de Expiración",
+    "securityCode": "Código de Seguridad",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+
+    "errors": {
+      "cardNumberRequired": "El número de tarjeta es obligatorio",
+      "expirationDateRequired": "La fecha de expiración es obligatoria",
+      "securityCodeRequired": "El código de seguridad es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMismatch": "La contraseña no coincide",
+      "confirmPasswordRequired: ": "Confirmar contraseña es obligatorio"
+    }
+  },
+
+  "institutionDetails": {
+    "title": "Detalles de la Institución",
+    "institutionNamePlaceholder": "Nombre de la institución",
+    "institutionType": "Tipo de institución",
+    "clinic": "Clínica",
+    "residence": "Hogar de Residencia",
+    "startButton": "Continuar",
+
+    "errors": {
+      "institutionNameRequired": "El nombre de la institución es obligatorio",
+      "institutionTypeRequired": "El tipo de institución es obligatorio"
+    }
+  },
+
+  "senior-citizen-registration": {
+    "personalDetails": "Datos Personales",
+    "fullName": "Nombre Completo",
+    "age": "Edad",
+    "gender": {
+      "label": "Género",
+      "male": "Masculino",
+      "female": "Femenino"
+    },
+    "dni": "DNI",
+    "deviceId": "ID del Dispositivo",
+    "weight": "Peso (kg)",
+    "height": "Talla (cm)",
+    "uploadPhoto": "Subir Foto",
+    "errors": {
+      "invalidForm": "Por favor completa todos los campos requeridos correctamente",
+      "authRequired": "Debes iniciar sesión para registrar a un adulto mayor",
+      "invalidConfiguration": "Configuración de la aplicación inválida",
+      "failed": "Error al registrar al adulto mayor. Inténtalo nuevamente.",
+      "deviceIdInUse": "El ID del dispositivo ya está en uso",
+      "serviceNotFound": "Servicio requerido no encontrado",
+      "invalidData": "Datos proporcionados inválidos"
+    }
+  },
+
+  "senior-citizen": {
+    "imageUrlPlaceholder": "https://ejemplo.com/imagen.jpg",
+    "preview": "Vista previa",
+    "photo": "Foto",
+    "save": "Guardar"
+  },
+
+  "signup": {
+    "title": "Crea tu Cuenta",
+    "firstNamePlaceholder": "Nombre",
+    "lastNamePlaceholder": "Apellido",
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña",
+    "confirmPasswordPlaceholder": "Confirmar contraseña",
+    "registering": "Registrando...",
+    "continueButton": "Continuar",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Inicia sesión",
+
+    "errors": {
+      "invalidForm": "Por favor completa todos los campos requeridos correctamente",
+      "failed": "Error al crear la cuenta. Inténtalo nuevamente."
+    }
+  },
+
+  "subscriptionSelection": {
+    "title": "Selecciona tu Plan de Suscripción",
+    "freemium": "Freemium",
+    "free": "Gratis",
+    "month": "Mes",
+    "features": {
+      "vitalSigns": "Monitoreo de Signos Vitales",
+      "realTimeAlerts": "Alertas en Tiempo Real",
+      "webAccess": "Acceso Web",
+      "downloadableReports": "Reportes Descargables",
+      "prioritySupport": "Soporte Prioritario"
+    },
+    "premium": "Premium",
+    "recommended": "Recomendado",
+    "selectPlan": "Seleccionar Plan",
+    "enterprise": "Enterprise",
+    "custom": "Plan Personalizado",
+    "contactUs": "Contáctanos"
+  },
+
+  "userTypeSelection": {
+    "back": "Atrás",
+    "title": "Selecciona el Tipo de Usuario",
+    "relative": "Familiar",
+    "nursingHome": "Cuidador",
+    "clinic": "Doctor"
   }
+
 }
