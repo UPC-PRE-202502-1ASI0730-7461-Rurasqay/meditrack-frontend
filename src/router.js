@@ -1,14 +1,17 @@
 import {createRouter, createWebHistory} from "vue-router";
-import login from "./shared/presentation/views/login.vue";
+import login from "./iam/presentation/views/login.vue";
 import relativesRoutes from "./relatives/presentatiton/relatives-routes.js";
 import organizationRoutes from "./organization/presentation/organization-routes.js";
-import useIAMStore from "./identity-access-managment/application/iam.store.js";
+import useIAMStore from "./iam/application/iam.store.js";
+import authRoutes from "./iam/presentation/iam-routes.js";
 
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 const routes = [
     {path: '/', redirect: '/login'},
     {path: '/login', name: 'login', component: login, meta: {title: 'Login', public: true}},
+    // IAM auth routes (mounted under /auth)
+    ...authRoutes,
     {path: '/organization', name: 'organization', children: organizationRoutes, meta: {requiresAuth: true}},
     {path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: {title: 'Page not found'}},
     ...relativesRoutes
