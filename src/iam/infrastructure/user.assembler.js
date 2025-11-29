@@ -1,9 +1,5 @@
 import {User} from "../domain/model/user.entity.js";
 
-/**
- * UserAssembler class to convert API responses into User entities.
- * @class UserAssembler
- */
 export class UserAssembler {
     /**
      * Convert a single resource object into a User entity.
