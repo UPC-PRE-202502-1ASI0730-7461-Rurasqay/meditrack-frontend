@@ -225,5 +225,143 @@
     "title": "Page Not Found",
     "content": "The path {unavailable-route} is not available.",
     "go-home": "Go Home"
+  },
+
+  "login": {
+    "logginIn": "Logging in...",
+    "loginButton": "Sing in",
+    "welcome": "Welcome",
+    "noAccount": "No account?",
+    "signUp": "Sign up here",
+
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "adminNotFound": "Admin user not found",
+      "doctorNotFound": "Doctor user not found",
+      "caregiverNotFound": "Caregiver user not found",
+      "invalidCredentials": "Invalid email or password"
+    },
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password"
+  },
+
+  "billingInformation": {
+    "title": "Billing Information",
+    "card": "Card",
+    "cardNumberPlaceholder": "Card Number",
+    "expirationDatePlaceholder": "MM/YY",
+    "securityCodePlaceholder": "CVC",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "terms": "I agree to the terms and conditions",
+    "startButton": "Get Started",
+    "cardNumber": "Card Number",
+    "expirationDate": "Expiration Date",
+    "securityCode": "Security Code",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+
+    "errors": {
+      "cardNumberRequired": "Card number is required",
+      "expirationDateRequired": "Expiration date is required",
+      "securityCodeRequired": "Security code is required",
+      "passwordRequired": "Password is required",
+      "passwordMismatch": "Password does not match",
+      "confirmPasswordRequired: ": "Confirm password is required"
+
+    }
+  },
+
+  "institutionDetails": {
+    "title": "Institution Details",
+    "institutionNamePlaceholder": "Institution Name",
+    "institutionType": "Institution Type",
+    "clinic": "Clinic",
+    "residence": "Resident Home",
+    "startButton": "Continue",
+
+    "errors": {
+      "institutionNameRequired": "Institution name is required",
+       "institutionTypeRequired": "Institution type is required"
+    }
+  },
+
+  "senior-citizen-registration": {
+    "personalDetails": "Personal Details",
+    "fullName": "Full Name",
+    "age": "Age",
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "dni": "DNI",
+    "deviceId": "Device ID",
+    "weight": "Weight (kg)",
+    "height": "Height (cm)",
+    "uploadPhoto": "Upload Photo",
+    "errors": {
+      "invalidForm": "Please fill out all required fields correctly",
+      "authRequired": "You must be logged in to register a senior citizen",
+      "invalidConfiguration": "Invalid application configuration",
+      "failed": "Failed to register senior citizen. Please try again.",
+      "deviceIdInUse": "Device ID is already in use",
+      "serviceNotFound": "Required service not found",
+      "invalidData": "Invalid data provided"
+    }
+  },
+
+  "senior-citizen": {
+    "imageUrlPlaceholder": "https://example.com/image.jpg",
+    "preview": "Preview",
+    "photo": "Photo",
+    "save": "Save"
+  },
+
+  "signup": {
+    "title": "Create Your Account",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "emailPlaceholder": "Email Address",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "registering": "Registering...",
+    "continueButton": "Continue",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign In",
+
+    "errors": {
+      "invalidForm": "Please fill out all required fields correctly",
+      "failed": "Failed to create account. Please try again."
+
+    }
+  },
+
+  "subscriptionSelection": {
+    "title": "Select Your Subscription Plan",
+    "freemium": "Freemium",
+    "free": "Free",
+    "month": "Month",
+    "features": {
+      "vitalSigns": "Vital Signs Monitoring",
+      "realTimeAlerts": "Real-time Alerts",
+      "webAccess": "Web Access",
+      "downloadableReports": "Downloadable Reports",
+      "prioritySupport": "Priority Support"
+    },
+    "premium": "Premium",
+    "recommended": "Recommended",
+    "selectPlan": "Select Plan",
+    "enterprise": "Enterprise",
+    "custom": "Custom Plan",
+    "contactUs": "Contact Us"
+  },
+
+  "userTypeSelection": {
+    "back": "Back",
+    "title": "Select User Type",
+    "relative": "Relative",
+    "nursingHome": "Caregiver",
+    "clinic": "Doctor"
   }
 }

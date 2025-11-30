@@ -1,0 +1,73 @@
+import { SingUpResource } from './sing-up.resource.js';
+
+export class SingUpAssembler {
+  /**
+   * Convert an API response (Axios-like) into a SingUpResource instance.
+   * Returns null on non-200 responses.
+   * @param response {object}
+   * @returns {SingUpResource|null}
+   */
+  static toResourceFromResponse(response) {
+      console.log('SingUpAssembler.toResourceFromResponse ->', response);
+
+      if (!response || typeof response !== 'object') {
+          console.error('Invalid response provided to SingUpAssembler');
+          return null;
+      }
+
+      if (response.status !== 200 && response.status !== 201) {
+          console.error(`${response.status} - ${response.statusText}`);
+          return null;
+      }
+
+      // Response payload may be directly in response.data or nested under a key (e.g., user, data)
+      const payload = (response.data && (response.data.user || response.data.signUp || response.data)) || response.data || {};
+
+      // Normalize common field names
+      const resourceData = {
+          id: payload.id ?? payload.userId ?? payload._id ?? null,
+          email: payload.email ?? payload.user?.email ?? null,
+          firstName: payload.firstName ?? payload.name ?? payload.user?.firstName ?? null,
+          lastName: payload.lastName ?? payload.user?.lastName ?? null,
+          role: payload.role ?? payload.user?.role ?? null,
+          token: payload.token ?? payload.accessToken ?? payload.authToken ?? null,
+          organization: payload.organization ?? payload.org ?? payload.organizationId ?? null,
+
+
+          adminFirstName: payload.adminFirstName ?? payload.admin?.firstName ?? payload.user?.adminFirstName ?? null,
+          adminLastName: payload.adminLastName ?? payload.admin?.lastName ?? payload.user?.adminLastName ?? null,
+          institutionName: payload.institutionName ?? payload.institution?.name ?? payload.organization?.name ?? null,
+          institutionType: payload.institutionType ?? payload.institution?.type ?? payload.organization?.type ?? null,
+
+
+          planType: payload.planType ?? payload.plan?.type ?? payload.plan ?? null,
+      };
+
+      return new SingUpResource(resourceData);
+  }
+
+  /**
+   * Convert a resource object into a plain JS object suitable for API calls or domain usage.
+   * @param resource {SingUpResource|object}
+   * @returns {object}
+   */
+  static toResourceObject(resource) {
+      if (!resource) return {};
+      return {
+          id: resource.id ?? null,
+          email: resource.email ?? null,
+          firstName: resource.firstName ?? null,
+          lastName: resource.lastName ?? null,
+          role: resource.role ?? null,
+          token: resource.token ?? null,
+          organization: resource.organization ?? null,
+
+          adminFirstName: resource.adminFirstName ?? null,
+          adminLastName: resource.adminLastName ?? null,
+          institutionName: resource.institutionName ?? null,
+          institutionType: resource.institutionType ?? null,
+
+          planType: resource.planType ?? null,
+      };
+  }
+}
