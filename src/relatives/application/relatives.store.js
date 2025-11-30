@@ -2,7 +2,7 @@ import {RelativesApi} from "../infrastructure/relatives-api.js";
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {RelativeAssembler} from "../infrastructure/relative.assembler.js";
-import useIAMStore from "../../identity-access-managment/application/iam.store.js";
+import useIAMStore from "../../iam/application/iam.store.js";
 
 const USER_EXAMPLE_DATA_1 = {
     "id": 1,

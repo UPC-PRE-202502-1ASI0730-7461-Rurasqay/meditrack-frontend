@@ -4,7 +4,7 @@ import {useRoute, useRouter} from "vue-router";
 import {useOrganizationStore} from "../../application/organization.store.js";
 import {computed, onMounted, ref} from "vue";
 import {storeToRefs} from "pinia";
-import useIAMStore from "../../../identity-access-managment/application/iam.store.js";
+import useIAMStore from "../../../iam/application/iam.store.js";
 import {useI18n} from "vue-i18n";
 import {useConfirm} from "primevue/useconfirm";
 

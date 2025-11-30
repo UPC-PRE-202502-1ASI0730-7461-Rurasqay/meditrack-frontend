@@ -1,4 +1,4 @@
-export class SingInResource {
+export class SignInResource {
     constructor({ id, email , password , token }) {
         this.id = id;
         this.email = email;

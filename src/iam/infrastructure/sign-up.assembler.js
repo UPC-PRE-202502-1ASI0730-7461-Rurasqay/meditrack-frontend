@@ -1,17 +1,17 @@
-import { SingUpResource } from './sing-up.resource.js';
+import { SignUpResource } from './sign-up.resource.js';
 
-export class SingUpAssembler {
+export class SignUpAssembler {
   /**
-   * Convert an API response (Axios-like) into a SingUpResource instance.
+   * Convert an API response (Axios-like) into a SignUpResource instance.
    * Returns null on non-200 responses.
    * @param response {object}
-   * @returns {SingUpResource|null}
+   * @returns {SignUpResource|null}
    */
   static toResourceFromResponse(response) {
-      console.log('SingUpAssembler.toResourceFromResponse ->', response);
+      console.log('SignUpAssembler.toResourceFromResponse ->', response);
 
       if (!response || typeof response !== 'object') {
-          console.error('Invalid response provided to SingUpAssembler');
+          console.error('Invalid response provided to SignUpAssembler');
           return null;
       }
 
@@ -43,12 +43,12 @@ export class SingUpAssembler {
           planType: payload.planType ?? payload.plan?.type ?? payload.plan ?? null,
       };
 
-      return new SingUpResource(resourceData);
+      return new SignUpResource(resourceData);
   }
 
   /**
    * Convert a resource object into a plain JS object suitable for API calls or domain usage.
-   * @param resource {SingUpResource|object}
+   * @param resource {SignUpResource|object}
    * @returns {object}
    */
   static toResourceObject(resource) {

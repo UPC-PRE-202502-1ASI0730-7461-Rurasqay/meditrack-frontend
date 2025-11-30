@@ -2,7 +2,7 @@
 const authLayout = () => import('./views/iam-layout.vue');
 const login = () => import('./views/login.vue');
 const userTypeSelection = () => import('./views/user-type-selection.vue');
-const signup = () => import('./views/singup.vue');
+const signup = () => import('./views/signup.vue');
 const subscriptionSelection = () => import('./views/subscription-selection.vue');
 const billingInformation = () => import('./views/billing-information.vue');
 const institutionDetails = () => import('./views/institution-details.vue');

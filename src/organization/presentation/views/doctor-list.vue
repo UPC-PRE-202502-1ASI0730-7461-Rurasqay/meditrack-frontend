@@ -1,7 +1,7 @@
 <script setup>
 import {useOrganizationStore} from "../../application/organization.store.js";
 import {onMounted} from "vue";
-import useIAMStore from "../../../identity-access-managment/application/iam.store.js";
+import useIAMStore from "../../../iam/application/iam.store.js";
 import {Column as PvColumn, DataTable as PvDataTable} from "primevue";
 import {useI18n} from "vue-i18n";
 import {storeToRefs} from "pinia";

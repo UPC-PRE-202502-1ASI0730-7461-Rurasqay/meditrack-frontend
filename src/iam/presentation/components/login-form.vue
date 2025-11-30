@@ -121,37 +121,43 @@ async function onSubmit() {
 <template>
   <form class="login-form" @submit.prevent="onSubmit">
     <div class="form-field">
-      <input
-        class="full-width"
-        type="email"
-        v-model="email"
-        :placeholder="t('login.emailPlaceholder')"
-        aria-label="email"
-      />
+      <pv-float-label>
+        <pv-input-text
+          id="email"
+          v-model="email"
+          type="email"
+          class="w-full"
+          :invalid="errorMessage !== null"
+        />
+        <label for="email">{{ t('login.emailPlaceholder') }}</label>
+      </pv-float-label>
     </div>
 
     <div class="form-field">
-      <div style="position:relative;">
-        <input
-          class="full-width"
-          :type="hidePassword ? 'password' : 'text'"
+      <pv-float-label>
+        <pv-password
+          id="password"
           v-model="password"
-          :placeholder="t('login.passwordPlaceholder')"
-          aria-label="password"
+          :feedback="false"
+          toggleMask
+          class="w-full"
+          :invalid="errorMessage !== null"
         />
-        <button type="button" @click="togglePasswordVisibility" style="position:absolute;right:8px;top:8px;">{{ hidePassword ? '👁️‍🗨️' : '👁️' }}</button>
-      </div>
+        <label for="password">{{ t('login.passwordPlaceholder') }}</label>
+      </pv-float-label>
     </div>
 
-    <div v-if="errorMessage" class="error-message">
+    <pv-message v-if="errorMessage" severity="error" :closable="false">
       {{ t(errorMessage) }}
-    </div>
+    </pv-message>
 
-    <button class="login-button" type="submit" :disabled="isLoading">
-      <span v-if="isLoading" class="spinner-icon">⏳</span>
-      <span v-if="isLoading">{{ t('login.loggingIn') }}</span>
-      <span v-else>{{ t('login.loginButton') }}</span>
-    </button>
+    <pv-button
+      type="submit"
+      :label="isLoading ? t('login.loggingIn') : t('login.loginButton')"
+      :loading="isLoading"
+      class="w-full mt-3"
+      size="large"
+    />
   </form>
 </template>
 
@@ -160,56 +166,10 @@ async function onSubmit() {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .form-field {
   width: 100%;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.error-message {
-  background-color: #fee;
-  color: #c33;
-  padding: 12px;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  text-align: center;
-  border: 1px solid #fcc;
-}
-
-.login-button {
-  width: 100%;
-  background-color: #0C7BB5;
-  color: white;
-  padding: 12px;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-top: 10px;
-  transition: background-color 0.2s;
-  border: none;
-  border-radius: 6px;
-}
-
-.login-button:hover:not(:disabled) {
-  background-color: #0a6a9a;
-}
-
-.login-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.spinner-icon {
-  animation: spin 1s linear infinite;
-  margin-right: 8px;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 </style>

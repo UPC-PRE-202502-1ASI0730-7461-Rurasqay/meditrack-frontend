@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
- import logo from '../../../assets/logo1.png'
+import logo from '../../../assets/logo1.png'
 import LoginForm from "../components/login-form.vue";
 import {useI18n} from "vue-i18n";
 
@@ -18,19 +18,34 @@ function navigateToSignUp(event) {
 
 <template>
   <div class="login-container">
-    <div class="login-card">
-      <h1 class="welcome-title">{{ t('login.welcome') }}</h1>
-
-      <div class="logo-container">
-        <img :src="logo" alt="MediTrack Logo" class="logo" />
+    <div class="login-content">
+      <div class="login-left">
+        <div class="brand-section">
+          <img :src="logo" alt="MediTrack Logo" class="logo" />
+          <h1 class="brand-title">MediTrack</h1>
+          <p class="brand-subtitle">{{ t('login.subtitle') }}</p>
+        </div>
       </div>
-
-
-      <LoginForm />
-
-      <div class="signup-container">
-        <span class="signup-text">{{ t('login.noAccount') }}</span>
-          <a href="#" class="signup-link" @click="navigateToSignUp">{{ t('login.signUp') }}</a>
+      
+      <div class="login-right">
+        <pv-card class="login-card">
+          <template #title>
+            <h2 class="welcome-title">{{ t('login.welcome') }}</h2>
+          </template>
+          <template #content>
+            <LoginForm />
+            
+            <div class="signup-container">
+              <span class="signup-text">{{ t('login.noAccount') }}</span>
+              <pv-button 
+                :label="t('login.signUp')" 
+                link 
+                @click="navigateToSignUp"
+                class="signup-link"
+              />
+            </div>
+          </template>
+        </pv-card>
       </div>
     </div>
   </div>
@@ -41,40 +56,75 @@ function navigateToSignUp(event) {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
-    padding: 20px;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.login-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 40px;
+.login-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1400px;
+    min-height: 600px;
+    margin: 2rem;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-left {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    padding: 4rem;
+    color: white;
 }
 
-.welcome-title {
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 30px;
+.brand-section {
     text-align: center;
 }
 
-.logo-container {
-    margin-bottom: 30px;
+.logo {
+    height: 120px;
+    width: auto;
+    margin-bottom: 2rem;
+    filter: brightness(0) invert(1);
+}
+
+.brand-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.brand-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.login-right {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 4rem;
 }
 
-.logo {
-    height: 80px;
-    width: auto;
+.login-card {
+    width: 100%;
+    max-width: 500px;
+    box-shadow: none;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 .login-form {
@@ -159,26 +209,34 @@ function navigateToSignUp(event) {
 }
 
 .signup-container {
-    margin-top: 30px;
+    margin-top: 2rem;
     text-align: center;
-    font-size: 0.875rem;
-    color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .signup-text {
-    margin-right: 5px;
+    color: #666;
+    font-size: 0.95rem;
 }
 
 .signup-link {
-    color: #0C7BB5;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.2s;
+    font-weight: 600;
 }
 
-.signup-link:hover {
-    color: #0a6a9a;
-    text-decoration: underline;
+@media (max-width: 968px) {
+    .login-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .login-left {
+        display: none;
+    }
+    
+    .login-right {
+        padding: 2rem;
+    }
 }
 </style>

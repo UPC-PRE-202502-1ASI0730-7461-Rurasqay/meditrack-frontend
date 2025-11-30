@@ -2,7 +2,7 @@ import { IamApi } from "../infrastructure/iam.api.js";
 import {defineStore} from "pinia";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import { ref } from "vue";
-import { SingUpCommand } from "../domain/model/sing-up.command.js";
+import { SignUpCommand } from "../domain/model/sign-up.command.js";
 import { useRegistrationFlowStore } from './registration-flow.store.js';
 
 const iamApi = new IamApi();
@@ -67,10 +67,10 @@ export const useIAMStore = defineStore('iam', () => {
             if (commandOrObj == null) {
                 // Use registration flow store to build command if nothing passed
                 command = registrationFlow.toCommand();
-            } else if (commandOrObj instanceof SingUpCommand) {
+            } else if (commandOrObj instanceof SignUpCommand) {
                 command = commandOrObj;
             } else {
-                command = SingUpCommand.fromRegistrationFlow(commandOrObj);
+                command = SignUpCommand.fromRegistrationFlow(commandOrObj);
             }
 
              const { valid, errors: validationErrors } = command.validate(false);

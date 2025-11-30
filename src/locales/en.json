@@ -228,21 +228,21 @@
   },
 
   "login": {
-    "logginIn": "Logging in...",
-    "loginButton": "Sing in",
-    "welcome": "Welcome",
-    "noAccount": "No account?",
-    "signUp": "Sign up here",
+    "loggingIn": "Logging in...",
+    "loginButton": "Sign In",
+    "welcome": "Welcome Back",
+    "subtitle": "Professional healthcare management platform",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
 
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "adminNotFound": "Admin user not found",
       "doctorNotFound": "Doctor user not found",
-      "caregiverNotFound": "Caregiver user not found",
-      "invalidCredentials": "Invalid email or password"
+      "caregiverNotFound": "Caregiver user not found"
     },
-    "emailPlaceholder": "Enter your email",
-    "passwordPlaceholder": "Enter your password"
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password"
   },
 
   "billingInformation": {

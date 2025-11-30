@@ -1,4 +1,4 @@
-export class SingUpResource {
+export class SignUpResource {
     constructor({ id = null, email = null, firstName = null, lastName = null, role = null, token = null, organization = null, adminFirstName = null, adminLastName = null, institutionName = null, institutionType = null, planType = null } = {}) {
         this.id = id;
         this.email = email;

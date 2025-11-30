@@ -1,7 +1,7 @@
-export class SingUpCommand {
+export class SignUpCommand {
 
     /**
-     * Creates an instance of SingUpCommand.
+     * Creates an instance of SignUpCommand.
       * @param email - User email
      * @param password - User password
      * @param role - User role

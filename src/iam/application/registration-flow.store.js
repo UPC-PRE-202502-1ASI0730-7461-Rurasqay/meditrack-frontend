@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { SingUpCommand } from '../domain/model/sing-up.command.js';
+import { SignUpCommand } from '../domain/model/sign-up.command.js';
 
 export const useRegistrationFlowStore = defineStore('registrationFlow', () => {
   const email = ref('');

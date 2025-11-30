@@ -1,11 +1,11 @@
-import { SingInResource } from './sing-in.resource.js';
+import { SignInResource } from './sign-in.resource.js';
 
-export class SingInAssembler {
+export class SignInAssembler {
 
     /**
-     * Convert an API response into a SingInResource object.
+     * Convert an API response into a SignInResource object.
      * @param response
-     * @return {SingInResource|null}
+     * @return {SignInResource|null}
      */
   static toResourceFromResponse(response) {
       console.log(response);
@@ -14,7 +14,7 @@ export class SingInAssembler {
           console.error(`${response.status}, ${response.statusText}`);
           return null;
       }
-      return new SingInResource(response.data);
+      return new SignInResource(response.data);
   }
 
 }

@@ -228,21 +228,21 @@
   },
 
   "login": {
-    "logginIn": "Iniciando sesión...",
-    "loginButton": "Iniciar sesión",
-    "welcome": "Bienvenido",
-    "noAccount": "¿No tienes una cuenta?",
-    "signUp": "Regístrate aquí",
+    "loggingIn": "Iniciando sesión...",
+    "loginButton": "Iniciar Sesión",
+    "welcome": "Bienvenido de Nuevo",
+    "subtitle": "Plataforma profesional de gestión sanitaria",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Regístrate",
 
     "errors": {
       "invalidCredentials": "Correo o contraseña inválidos",
       "adminNotFound": "Usuario administrador no encontrado",
       "doctorNotFound": "Usuario doctor no encontrado",
-      "caregiverNotFound": "Usuario cuidador no encontrado",
-      "invalidCredentials": "Correo o contraseña inválidos"
+      "caregiverNotFound": "Usuario cuidador no encontrado"
     },
-    "emailPlaceholder": "Ingresa tu correo",
-    "passwordPlaceholder": "Ingresa tu contraseña"
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña"
   },
 
   "billingInformation": {

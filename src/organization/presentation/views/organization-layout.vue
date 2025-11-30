@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useOrganizationStore } from '../../application/organization.store.js';
-import { useIAMStore } from '../../../identity-access-managment/application/iam.store.js';
+import { useIAMStore } from '../../../iam/application/iam.store.js';
 import LanguageSwitcher from '../../../shared/presentation/components/language-switcher.vue';
 import { TimeApiService } from '../../../shared/infrastructure/time.service.js';
 

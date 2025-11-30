@@ -1,5 +1,5 @@
 <script setup>
-import LoginForm from "../../../identity-access-managment/presentation/view/login-form.vue";
+import LoginForm from "../../../iam/presentation/components/login-form.vue";
 </script>
 
 <template>
