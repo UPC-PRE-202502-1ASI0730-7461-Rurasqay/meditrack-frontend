@@ -199,7 +199,7 @@ export class SignUpCommand {
   }
 
   static fromRegistrationFlow(flow = {}) {
-    return new SingUpCommand({
+    return new SignUpCommand({
       email: flow.email || '',
       password: flow.password || '',
       role: flow.role || '',

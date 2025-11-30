@@ -95,8 +95,8 @@ export const useRegistrationFlowStore = defineStore('registrationFlow', () => {
   }
 
   function toCommand() {
-    // Returns a SingUpCommand built from the current flow
-    return SingUpCommand.fromRegistrationFlow(toPlainObject());
+    // Returns a SignUpCommand built from the current flow
+    return SignUpCommand.fromRegistrationFlow(toPlainObject());
   }
 
   function isComplete(requirePaymentConfirmation = false) {

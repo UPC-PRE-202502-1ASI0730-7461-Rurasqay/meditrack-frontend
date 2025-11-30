@@ -35,7 +35,7 @@ export const useIAMStore = defineStore('iam', () => {
     }
 
     /**
-     * Sign in via API. Returns SingInResource instance or throws error.
+     * Sign in via API. Returns SignInResource instance or throws error.
      */
     async function signIn({ email, password }) {
         loading.value = true;

@@ -30,7 +30,7 @@ export class IamApi extends BaseApi {
     /**
      * Signs in a user.
      * @param {object} signInRequest - The sign-in request data.
-     * @returns {Promise<SingInResource|null>} A promise that resolves with the SingInResource or null on error.
+     * @returns {Promise<SignInResource|null>} A promise that resolves with the SignInResource or null on error.
      */
     async signIn(signInRequest) {
         try {
@@ -45,7 +45,7 @@ export class IamApi extends BaseApi {
     /**
      * Signs up a new user.
      * @param {object} signUpRequest - The sign-up request data.
-     * @returns {Promise<SingUpResource|null>} A promise that resolves with the SingUpResource or null on error.
+     * @returns {Promise<SignUpResource|null>} A promise that resolves with the SignUpResource or null on error.
      */
     async signUp(signUpRequest) {
         try {
