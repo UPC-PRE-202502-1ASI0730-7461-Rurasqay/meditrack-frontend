@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useRegistrationFlowStore } from '../../application/registration-flow.store.js';
 import { useIAMStore } from '../../application/iam.store.js';
-import { SingUpCommand } from '../../domain/model/sing-up.command.js';
+import { SignUpCommand } from '../../domain/model/sign-up.command.js';
 import {useI18n} from "vue-i18n";
 import LanguageSwitcher from '../../../shared/presentation/components/language-switcher.vue';
 
@@ -125,7 +125,7 @@ async function onSubmit() {
     }
 
     if (role === 'relative') {
-       const cmd = SingUpCommand.fromRegistrationFlow({
+       const cmd = SignUpCommand.fromRegistrationFlow({
         email: registrationFlow.email,
         password: registrationFlow.password,
         role: registrationFlow.role,
@@ -142,7 +142,7 @@ async function onSubmit() {
 
     } else if (role === 'admin') {
 
-      const cmd = SingUpCommand.fromRegistrationFlow({
+      const cmd = SignUpCommand.fromRegistrationFlow({
         email: registrationFlow.email,
         password: registrationFlow.password,
         role: registrationFlow.role,
@@ -174,237 +174,244 @@ async function onSubmit() {
 
 <template>
   <div class="billing-container">
-    <div class="billing-card">
-      <div class="card-top">
-        <button class="back-button" @click="goBack" :aria-label="t('common.back')">←</button>
-        <div class="card-header">
-          <div class="plan-info">
-            <div class="plan-name">{{ t('billingInformation.plan') }}</div>
-            <div class="plan-value">{{ registrationFlow.planType ? registrationFlow.planType.toUpperCase() : t('subscriptionSelection.fremium') }}</div>
-          </div>
-          <div class="language-switcher-wrapper">
-            <LanguageSwitcher />
-          </div>
-        </div>
-      </div>
-
-      <h1 class="title">{{ t('billingInformation.title') }}</h1>
-
-      <div class="card-section">
-        <span class="card-label">{{ t('billingInformation.card') }}</span>
-      </div>
-
-      <form class="billing-form" @submit.prevent="onSubmit">
-        <div class="form-field">
-          <label for="card-number" class="input-label">{{ t('billingInformation.cardNumber') }}</label>
-          <input id="card-number" aria-label="{{ t('billingInformation.cardNumber') }}" class="full-width" type="text" v-model="cardNumber" @input="onCardNumberInput" maxlength="19" :placeholder="t('billingInformation.cardNumberPlaceholder')" @blur="setTouched('cardNumber')" />
-          <div v-if="touched.cardNumber && validateCardNumber(cardNumber).error" class="error-text">
-            <span v-if="validateCardNumber(cardNumber).error === 'required'">{{ t('billingInformation.errors.cardNumberRequired')}}</span>
-            <span v-else>{{t('billingInformation.errors.invalidCardNumber')}}</span>
+    <pv-card class="billing-card">
+      <template #header>
+        <div class="card-header-section">
+          <pv-button
+            icon="pi pi-arrow-left"
+            class="back-button"
+            text
+            rounded
+            @click="goBack"
+          />
+          <div class="plan-badge">
+            <pv-tag 
+              :value="registrationFlow.planType ? registrationFlow.planType.toUpperCase() : 'PREMIUM'" 
+              severity="success" 
+              size="large"
+            />
           </div>
         </div>
-
-        <div class="form-field">
-          <label for="expiration-date" class="input-label">{{ t('billingInformation.expirationDate') }}</label>
-          <input id="expiration-date" aria-label="{{ t('billingInformation.expirationDate') }}" class="full-width" type="text" v-model="expirationDate" @input="onExpirationDateInput" maxlength="5" :placeholder="t('billingInformation.expirationDatePlaceholder')" @blur="setTouched('expirationDate')" />
-          <div v-if="touched.expirationDate && validateExpirationDate(expirationDate).error" class="error-text">
-            <span v-if="validateExpirationDate(expirationDate).error === 'required'">{{t('billingInformation.errors.expirationDateRequired')}}</span>
-            <span v-else>{{t('billingInformation.errors.invalidExpirationDate')}}</span>
+      </template>
+      <template #title>
+        <h2 class="billing-title">{{ t('billingInformation.title') }}</h2>
+        <p class="billing-subtitle">{{ t('billingInformation.subtitle') }}</p>
+      </template>
+      <template #content>
+        <form class="billing-form" @submit.prevent="onSubmit">
+          <div class="card-info-section">
+            <h3 class="section-title">
+              <i class="pi pi-credit-card"></i>
+              {{ t('billingInformation.card') }}
+            </h3>
           </div>
-        </div>
 
-        <div class="form-field">
-          <label for="security-code" class="input-label">{{ t('billingInformation.securityCode') }}</label>
-          <input id="security-code" aria-label="{{ t('billingInformation.securityCode') }}" class="full-width" type="text" v-model="securityCode" maxlength="4" :placeholder="t('billingInformation.securityCodePlaceholder')" @blur="setTouched('securityCode')" />
-          <div v-if="touched.securityCode && validateSecurityCode(securityCode).error" class="error-text">
-            <span>{{t('billingInformation.errors.securityCodeRequired')}}</span>
+          <div class="form-field">
+            <pv-float-label>
+              <pv-input-text
+                id="card-number"
+                v-model="cardNumber"
+                @input="onCardNumberInput"
+                maxlength="19"
+                class="w-full"
+                :class="{ 'p-invalid': touched.cardNumber && validateCardNumber(cardNumber).error }"
+                @blur="setTouched('cardNumber')"
+              />
+              <label for="card-number">{{ t('billingInformation.cardNumber') }}</label>
+            </pv-float-label>
+            <small v-if="touched.cardNumber && validateCardNumber(cardNumber).error" class="p-error">
+              <span v-if="validateCardNumber(cardNumber).error === 'required'">{{ t('billingInformation.errors.cardNumberRequired')}}</span>
+              <span v-else>{{ t('billingInformation.errors.invalidCardNumber')}}</span>
+            </small>
           </div>
-        </div>
 
-        <div class="form-field">
-          <label for="password" class="input-label">{{ t('billingInformation.password') }}</label>
-          <div style="position:relative;">
-            <input id="password" aria-label="{{ t('billingInformation.password') }}" class="full-width" :type="hidePassword ? 'password' : 'text'" v-model="password" :placeholder="t('billingInformation.passwordPlaceholder')" @blur="setTouched('password')" />
-            <button type="button" @click="togglePasswordVisibility" style="position:absolute;right:8px;top:8px;">{{ hidePassword ? '👁️‍🗨️' : '👁️' }}</button>
+          <div class="form-row">
+            <div class="form-field">
+              <pv-float-label>
+                <pv-input-text
+                  id="expiration-date"
+                  v-model="expirationDate"
+                  @input="onExpirationDateInput"
+                  maxlength="5"
+                  class="w-full"
+                  :class="{ 'p-invalid': touched.expirationDate && validateExpirationDate(expirationDate).error }"
+                  @blur="setTouched('expirationDate')"
+                />
+                <label for="expiration-date">{{ t('billingInformation.expirationDate') }}</label>
+              </pv-float-label>
+              <small v-if="touched.expirationDate && validateExpirationDate(expirationDate).error" class="p-error">
+                <span v-if="validateExpirationDate(expirationDate).error === 'required'">{{ t('billingInformation.errors.expirationDateRequired')}}</span>
+                <span v-else>{{ t('billingInformation.errors.invalidExpirationDate')}}</span>
+              </small>
+            </div>
+
+            <div class="form-field">
+              <pv-float-label>
+                <pv-input-text
+                  id="security-code"
+                  v-model="securityCode"
+                  maxlength="4"
+                  class="w-full"
+                  :class="{ 'p-invalid': touched.securityCode && validateSecurityCode(securityCode).error }"
+                  @blur="setTouched('securityCode')"
+                />
+                <label for="security-code">{{ t('billingInformation.securityCode') }}</label>
+              </pv-float-label>
+              <small v-if="touched.securityCode && validateSecurityCode(securityCode).error" class="p-error">
+                {{ t('billingInformation.errors.securityCodeRequired')}}
+              </small>
+            </div>
           </div>
-          <div v-if="touched.password && validatePassword(password).error" class="error-text">
-            <span>{{t('billingInformation.errors.passwordRequired')}}</span>
+
+          <pv-divider />
+
+          <div class="form-field">
+            <pv-float-label>
+              <pv-password
+                id="password"
+                v-model="password"
+                toggleMask
+                :feedback="false"
+                class="w-full"
+                :class="{ 'p-invalid': touched.password && validatePassword(password).error }"
+                @blur="setTouched('password')"
+              />
+              <label for="password">{{ t('billingInformation.password') }}</label>
+            </pv-float-label>
+            <small v-if="touched.password && validatePassword(password).error" class="p-error">
+              {{ t('billingInformation.errors.passwordRequired')}}
+            </small>
           </div>
-        </div>
 
-        <div class="form-field">
-          <label for="confirm-password" class="input-label">{{ t('billingInformation.confirmPassword') }}</label>
-          <div style="position:relative;">
-            <input id="confirm-password" aria-label="{{ t('billingInformation.confirmPassword') }}" class="full-width" :type="hideConfirmPassword ? 'password' : 'text'" v-model="confirmPassword" :placeholder="t('billingInformation.confirmPasswordPlaceholder')" @blur="setTouched('confirmPassword')" />
-            <button type="button" @click="toggleConfirmPasswordVisibility" style="position:absolute;right:8px;top:8px;">{{ hideConfirmPassword ? '👁️‍🗨️' : '👁️' }}</button>
+          <div class="form-field">
+            <pv-float-label>
+              <pv-password
+                id="confirm-password"
+                v-model="confirmPassword"
+                toggleMask
+                :feedback="false"
+                class="w-full"
+                :class="{ 'p-invalid': touched.confirmPassword && passwordsMatch(password, confirmPassword).error }"
+                @blur="setTouched('confirmPassword')"
+              />
+              <label for="confirm-password">{{ t('billingInformation.confirmPassword') }}</label>
+            </pv-float-label>
+            <small v-if="touched.confirmPassword && passwordsMatch(password, confirmPassword).error" class="p-error">
+              <span v-if="passwordsMatch(password, confirmPassword).error === 'required'">{{ t('billingInformation.errors.confirmPasswordRequired')}}</span>
+              <span v-else>{{ t('billingInformation.errors.passwordMismatch')}}</span>
+            </small>
           </div>
-          <div v-if="touched.confirmPassword && passwordsMatch(password, confirmPassword).error" class="error-text">
-            <span v-if="passwordsMatch(password, confirmPassword).error === 'required'">{{t('billingInformation.errors.confirmPasswordRequired')}}</span>
-            <span v-else>{{t('billingInformation.errors.passwordMismatch')}}</span>
-          </div>
-        </div>
 
-        <button class="start-button" :disabled="submitting">{{t('billingInformation.startButton')}}</button>
-      </form>
+          <pv-message v-if="errors.length" severity="error" :closable="false">
+            <div v-for="(err, idx) in errors" :key="idx">{{ err }}</div>
+          </pv-message>
 
-      <div v-if="errors.length" style="margin-top:12px;color:#b00020;">
-        <div v-for="(err, idx) in errors" :key="idx">{{ err }}</div>
-      </div>
-
-    </div>
+          <pv-button
+            type="submit"
+            :label="t('billingInformation.startButton')"
+            :loading="submitting"
+            :disabled="submitting"
+            class="w-full mt-3"
+            size="large"
+          />
+        </form>
+      </template>
+    </pv-card>
   </div>
 </template>
 
 <style scoped>
 .billing-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
-    padding: 20px;
+    padding: 2rem;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .billing-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 40px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.card-header-section {
     display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.card-top {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:8px;
-}
-
-.card-header {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-}
-
-.plan-info {
-    display:flex;
-    flex-direction:column;
-}
-
-.plan-name {
-    font-size:0.85rem;
-    color:#666;
-}
-
-.plan-value {
-    font-weight:600;
-    color:#0C7BB5;
-}
-
-.language-switcher-wrapper {
-    display:flex;
-    align-items:center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #666;
-    background: none;
-    border: none;
-    font-size: 18px;
+    color: white !important;
 }
 
-.title {
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 30px;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.card-section {
+.plan-badge {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
+}
+
+.billing-title {
+    font-size: 2rem;
+    font-weight: 600;
     color: #333;
-    font-weight: 500;
+    text-align: center;
+    margin-bottom: 0.5rem;
 }
 
-.card-icon {
-    color: #666;
-}
-
-.card-label {
+.billing-subtitle {
     font-size: 1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.card-info-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: #667eea;
 }
 
 .billing-form {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 .form-field {
     width: 100%;
 }
 
-.input-label {
-    font-size: 0.875rem;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .billing-container {
+        padding: 1rem;
+    }
 }
-
-.full-width {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-.terms-text {
-    font-size: 0.875rem;
-    color: #666;
-    line-height: 1.5;
-    margin: 10px 0;
-    text-align: center;
-}
-
-.start-button {
-    width: 100%;
-    background-color: #0C7BB5;
-    color: white;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-    border: none;
-    border-radius: 6px;
-}
-
-.start-button:hover:not(:disabled) {
-    background-color: #0a6a9a;
-}
-
-.start-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.error-text {
-    color: #b00020;
-    font-size: 0.875rem;
-    margin-top: 6px;
-}
-
 </style>

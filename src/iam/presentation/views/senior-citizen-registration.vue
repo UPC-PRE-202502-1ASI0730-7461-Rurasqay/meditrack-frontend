@@ -164,196 +164,308 @@ async function onSubmit() {
 
 <template>
   <div class="registration-container">
-    <div class="form-card">
-      <form class="registration-form" @submit.prevent="onSubmit">
-        <div class="form-content">
+    <pv-card class="form-card">
+      <template #header>
+        <div class="card-header">
+          <h1 class="main-title">{{ t('senior-citizen-registration.title') }}</h1>
+          <p class="main-subtitle">{{ t('senior-citizen-registration.subtitle') }}</p>
+        </div>
+      </template>
+      <template #content>
+        <form class="registration-form" @submit.prevent="onSubmit">
+          <div class="form-content">
+            <pv-card class="section-card">
+              <template #title>
+                <h3 class="section-title">
+                  <i class="pi pi-user"></i>
+                  {{ t('senior-citizen-registration.personalDetails') }}
+                </h3>
+              </template>
+              <template #content>
+                <div class="form-fields">
+                  <div class="form-field">
+                    <pv-float-label>
+                      <pv-input-text
+                        id="fullName"
+                        v-model="fullName"
+                        class="w-full"
+                      />
+                      <label for="fullName">{{ t('senior-citizen-registration.fullName') }}</label>
+                    </pv-float-label>
+                  </div>
 
-          <div class="personal-details-section section-card">
-            <h3 class="section-title">{{ t('senior-citizen-registration.personalDetails') }}</h3>
-            <div class="form-grid">
-              <div class="form-column">
-                <input class="full-width" type="text" v-model="fullName" :placeholder="t('senior-citizen-registration.fullName')" />
-                <input class="full-width" type="number" v-model.number="age" :placeholder="t('senior-citizen-registration.age')" />
-                <select class="full-width" v-model="gender">
-                  <option value="" disabled>{{ t('senior-citizen-registration.gender.label') }}</option>
-                  <option v-for="opt in genderOptions" :key="opt.value" :value="opt.value">{{ t(opt.label) }}</option>
-                </select>
-                <input class="full-width" type="text" v-model="dni" :placeholder="t('senior-citizen-registration.dni')" />
-                <input class="full-width" type="number" v-model.number="deviceId" :placeholder="t('senior-citizen-registration.deviceId')" />
-              </div>
+                  <div class="form-row">
+                    <div class="form-field">
+                      <pv-float-label>
+                        <pv-input-number
+                          id="age"
+                          v-model="age"
+                          class="w-full"
+                          :min="0"
+                          :max="150"
+                        />
+                        <label for="age">{{ t('senior-citizen-registration.age') }}</label>
+                      </pv-float-label>
+                    </div>
 
-              <div class="form-column">
-                <input class="full-width" type="number" v-model.number="weight" :placeholder="t('senior-citizen-registration.weight')" />
-                <input class="full-width" type="number" v-model.number="height" :placeholder="t('senior-citizen-registration.height')" />
-              </div>
-            </div>
+                    <div class="form-field">
+                      <pv-float-label>
+                        <pv-dropdown
+                          id="gender"
+                          v-model="gender"
+                          :options="genderOptions"
+                          optionLabel="label"
+                          optionValue="value"
+                          class="w-full"
+                        >
+                          <template #value="slotProps">
+                            <span v-if="slotProps.value">{{ t(genderOptions.find(o => o.value === slotProps.value)?.label) }}</span>
+                          </template>
+                          <template #option="slotProps">
+                            {{ t(slotProps.option.label) }}
+                          </template>
+                        </pv-dropdown>
+                        <label for="gender">{{ t('senior-citizen-registration.gender.label') }}</label>
+                      </pv-float-label>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <pv-float-label>
+                      <pv-input-text
+                        id="dni"
+                        v-model="dni"
+                        class="w-full"
+                      />
+                      <label for="dni">{{ t('senior-citizen-registration.dni') }}</label>
+                    </pv-float-label>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <pv-float-label>
+                        <pv-input-number
+                          id="weight"
+                          v-model="weight"
+                          class="w-full"
+                          :min="0"
+                          suffix=" kg"
+                        />
+                        <label for="weight">{{ t('senior-citizen-registration.weight') }}</label>
+                      </pv-float-label>
+                    </div>
+
+                    <div class="form-field">
+                      <pv-float-label>
+                        <pv-input-number
+                          id="height"
+                          v-model="height"
+                          class="w-full"
+                          :min="0"
+                          suffix=" cm"
+                        />
+                        <label for="height">{{ t('senior-citizen-registration.height') }}</label>
+                      </pv-float-label>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <pv-float-label>
+                      <pv-input-number
+                        id="deviceId"
+                        v-model="deviceId"
+                        class="w-full"
+                        :min="0"
+                        :useGrouping="false"
+                      />
+                      <label for="deviceId">{{ t('senior-citizen-registration.deviceId') }}</label>
+                    </pv-float-label>
+                  </div>
+                </div>
+              </template>
+            </pv-card>
+
+            <pv-card class="section-card">
+              <template #title>
+                <h3 class="section-title">
+                  <i class="pi pi-image"></i>
+                  {{ t('senior-citizen-registration.uploadPhoto') }}
+                </h3>
+              </template>
+              <template #content>
+                <div class="photo-section">
+                  <div class="form-field">
+                    <pv-float-label>
+                      <pv-input-text
+                        id="imageUrl"
+                        v-model="imageUrl"
+                        class="w-full"
+                        type="url"
+                      />
+                      <label for="imageUrl">{{ t('senior-citizen.imageUrlPlaceholder') }}</label>
+                    </pv-float-label>
+                  </div>
+
+                  <div v-if="validateImageUrl(imageUrl)" class="preview">
+                    <p class="preview-title">{{ t('senior-citizen.preview') }}</p>
+                    <pv-image 
+                      :src="imageUrl" 
+                      :alt="t('senior-citizen.photo')" 
+                      class="preview-image"
+                      preview
+                    />
+                  </div>
+                </div>
+              </template>
+            </pv-card>
           </div>
 
-          <!-- Right: Photo URL -->
-          <div class="photo-upload-section section-card">
-            <h3 class="section-title">{{ t('senior-citizen-registration.uploadPhoto') }}</h3>
-            <div class="photo-url-section">
-              <input class="full-width" type="url" v-model="imageUrl" :placeholder="t('senior-citizen.imageUrlPlaceholder')" />
+          <pv-message v-if="errorMessage" severity="error" :closable="false">
+            {{ t(errorMessage) }}
+          </pv-message>
 
-              <div v-if="validateImageUrl(imageUrl)" class="preview">
-                <p class="preview-title">{{ t('senior-citizen.preview') }}</p>
-                <img :src="imageUrl" :alt="t('senior-citizen.photo')" class="preview-image" @error="(e) => e.target.src='/assets/default-senior-citizen.png'" />
-              </div>
-            </div>
+          <div class="form-actions">
+            <pv-button
+              type="submit"
+              :label="t('senior-citizen-registration.save')"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              :loading="isLoading"
+              :disabled="isLoading || !isFormValid()"
+              size="large"
+              class="save-button"
+            />
           </div>
-        </div>
-
-        <div v-if="errorMessage" class="error-message">{{ t(errorMessage) }}</div>
-
-        <div class="form-actions">
-          <button class="save-button" type="submit" :disabled="isLoading || !isFormValid()">
-            <span>{{ t('senior-citizen-registration.save') }}</span>
-            <span class="arrow-icon">→</span>
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </template>
+    </pv-card>
   </div>
 </template>
 
 <style scoped>
 .registration-container {
-    min-height: 100vh;
-    background: #4A90E2;
-    padding: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .form-card {
-    background: white;
-    border-radius: 12px;
-    padding: 2.5rem;
-    max-width: 1200px;
     width: 100%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 1200px;
+}
+
+.card-header {
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.main-subtitle {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
 }
 
 .registration-form {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
 }
 
 .form-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-bottom: 2rem;
 }
 
 .section-card {
-    background: white;
-    border: 1px solid #d0d0d0;
-    border-radius: 8px;
-    padding: 1.5rem;
     height: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
-    margin: 0 0 1.5rem 0;
-    font-size: 1.1rem;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: #333;
+    margin: 0;
 }
 
-.form-grid {
+.section-title i {
+    color: #667eea;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-field {
+    width: 100%;
+}
+
+.form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-.form-column {
+.photo-section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-}
-
-.photo-upload-section {
-    display: flex;
-    flex-direction: column;
-}
-
-.photo-url-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.full-width {
-    width: 100%;
+    gap: 1.5rem;
 }
 
 .preview {
     text-align: center;
-    margin-top: 1rem;
 }
 
 .preview-title {
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
     color: #666;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .preview-image {
     max-width: 100%;
-    max-height: 300px;
     border-radius: 8px;
-    object-fit: contain;
-    border: 1px solid #e0e0e0;
 }
 
 .form-actions {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
 }
 
 .save-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 2.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 8px;
-    background: #4A90E2;
-    color: white;
-    border: none;
-}
-
-.save-button:disabled {
-    background: #ccc;
-    color: #666;
-}
-
-.arrow-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-}
-
-.error-message {
-    background-color: #f44336;
-    color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    text-align: center;
+    min-width: 200px;
 }
 
 @media (max-width: 968px) {
     .form-content {
         grid-template-columns: 1fr;
     }
-    .form-grid {
+}
+
+@media (max-width: 768px) {
+    .form-row {
         grid-template-columns: 1fr;
     }
 }
@@ -362,8 +474,9 @@ async function onSubmit() {
     .registration-container {
         padding: 1rem;
     }
-    .form-card {
-        padding: 1rem;
+    
+    .main-title {
+        font-size: 2rem;
     }
 }
 </style>

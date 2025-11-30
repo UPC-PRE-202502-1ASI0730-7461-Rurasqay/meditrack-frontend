@@ -139,176 +139,261 @@ function navigateBack() {
 
 <template>
   <div class="subscription-container">
-    <div class="subscription-card">
-      <button class="back-button" @click="navigateBack" aria-label="back">←</button>
+    <div class="subscription-wrapper">
+      <pv-button
+        :label="t('subscriptionSelection.back')"
+        icon="pi pi-arrow-left"
+        class="back-button"
+        text
+        @click="navigateBack"
+      />
 
       <h1 class="selection-title">{{ t('subscriptionSelection.title') }}</h1>
+      <p class="selection-subtitle">{{ t('subscriptionSelection.subtitle') }}</p>
 
       <div class="subscription-plans">
-        <!-- Fremium Plan -->
-        <div class="plan-card">
-          <div class="plan-header">
-            <h2 class="plan-name">{{ t('subscriptionSelection.fremium') }}</h2>
-          </div>
-          <div class="plan-price">
-            <span class="price-amount">{{ t('subscriptionSelection.free') }}</span>
-            <span class="price-period">/{{ t('subscriptionSelection.month') }}</span>
-          </div>
-          <ul class="plan-features">
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.vitalSigns') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.webAccess') }}</span></li>
-          </ul>
-          <button class="select-plan-button" :disabled="isPlanDisabled('fremium')" @click="selectPlan('fremium')">{{ t('subscriptionSelection.selectPlan') }}</button>
-        </div>
+        <!-- Freemium Plan -->
+        <pv-card class="plan-card" :class="{ disabled: isPlanDisabled('fremium') }">
+          <template #header>
+            <div class="plan-header">
+              <h2 class="plan-name">{{ t('subscriptionSelection.fremium') }}</h2>
+            </div>
+          </template>
+          <template #content>
+            <div class="plan-price">
+              <span class="price-amount">{{ t('subscriptionSelection.free') }}</span>
+              <span class="price-period">/{{ t('subscriptionSelection.month') }}</span>
+            </div>
+            <ul class="plan-features">
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.vitalSigns') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.webAccess') }}</span>
+              </li>
+            </ul>
+            <pv-button
+              :label="t('subscriptionSelection.selectPlan')"
+              :disabled="isPlanDisabled('fremium')"
+              @click="selectPlan('fremium')"
+              class="w-full"
+              outlined
+            />
+          </template>
+        </pv-card>
 
         <!-- Premium Plan -->
-        <div class="plan-card recommended">
-          <div class="plan-header">
-            <h2 class="plan-name">{{t('subscriptionSelection.premium') }}</h2>
-            <span class="recommended-badge">{{ t('subscriptionSelection.recommended') }}</span>
-          </div>
-          <div class="plan-price">
-            <span class="price-amount">$20</span>
-            <span class="price-period">/{{ t('subscriptionSelection.month') }}</span>
-          </div>
-          <ul class="plan-features">
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.vitalSigns') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.webAccess') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.downloadableReports') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.prioritySupport') }}</span></li>
-          </ul>
-          <button class="select-plan-button" :disabled="isPlanDisabled('premium')" @click="selectPlan('premium')">{{ $t('subscriptionSelection.selectPlan') }}</button>
-        </div>
+        <pv-card class="plan-card premium" :class="{ disabled: isPlanDisabled('premium') }">
+          <template #header>
+            <div class="plan-header">
+              <h2 class="plan-name">{{ t('subscriptionSelection.premium') }}</h2>
+              <pv-tag :value="t('subscriptionSelection.recommended')" severity="warning" />
+            </div>
+          </template>
+          <template #content>
+            <div class="plan-price">
+              <span class="price-amount">$20</span>
+              <span class="price-period">/{{ t('subscriptionSelection.month') }}</span>
+            </div>
+            <ul class="plan-features">
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.vitalSigns') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.webAccess') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.downloadableReports') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.prioritySupport') }}</span>
+              </li>
+            </ul>
+            <pv-button
+              :label="t('subscriptionSelection.selectPlan')"
+              :disabled="isPlanDisabled('premium')"
+              @click="selectPlan('premium')"
+              class="w-full"
+            />
+          </template>
+        </pv-card>
 
         <!-- Enterprise Plan -->
-        <div class="plan-card">
-          <div class="plan-header">
-            <h2 class="plan-name">{{ t('subscriptionSelection.enterprise') }}</h2>
-          </div>
-          <div class="plan-price">
-            <span class="price-amount">{{ t('subscriptionSelection.custom') }}</span>
-          </div>
-          <ul class="plan-features">
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.vitalSigns') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.webAccess') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.customReports') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.prioritySupport') }}</span></li>
-            <li class="feature-item"><span class="check-icon">✓</span><span>{{ t('subscriptionSelection.features.downloadableReports') }}</span></li>
-          </ul>
-          <button class="select-plan-button" :disabled="isPlanDisabled('enterprise')" @click="contactUs">{{ t('subscriptionSelection.contactUs') }}</button>
-        </div>
+        <pv-card class="plan-card" :class="{ disabled: isPlanDisabled('enterprise') }">
+          <template #header>
+            <div class="plan-header">
+              <h2 class="plan-name">{{ t('subscriptionSelection.enterprise') }}</h2>
+            </div>
+          </template>
+          <template #content>
+            <div class="plan-price">
+              <span class="price-amount">{{ t('subscriptionSelection.custom') }}</span>
+            </div>
+            <ul class="plan-features">
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.vitalSigns') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.realTimeAlerts') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.webAccess') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.downloadableReports') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.prioritySupport') }}</span>
+              </li>
+              <li class="feature-item">
+                <i class="pi pi-check check-icon"></i>
+                <span>{{ t('subscriptionSelection.features.customReports') }}</span>
+              </li>
+            </ul>
+            <pv-button
+              :label="t('subscriptionSelection.contactUs')"
+              :disabled="isPlanDisabled('enterprise')"
+              @click="contactUs"
+              class="w-full"
+              severity="secondary"
+            />
+          </template>
+        </pv-card>
       </div>
 
-      <div v-if="errorMessage" class="error-message">{{ t(errorMessage) }}</div>
+      <pv-message v-if="errorMessage" severity="error" :closable="false">
+        {{ t(errorMessage) }}
+      </pv-message>
     </div>
   </div>
 </template>
 
 <style scoped>
 .subscription-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
-    padding: 20px;
+    padding: 2rem;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.subscription-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 40px;
+.subscription-wrapper {
     width: 100%;
-    max-width: 1200px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+    max-width: 1400px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 3rem;
 }
 
 .back-button {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    color: #333;
+    margin-bottom: 2rem;
 }
 
 .selection-title {
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 40px;
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 0.5rem;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.selection-subtitle {
+    font-size: 1.125rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .subscription-plans {
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 .plan-card {
-    flex: 1;
-    min-width: 280px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 32px 24px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid transparent;
     transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
 
-.plan-card:hover {
-    border-color: #0C7BB5;
-    transform: translateY(-4px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.plan-card:not(.disabled):hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
 }
 
-.plan-card.recommended {
+.plan-card.premium {
     border-color: #FF9800;
-    position: relative;
+}
+
+.plan-card.premium:not(.disabled):hover {
+    border-color: #FF9800;
+    box-shadow: 0 12px 24px rgba(255, 152, 0, 0.3);
+}
+
+.plan-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .plan-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .plan-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
     margin: 0;
 }
 
-.recommended-badge {
-    background-color: #FF9800;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
 .plan-price {
-    margin-bottom: 24px;
+    margin: 2rem 0;
     text-align: center;
 }
 
 .price-amount {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 700;
     color: #333;
 }
 
 .price-period {
-    font-size: 1rem;
+    font-size: 1.125rem;
     color: #666;
     margin-left: 4px;
 }
@@ -316,54 +401,36 @@ function navigateBack() {
 .plan-features {
     list-style: none;
     padding: 0;
-    margin: 0 0 32px 0;
+    margin: 0 0 2rem 0;
     flex-grow: 1;
 }
 
 .feature-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 1rem;
+    margin-bottom: 1rem;
     color: #333;
+    font-size: 1rem;
 }
 
 .check-icon {
-    color: #0C7BB5;
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-}
-
-.select-plan-button {
-    width: 100%;
-    background-color: #0C7BB5;
-    color: white;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.select-plan-button:hover:not(:disabled) {
-    background-color: #0a6a9a;
-}
-
-.select-plan-button:disabled {
-    background-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-    opacity: 0.6;
+    color: #667eea;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
-    .subscription-plans {
-        flex-direction: column;
+    .subscription-wrapper {
+        padding: 2rem 1.5rem;
     }
 
-    .plan-card {
-        min-width: 100%;
+    .selection-title {
+        font-size: 2rem;
+    }
+
+    .subscription-plans {
+        grid-template-columns: 1fr;
     }
 }
 </style>

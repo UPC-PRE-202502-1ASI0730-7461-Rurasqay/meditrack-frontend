@@ -247,7 +247,9 @@
 
   "billingInformation": {
     "title": "Billing Information",
-    "card": "Card",
+    "subtitle": "Complete your payment details to get started",
+    "plan": "Plan",
+    "card": "Payment Information",
     "cardNumberPlaceholder": "Card Number",
     "expirationDatePlaceholder": "MM/YY",
     "securityCodePlaceholder": "CVC",
@@ -263,17 +265,19 @@
 
     "errors": {
       "cardNumberRequired": "Card number is required",
+      "invalidCardNumber": "Invalid card number format",
       "expirationDateRequired": "Expiration date is required",
+      "invalidExpirationDate": "Invalid expiration date",
       "securityCodeRequired": "Security code is required",
       "passwordRequired": "Password is required",
-      "passwordMismatch": "Password does not match",
-      "confirmPasswordRequired: ": "Confirm password is required"
-
+      "passwordMismatch": "Passwords do not match",
+      "confirmPasswordRequired": "Confirm password is required"
     }
   },
 
   "institutionDetails": {
     "title": "Institution Details",
+    "subtitle": "Tell us about your healthcare facility",
     "institutionNamePlaceholder": "Institution Name",
     "institutionType": "Institution Type",
     "clinic": "Clinic",
@@ -287,6 +291,8 @@
   },
 
   "senior-citizen-registration": {
+    "title": "Register Senior Citizen",
+    "subtitle": "Add the person you want to monitor",
     "personalDetails": "Personal Details",
     "fullName": "Full Name",
     "age": "Age",
@@ -320,6 +326,7 @@
 
   "signup": {
     "title": "Create Your Account",
+    "subtitle": "Join MediTrack to start managing healthcare",
     "firstNamePlaceholder": "First Name",
     "lastNamePlaceholder": "Last Name",
     "emailPlaceholder": "Email Address",
@@ -338,8 +345,11 @@
   },
 
   "subscriptionSelection": {
+    "back": "Back",
     "title": "Select Your Subscription Plan",
+    "subtitle": "Choose the perfect plan for your needs",
     "freemium": "Freemium",
+    "fremium": "Freemium",
     "free": "Free",
     "month": "Month",
     "features": {
@@ -347,7 +357,8 @@
       "realTimeAlerts": "Real-time Alerts",
       "webAccess": "Web Access",
       "downloadableReports": "Downloadable Reports",
-      "prioritySupport": "Priority Support"
+      "prioritySupport": "Priority Support",
+      "customReports": "Custom Reports"
     },
     "premium": "Premium",
     "recommended": "Recommended",
@@ -360,8 +371,12 @@
   "userTypeSelection": {
     "back": "Back",
     "title": "Select User Type",
+    "subtitle": "Choose how you'll use MediTrack",
     "relative": "Relative",
-    "nursingHome": "Caregiver",
-    "clinic": "Doctor"
+    "relativeDescription": "Monitor and care for your family members",
+    "nursingHome": "Nursing Home",
+    "nursingHomeDescription": "Manage multiple patients in your facility",
+    "clinic": "Medical Clinic",
+    "clinicDescription": "Professional healthcare management for your practice"
   }
 }

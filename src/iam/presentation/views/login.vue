@@ -57,21 +57,26 @@ function navigateToSignUp(event) {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    width: 100%;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .login-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    max-width: 1400px;
-    min-height: 600px;
-    margin: 2rem;
+    height: 100%;
+    max-width: 100vw;
+    margin: 0;
     background: white;
-    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .login-left {

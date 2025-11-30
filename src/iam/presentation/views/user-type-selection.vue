@@ -22,47 +22,54 @@ function selectUserType(userType) {
 
 <template>
   <div class="user-type-container">
-    <div class="user-type-card">
-      <button class="back-button" @click="navigateBack" aria-label="$t('userTypeSelection.back')">←</button>
+    <div class="selection-wrapper">
+      <pv-button
+        :label="t('userTypeSelection.back')"
+        icon="pi pi-arrow-left"
+        class="back-button"
+        text
+        @click="navigateBack"
+      />
 
       <h1 class="selection-title">{{ t('userTypeSelection.title') }}</h1>
+      <p class="selection-subtitle">{{ t('userTypeSelection.subtitle') }}</p>
 
       <div class="user-type-options">
-        <div class="user-type-card-option"
-             role="button"
-             tabindex="0"
-             @click="selectUserType('relative')"
-             @keydown.enter="selectUserType('relative')"
-             @keydown.space.prevent="selectUserType('relative')">
-          <div class="option-icon">
-            <span class="option-icon-large">👥</span>
-          </div>
-          <span class="option-label">{{ t('userTypeSelection.relative') }}</span>
-        </div>
+        <pv-card class="user-type-option-card" @click="selectUserType('relative')">
+          <template #content>
+            <div class="card-content">
+              <div class="icon-circle">
+                <span class="icon-emoji">👥</span>
+              </div>
+              <h3 class="option-title">{{ t('userTypeSelection.relative') }}</h3>
+              <p class="option-description">{{ t('userTypeSelection.relativeDescription') }}</p>
+            </div>
+          </template>
+        </pv-card>
 
-        <div class="user-type-card-option"
-             role="button"
-             tabindex="0"
-             @click="selectUserType('nursing-home')"
-             @keydown.enter="selectUserType('nursing-home')"
-             @keydown.space.prevent="selectUserType('nursing-home')">
-          <div class="option-icon">
-            <span class="option-icon-large">🏠</span>
-          </div>
-          <span class="option-label">{{ t('userTypeSelection.nursingHome') }}</span>
-        </div>
+        <pv-card class="user-type-option-card" @click="selectUserType('nursing-home')">
+          <template #content>
+            <div class="card-content">
+              <div class="icon-circle">
+                <span class="icon-emoji">🏠</span>
+              </div>
+              <h3 class="option-title">{{ t('userTypeSelection.nursingHome') }}</h3>
+              <p class="option-description">{{ t('userTypeSelection.nursingHomeDescription') }}</p>
+            </div>
+          </template>
+        </pv-card>
 
-        <div class="user-type-card-option"
-             role="button"
-             tabindex="0"
-             @click="selectUserType('clinic')"
-             @keydown.enter="selectUserType('clinic')"
-             @keydown.space.prevent="selectUserType('clinic')">
-          <div class="option-icon">
-            <span class="option-icon-large">🏥</span>
-          </div>
-          <span class="option-label">{{ t('userTypeSelection.clinic') }}</span>
-        </div>
+        <pv-card class="user-type-option-card" @click="selectUserType('clinic')">
+          <template #content>
+            <div class="card-content">
+              <div class="icon-circle">
+                <span class="icon-emoji">🏥</span>
+              </div>
+              <h3 class="option-title">{{ t('userTypeSelection.clinic') }}</h3>
+              <p class="option-description">{{ t('userTypeSelection.clinicDescription') }}</p>
+            </div>
+          </template>
+        </pv-card>
       </div>
     </div>
   </div>
@@ -71,114 +78,117 @@ function selectUserType(userType) {
 
 <style scoped>
 .user-type-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
-    padding: 20px;
+    padding: 2rem;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.user-type-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 40px;
+.selection-wrapper {
     width: 100%;
-    max-width: 800px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+    max-width: 1200px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 3rem;
 }
 
 .back-button {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    color: #333;
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+    margin-bottom: 2rem;
 }
 
 .selection-title {
-    font-size: 1.75rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 40px;
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 0.5rem;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.selection-subtitle {
+    font-size: 1.125rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .user-type-options {
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
 }
 
-.user-type-card-option {
-    flex: 1;
-    min-width: 200px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 32px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+.user-type-option-card {
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
 }
 
-.user-type-card-option:hover {
-    background-color: #e8f4f8;
-    border-color: #0C7BB5;
-    transform: translateY(-4px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.user-type-option-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
 }
 
-.user-type-card-option:active {
-    transform: translateY(-2px);
-}
-
-.user-type-card-option:focus {
-    outline: 2px solid #0C7BB5;
-    outline-offset: 2px;
-}
-
-.option-icon {
+.card-content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width: 80px;
-    height: 80px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.option-icon-large {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    color: #0C7BB5;
-}
-
-.option-label {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
     text-align: center;
+    padding: 1rem;
+}
+
+.icon-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.icon-emoji {
+    font-size: 3rem;
+}
+
+.option-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.option-description {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-    .user-type-options {
-        flex-direction: column;
+    .selection-wrapper {
+        padding: 2rem 1.5rem;
     }
 
-    .user-type-card-option {
-        min-width: 100%;
+    .selection-title {
+        font-size: 2rem;
+    }
+
+    .user-type-options {
+        grid-template-columns: 1fr;
     }
 }
 </style>

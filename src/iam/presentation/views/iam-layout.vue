@@ -79,11 +79,12 @@ import LanguageSwitcher from '../../../shared/presentation/components/language-s
     margin-top: 64px;
     height: calc(100vh - 64px);
     width: 100%;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: #0C7BB5;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
 }
 
 

@@ -63,201 +63,219 @@ function goBack() {
 
 <template>
   <div class="institution-container">
-    <div class="institution-card">
-      <button class="back-button" @click="goBack" aria-label="back">←</button>
-
-      <h1 class="title">{{ t('institutionDetails.title') }}</h1>
-
-      <form class="institution-form" @submit.prevent="onSubmit">
-        <div class="form-field">
-          <input
-            class="full-width"
-            type="text"
-            v-model="institutionName"
-            @blur="setTouched('institutionName')"
-            :placeholder="t('institutionDetails.institutionNamePlaceholder')"
-            aria-label="institution-name"
+    <pv-card class="institution-card">
+      <template #header>
+        <div class="card-header">
+          <pv-button
+            icon="pi pi-arrow-left"
+            class="back-button"
+            text
+            rounded
+            @click="goBack"
           />
-          <div v-if="touched.institutionName && !isValidName()" class="error-message">
-            {{ t('institutionDetails.errors.institutionNameRequired') }}
-          </div>
         </div>
-
-        <div class="institution-type-section">
-          <label class="institution-type-label">{{ t('institutionDetails.institutionType') }}</label>
-          <div class="institution-type-options">
-            <button
-              type="button"
-              class="institution-type-button"
-              :class="{ selected: selectedInstitutionType === 'clinic' }"
-              @click="selectInstitutionType('clinic')"
-            >
-              <span class="icon">🏥</span>
-              {{ t('institutionDetails.clinic') }}
-            </button>
-
-            <button
-              type="button"
-              class="institution-type-button"
-              :class="{ selected: selectedInstitutionType === 'resident' }"
-              @click="selectInstitutionType('resident')"
-            >
-              <span class="icon">🏡</span>
-              {{ t('institutionDetails.residence') }}
-            </button>
+      </template>
+      <template #title>
+        <h2 class="institution-title">{{ t('institutionDetails.title') }}</h2>
+        <p class="institution-subtitle">{{ t('institutionDetails.subtitle') }}</p>
+      </template>
+      <template #content>
+        <form class="institution-form" @submit.prevent="onSubmit">
+          <div class="form-field">
+            <pv-float-label>
+              <pv-input-text
+                id="institution-name"
+                v-model="institutionName"
+                class="w-full"
+                :class="{ 'p-invalid': touched.institutionName && !isValidName() }"
+                @blur="setTouched('institutionName')"
+              />
+              <label for="institution-name">{{ t('institutionDetails.institutionNamePlaceholder') }}</label>
+            </pv-float-label>
+            <small v-if="touched.institutionName && !isValidName()" class="p-error">
+              {{ t('institutionDetails.errors.institutionNameRequired') }}
+            </small>
           </div>
 
-          <div v-if="touched.institutionType && !isValidType()" class="error-message">
-            {{ t('institutionDetails.errors.institutionTypeRequired') }}
-          </div>
-        </div>
+          <div class="institution-type-section">
+            <label class="institution-type-label">{{ t('institutionDetails.institutionType') }}</label>
+            <div class="institution-type-options">
+              <pv-card
+                class="institution-type-card"
+                :class="{ selected: selectedInstitutionType === 'clinic' }"
+                @click="selectInstitutionType('clinic')"
+              >
+                <template #content>
+                  <div class="card-content">
+                    <div class="icon-circle">
+                      <span class="icon">🏥</span>
+                    </div>
+                    <span class="type-label">{{ t('institutionDetails.clinic') }}</span>
+                  </div>
+                </template>
+              </pv-card>
 
-        <button
-          type="submit"
-          class="start-button"
-          :disabled="!isValidName() || !isValidType()"
-        >
-          {{ t('institutionDetails.startButton') }}
-        </button>
-      </form>
-    </div>
+              <pv-card
+                class="institution-type-card"
+                :class="{ selected: selectedInstitutionType === 'resident' }"
+                @click="selectInstitutionType('resident')"
+              >
+                <template #content>
+                  <div class="card-content">
+                    <div class="icon-circle">
+                      <span class="icon">🏡</span>
+                    </div>
+                    <span class="type-label">{{ t('institutionDetails.residence') }}</span>
+                  </div>
+                </template>
+              </pv-card>
+            </div>
+
+            <small v-if="touched.institutionType && !isValidType()" class="p-error">
+              {{ t('institutionDetails.errors.institutionTypeRequired') }}
+            </small>
+          </div>
+
+          <pv-button
+            type="submit"
+            :label="t('institutionDetails.startButton')"
+            :disabled="!isValidName() || !isValidType()"
+            class="w-full mt-3"
+            size="large"
+          />
+        </form>
+      </template>
+    </pv-card>
   </div>
 </template>
 
 <style scoped>
 .institution-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
-    padding: 20px;
+    padding: 2rem;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .institution-card {
-    background-color: white;
-    border-radius: 8px;
-    padding: 40px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    max-width: 600px;
+}
+
+.card-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #666;
-    background: none;
-    border: none;
-    font-size: 18px;
+    color: white !important;
 }
 
-.title {
-    font-size: 1.75rem;
-    font-weight: 500;
+.institution-title {
+    font-size: 2rem;
+    font-weight: 600;
     color: #333;
-    margin-bottom: 30px;
     text-align: center;
-    margin-top: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.institution-subtitle {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 .institution-form {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 2rem;
 }
 
 .form-field {
     width: 100%;
 }
 
-.full-width {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-.start-button {
-    width: 100%;
-    background-color: #0C7BB5;
-    color: white;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-    border: none;
-    border-radius: 6px;
-}
-
-.start-button:hover:not(:disabled) {
-    background-color: #0a6a9a;
-}
-
-.start-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
 .institution-type-section {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 1rem;
 }
 
 .institution-type-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
 }
 
 .institution-type-options {
-    display: flex;
-    gap: 16px;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
 }
 
-.institution-type-button {
-    flex: 1;
+.institution-type-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.institution-type-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+}
+
+.institution-type-card.selected {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 16px;
-    background-color: #f5f5f5;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.icon {
+    font-size: 2.5rem;
+}
+
+.type-label {
+    font-size: 1.125rem;
+    font-weight: 600;
     color: #333;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    border-radius: 6px;
 }
 
-.institution-type-button:hover {
-    background-color: #e8f4f8;
-    border-color: #0C7BB5;
-}
+@media (max-width: 768px) {
+    .institution-container {
+        padding: 1rem;
+    }
 
-.institution-type-button.selected {
-    background-color: #0C7BB5;
-    color: white;
-    border-color: #0C7BB5;
-}
-
-.institution-type-button .icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-}
-
-.error-message {
-    color: #f44336;
-    font-size: 0.75rem;
-    margin-top: 4px;
+    .institution-type-options {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

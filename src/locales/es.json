@@ -247,7 +247,9 @@
 
   "billingInformation": {
     "title": "Información de Facturación",
-    "card": "Tarjeta",
+    "subtitle": "Completa tus datos de pago para comenzar",
+    "plan": "Plan",
+    "card": "Información de Pago",
     "cardNumberPlaceholder": "Número de tarjeta",
     "expirationDatePlaceholder": "MM/AA",
     "securityCodePlaceholder": "CVC",
@@ -255,7 +257,7 @@
     "confirmPasswordPlaceholder": "Confirmar contraseña",
     "terms": "Acepto los términos y condiciones",
     "startButton": "Comenzar",
-    "cardNumber": "Numero de Tarjeta",
+    "cardNumber": "Número de Tarjeta",
     "expirationDate": "Fecha de Expiración",
     "securityCode": "Código de Seguridad",
     "password": "Contraseña",
@@ -263,16 +265,19 @@
 
     "errors": {
       "cardNumberRequired": "El número de tarjeta es obligatorio",
+      "invalidCardNumber": "Formato de tarjeta inválido",
       "expirationDateRequired": "La fecha de expiración es obligatoria",
+      "invalidExpirationDate": "Fecha de expiración inválida",
       "securityCodeRequired": "El código de seguridad es obligatorio",
       "passwordRequired": "La contraseña es obligatoria",
-      "passwordMismatch": "La contraseña no coincide",
-      "confirmPasswordRequired: ": "Confirmar contraseña es obligatorio"
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "confirmPasswordRequired": "Confirmar contraseña es obligatorio"
     }
   },
 
   "institutionDetails": {
     "title": "Detalles de la Institución",
+    "subtitle": "Cuéntanos sobre tu centro de salud",
     "institutionNamePlaceholder": "Nombre de la institución",
     "institutionType": "Tipo de institución",
     "clinic": "Clínica",
@@ -286,7 +291,9 @@
   },
 
   "senior-citizen-registration": {
-    "personalDetails": "Datos Personales",
+    "title": "Registrar Adulto Mayor",
+    "subtitle": "Agrega a la persona que deseas monitorear",
+    "personalDetails": "Detalles Personales",
     "fullName": "Nombre Completo",
     "age": "Edad",
     "gender": {
@@ -319,6 +326,7 @@
 
   "signup": {
     "title": "Crea tu Cuenta",
+    "subtitle": "Únete a MediTrack para gestionar la salud",
     "firstNamePlaceholder": "Nombre",
     "lastNamePlaceholder": "Apellido",
     "emailPlaceholder": "Correo electrónico",
@@ -336,8 +344,11 @@
   },
 
   "subscriptionSelection": {
+    "back": "Atrás",
     "title": "Selecciona tu Plan de Suscripción",
+    "subtitle": "Elige el plan perfecto para tus necesidades",
     "freemium": "Freemium",
+    "fremium": "Freemium",
     "free": "Gratis",
     "month": "Mes",
     "features": {
@@ -345,7 +356,8 @@
       "realTimeAlerts": "Alertas en Tiempo Real",
       "webAccess": "Acceso Web",
       "downloadableReports": "Reportes Descargables",
-      "prioritySupport": "Soporte Prioritario"
+      "prioritySupport": "Soporte Prioritario",
+      "customReports": "Reportes Personalizados"
     },
     "premium": "Premium",
     "recommended": "Recomendado",
@@ -358,9 +370,13 @@
   "userTypeSelection": {
     "back": "Atrás",
     "title": "Selecciona el Tipo de Usuario",
+    "subtitle": "Elige cómo usarás MediTrack",
     "relative": "Familiar",
-    "nursingHome": "Cuidador",
-    "clinic": "Doctor"
+    "relativeDescription": "Monitorea y cuida a tus seres queridos",
+    "nursingHome": "Casa de Reposo",
+    "nursingHomeDescription": "Gestiona múltiples pacientes en tu instalación",
+    "clinic": "Clínica Médica",
+    "clinicDescription": "Gestión profesional de salud para tu práctica"
   }
 
 }

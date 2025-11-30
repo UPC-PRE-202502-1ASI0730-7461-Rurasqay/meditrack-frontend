@@ -100,74 +100,197 @@ function navigateToSignIn(event) {
 
 <template>
   <div class="signup-container">
-    <div class="signup-card">
-      <h1 class="welcome-title">{{ t('signup.title') }}</h1>
-
-      <div class="logo-container">
-        <img :src="logo" alt="MediTrack Logo" class="logo" />
-      </div>
-
-      <form class="signup-form" @submit.prevent="onSubmit">
-        <div class="form-field">
-          <input class="full-width" type="text" v-model="firstName" :placeholder="t('signup.firstNamePlaceholder')" />
+    <pv-card class="signup-card">
+      <template #header>
+        <div class="card-header">
+          <img :src="logo" alt="MediTrack Logo" class="logo" />
         </div>
+      </template>
+      <template #title>
+        <h2 class="signup-title">{{ t('signup.title') }}</h2>
+        <p class="signup-subtitle">{{ t('signup.subtitle') }}</p>
+      </template>
+      <template #content>
+        <form class="signup-form" @submit.prevent="onSubmit">
+          <div class="form-row">
+            <div class="form-field">
+              <pv-float-label>
+                <pv-input-text
+                  id="firstName"
+                  v-model="firstName"
+                  class="w-full"
+                />
+                <label for="firstName">{{ t('signup.firstNamePlaceholder') }}</label>
+              </pv-float-label>
+            </div>
 
-        <div class="form-field">
-          <input class="full-width" type="text" v-model="lastName" :placeholder="t('signup.lastNamePlaceholder')" />
-        </div>
-
-        <div class="form-field">
-          <input class="full-width" type="email" v-model="email" :placeholder="t('signup.emailPlaceholder')" />
-        </div>
-
-        <div class="form-field">
-          <div style="position:relative;">
-            <input class="full-width" :type="hidePassword ? 'password' : 'text'" v-model="password" :placeholder="t('signup.passwordPlaceholder')" />
-            <button type="button" @click="togglePasswordVisibility" style="position:absolute;right:8px;top:8px;">{{ hidePassword ? '👁️‍🗨️' : '👁️' }}</button>
+            <div class="form-field">
+              <pv-float-label>
+                <pv-input-text
+                  id="lastName"
+                  v-model="lastName"
+                  class="w-full"
+                />
+                <label for="lastName">{{ t('signup.lastNamePlaceholder') }}</label>
+              </pv-float-label>
+            </div>
           </div>
-        </div>
 
-        <div class="form-field">
-          <div style="position:relative;">
-            <input class="full-width" :type="hideConfirmPassword ? 'password' : 'text'" v-model="confirmPassword" :placeholder="t('signup.confirmPasswordPlaceholder')" />
-            <button type="button" @click="toggleConfirmPasswordVisibility" style="position:absolute;right:8px;top:8px;">{{ hideConfirmPassword ? '👁️‍🗨️' : '👁️' }}</button>
+          <div class="form-field">
+            <pv-float-label>
+              <pv-input-text
+                id="email"
+                v-model="email"
+                type="email"
+                class="w-full"
+              />
+              <label for="email">{{ t('signup.emailPlaceholder') }}</label>
+            </pv-float-label>
           </div>
+
+          <div class="form-field">
+            <pv-float-label>
+              <pv-password
+                id="password"
+                v-model="password"
+                toggleMask
+                class="w-full"
+                :feedback="true"
+              />
+              <label for="password">{{ t('signup.passwordPlaceholder') }}</label>
+            </pv-float-label>
+          </div>
+
+          <div class="form-field">
+            <pv-float-label>
+              <pv-password
+                id="confirmPassword"
+                v-model="confirmPassword"
+                toggleMask
+                :feedback="false"
+                class="w-full"
+              />
+              <label for="confirmPassword">{{ t('signup.confirmPasswordPlaceholder') }}</label>
+            </pv-float-label>
+          </div>
+
+          <pv-message v-if="errorMessage" severity="error" :closable="false">
+            {{ t(errorMessage) }}
+          </pv-message>
+
+          <pv-button
+            type="submit"
+            :label="isLoading ? t('signup.registering') : t('signup.continueButton')"
+            :loading="isLoading"
+            :disabled="!isFormValid()"
+            class="w-full mt-3"
+            size="large"
+          />
+        </form>
+
+        <div class="signin-container">
+          <span class="signin-text">{{ t('signup.haveAccount') }}</span>
+          <pv-button 
+            :label="t('signup.signIn')" 
+            link 
+            @click="navigateToSignIn"
+            class="signin-link"
+          />
         </div>
-
-        <div v-if="errorMessage" class="error-message">{{ t(errorMessage) }}</div>
-
-        <button class="signup-button" type="submit" :disabled="isLoading || !isFormValid()">
-          <span v-if="isLoading" class="spinner-icon">⏳</span>
-          <span v-if="isLoading">{{ t('signup.registering') }}</span>
-          <span v-else>{{ t('signup.continueButton') }}</span>
-        </button>
-      </form>
-
-      <div class="signin-container">
-        <span class="signin-text">{{ t('signup.haveAccount') }}</span>
-        <a href="#" class="signin-link" @click="navigateToSignIn">{{ t('signup.signIn') }}</a>
-      </div>
-    </div>
+      </template>
+    </pv-card>
   </div>
 </template>
 
 <style scoped>
-.signup-container {     display: flex;     justify-content: center;     align-items: center;     min-height: 100%;     padding: 20px; }
-.signup-card {     background-color: white;     border-radius: 8px;     padding: 40px;     width: 100%;     max-width: 450px;     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);     display: flex;     flex-direction: column;     align-items: center; }
-.welcome-title {     font-size: 1.75rem;     font-weight: 500;     color: #333;     margin-bottom: 30px;     text-align: center; }
-.logo-container {     margin-bottom: 30px;     display: flex;     justify-content: center;     align-items: center; }
-.logo {     height: 80px;     width: auto; }
-.signup-form {     width: 100%;     display: flex;     flex-direction: column;     gap: 20px; }
-.form-field {     width: 100%; }
-.full-width {     width: 100%; }
-.error-message {     background-color: #fee;     color: #c33;     padding: 12px;     border-radius: 4px;     font-size: 0.875rem;     text-align: center;     border: 1px solid #fcc; }
-.signup-button {     width: 100%;     background-color: #0C7BB5;     color: white;     padding: 12px;     font-size: 1rem;     font-weight: 500;     margin-top: 10px;     transition: background-color 0.2s; }
-.signup-button:hover:not(:disabled) {     background-color: #0a6a9a; }
-.signup-button:disabled {     background-color: #ccc;     cursor: not-allowed; }
-.spinner-icon {     animation: spin 1s linear infinite;     margin-right: 8px; }
-@keyframes spin {     from {         transform: rotate(0deg);     }     to {         transform: rotate(360deg);     } }
-.signin-container {     margin-top: 30px;     text-align: center;     font-size: 0.875rem;     color: #666; }
-.signin-text {     margin-right: 5px; }
-.signin-link {     color: #0C7BB5;     text-decoration: none;     font-weight: 500;     cursor: pointer;     transition: color 0.2s; }
-.signin-link:hover {     color: #0a6a9a;     text-decoration: underline; }
+.signup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.signup-card {
+    width: 100%;
+    max-width: 600px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.signup-subtitle {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-field {
+    width: 100%;
+}
+
+.signin-container {
+    margin-top: 2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.signin-text {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.signin-link {
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .signup-container {
+        padding: 1rem;
+    }
+}
 </style>
