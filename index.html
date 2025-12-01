@@ -5,6 +5,29 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MediTrack Web App</title>
+    <script>
+      // Clean corrupted localStorage data before app loads
+      (function() {
+        try {
+          var storedUser = localStorage.getItem('currentUser');
+          if (storedUser === 'undefined' || storedUser === 'null' || storedUser === '') {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
+          } else if (storedUser) {
+            // Try to parse to validate it's valid JSON
+            try {
+              JSON.parse(storedUser);
+            } catch (e) {
+              // Invalid JSON, remove it
+              localStorage.removeItem('currentUser');
+              localStorage.removeItem('token');
+            }
+          }
+        } catch (e) {
+          // If localStorage is not available or throws error, ignore
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
