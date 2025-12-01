@@ -143,10 +143,6 @@
     "deleteHeader": "Eliminar Adulto Mayor",
     "assignedTo": "Asignado a",
     "unassigned": "No asignado",
-    "imageUrlPlaceholder": "https://ejemplo.com/imagen.jpg",
-    "preview": "Vista previa",
-    "photo": "Foto",
-    "save": "Guardar",
     "alertsTab": {
       "date": "Fecha",
       "time": "Hora",
@@ -241,27 +237,6 @@
     "content": "La ruta {unavailable-route} no se encuentra disponible.",
     "go-home": "Ir a Inicio"
   },
-
-  "login": {
-    "loggingIn": "Iniciando sesión...",
-    "loginButton": "Iniciar Sesión",
-    "welcome": "Bienvenido de Nuevo",
-    "subtitle": "Plataforma profesional de gestión sanitaria",
-    "noAccount": "¿No tienes cuenta?",
-    "signUp": "Regístrate",
-    "emailPlaceholder": "Correo electrónico",
-    "passwordPlaceholder": "Contraseña",
-    "errors": {
-      "requiredFields": "El correo electrónico y la contraseña son requeridos",
-      "invalidCredentials": "Correo electrónico o contraseña inválidos",
-      "userNotFound": "Usuario no encontrado",
-      "adminNotFound": "Perfil de administrador no encontrado",
-      "doctorNotFound": "Perfil de doctor no encontrado",
-      "caregiverNotFound": "Perfil de cuidador no encontrado",
-      "serverError": "Error del servidor. Por favor intente más tarde"
-    }
-  },
-
   "billingInformation": {
     "title": "Información de Facturación",
     "subtitle": "Completa tus datos de pago para comenzar",
