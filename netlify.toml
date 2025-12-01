@@ -1,0 +1,7 @@
+# Reglas de redirección para una Aplicación de Página Única (SPA)
+# Esto asegura que todas las rutas sean manejadas por index.html,
+# permitiendo que el enrutador del lado del cliente (Vue Router) funcione correctamente.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
