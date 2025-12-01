@@ -17,6 +17,9 @@ const {
   getCaregiversById
 } = store;
 
+// Add loading state
+const loading = ref(true);
+
 const isEditMode = computed(() => !!route.params.id);
 const caregiverId = computed(() => route.params.id ? parseInt(route.params.id) : null);
 
@@ -38,28 +41,39 @@ const institutionEmailDomain = computed(() => {
 
 const errors = ref({});
 
-onMounted(() => {
-  // Set organization ID from route params
-  const organizationId = route.params.organizationId;
-  if (organizationId) {
-    form.value.organizationId = parseInt(organizationId);
-  }
-
-  // Load caregiver data if editing
-  if (isEditMode.value && caregiverId.value) {
-    const caregiver = getCaregiversById(caregiverId.value);
-    if (caregiver && caregiver.length > 0) {
-      const caregiverData = caregiver[0];
-      form.value = {
-        firstName: caregiverData.firstName || '',
-        lastName: caregiverData.lastName || '',
-        age: caregiverData.age || null,
-        email: caregiverData.email || '',
-        phoneNumber: caregiverData.phoneNumber || '',
-        imageUrl: caregiverData.imageUrl || '',
-        organizationId: caregiverData.organizationId || parseInt(organizationId)
-      };
+onMounted(async () => {
+  try {
+    // Set organization ID from route params
+    const organizationId = route.params.organizationId;
+    if (organizationId) {
+      form.value.organizationId = parseInt(organizationId);
     }
+
+    // Load caregiver data if editing
+    if (isEditMode.value && caregiverId.value) {
+      // Ensure caregivers are loaded
+      if (!store.caregiversLoaded) {
+        await store.fetchCaregivers();
+      }
+      
+      const caregiver = getCaregiversById(caregiverId.value);
+      if (caregiver && caregiver.length > 0) {
+        const caregiverData = caregiver[0];
+        form.value = {
+          firstName: caregiverData.firstName || '',
+          lastName: caregiverData.lastName || '',
+          age: caregiverData.age || null,
+          email: caregiverData.email || '',
+          phoneNumber: caregiverData.phoneNumber || '',
+          imageUrl: caregiverData.imageUrl || '',
+          organizationId: caregiverData.organizationId || parseInt(organizationId)
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Error loading caregiver form:', error);
+  } finally {
+    loading.value = false;
   }
 });
 
@@ -150,53 +164,58 @@ const onCancel = () => {
 
 <template>
   <div class="p-4">
-    <h1>{{ isEditMode ? t('caregiver.editTitle') : t('caregiver.newTitle') }}</h1>
+    <div v-if="loading" class="flex justify-content-center align-items-center" style="height: 200px">
+      <pv-progress-spinner />
+    </div>
+    
+    <div v-else>
+      <h1>{{ isEditMode ? t('caregiver.editTitle') : t('caregiver.newTitle') }}</h1>
 
-    <div class="form-container mt-4">
-      <form @submit.prevent="onSubmit" class="caregiver-form">
-        <div class="grid">
-          <!-- First Name -->
-          <div class="col-12 md:col-6">
-            <div class="field">
-              <label for="firstName" class="block mb-2">{{ t('caregiver.firstName') }}:</label>
-              <pv-input-text
-                  id="firstName"
-                  v-model="form.firstName"
-                  :class="{ 'p-invalid': errors.firstName }"
-                  class="w-full"
-              />
-              <small v-if="errors.firstName" class="p-error">{{ errors.firstName }}</small>
+      <div class="form-container mt-4">
+        <form @submit.prevent="onSubmit" class="caregiver-form">
+          <div class="grid">
+            <!-- First Name -->
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="firstName" class="block mb-2">{{ t('caregiver.firstName') }}:</label>
+                <pv-input-text
+                    id="firstName"
+                    v-model="form.firstName"
+                    :class="{ 'p-invalid': errors.firstName }"
+                    class="w-full"
+                />
+                <small v-if="errors.firstName" class="p-error">{{ errors.firstName }}</small>
+              </div>
             </div>
-          </div>
 
-          <!-- Last Name -->
-          <div class="col-12 md:col-6">
-            <div class="field">
-              <label for="lastName" class="block mb-2">{{ t('caregiver.lastName') }}:</label>
-              <pv-input-text
-                  id="lastName"
-                  v-model="form.lastName"
-                  :class="{ 'p-invalid': errors.lastName }"
-                  class="w-full"
-              />
-              <small v-if="errors.lastName" class="p-error">{{ errors.lastName }}</small>
+            <!-- Last Name -->
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="lastName" class="block mb-2">{{ t('caregiver.lastName') }}:</label>
+                <pv-input-text
+                    id="lastName"
+                    v-model="form.lastName"
+                    :class="{ 'p-invalid': errors.lastName }"
+                    class="w-full"
+                />
+                <small v-if="errors.lastName" class="p-error">{{ errors.lastName }}</small>
+              </div>
             </div>
-          </div>
 
-          <!-- Age -->
-          <div class="col-12 md:col-6">
-            <div class="field">
-              <label for="age" class="block mb-2">{{ t('caregiver.age') }}:</label>
-              <pv-input-number
-                  id="age"
-                  v-model="form.age"
-                  :min="18"
-                  :class="{ 'p-invalid': errors.age }"
-                  class="w-full"
-              />
-              <small v-if="errors.age" class="p-error">{{ errors.age }}</small>
+            <!-- Age -->
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="age" class="block mb-2">{{ t('caregiver.age') }}:</label>
+                <pv-input-number
+                    id="age"
+                    v-model="form.age"
+                    :min="18"
+                    :class="{ 'p-invalid': errors.age }"
+                    class="w-full"
+                />
+                <small v-if="errors.age" class="p-error">{{ errors.age }}</small>
+              </div>
             </div>
-          </div>
 
           <!-- Email -->
           <div class="col-12 md:col-6">
@@ -281,6 +300,7 @@ const onCancel = () => {
           />
         </div>
       </form>
+    </div>
     </div>
   </div>
 </template>

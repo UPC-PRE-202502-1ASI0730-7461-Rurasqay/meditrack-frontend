@@ -6,8 +6,26 @@ const platformApi = import.meta.env.VITE_MEDITRACK_API_URL || 'http://localhost:
 export class BaseApi {
     #http;
     constructor() {
+        console.log('BaseApi initialized with URL:', platformApi);
         this.#http = axios.create({
-            baseURL: platformApi
+            baseURL: platformApi,
+            transformResponse: [function (data) {
+                // Custom transform to prevent JSON.parse on HTML responses (404s from SPA)
+                if (typeof data === 'string') {
+                    const trimmed = data.trim();
+                    if (trimmed.startsWith('<')) {
+                        console.warn('API returned HTML, avoiding JSON parse');
+                        return data; // Return raw string, don't parse
+                    }
+                    try {
+                        return JSON.parse(data);
+                    } catch (e) {
+                        // If parse fails, return raw data
+                        return data;
+                    }
+                }
+                return data;
+            }]
         });
 
         // Add request interceptor to include JWT token in headers
