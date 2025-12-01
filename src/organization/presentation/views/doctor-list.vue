@@ -27,7 +27,8 @@ const {
 const {
   fetchOrganizationById,
   fetchCaregivers,
-  fetchDoctors
+  fetchDoctors,
+  fetchDoctorsByOrganization
 } = store;
 
 
@@ -61,7 +62,7 @@ onMounted(async () => {
   switch (organization.value.type) {
     case 'clinic':
       // Always fetch doctors after organization is loaded to ensure proper filtering
-      await fetchDoctors();
+      await fetchDoctorsByOrganization(organization.value.id);
       console.log('doctors loaded', doctorsLoaded.value);
       console.log('doctorsByOrganization:', doctorsByOrganization.value);
       console.log('doctorsByOrganizationCount:', doctorsByOrganizationCount.value);
