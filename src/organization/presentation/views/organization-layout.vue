@@ -39,12 +39,18 @@ const currentOrganization = computed(() => {
 
 const organizationType = computed(() => currentOrganization.value?.type || 'clinic');
 const isClinic = computed(() => {
+  if (currentOrganization.value && typeof currentOrganization.value.isClinic === 'function') {
+    return currentOrganization.value.isClinic();
+  }
   const type = String(organizationType.value).toLowerCase().trim();
   console.log('Organization Type Check:', { raw: organizationType.value, processed: type, isClinic: type === 'clinic' || type === 'healthcenter' });
   return type === 'clinic' || type === 'healthcenter';
 });
 // Accept both 'resident' and 'residence' for backward compatibility
 const isResidentHome = computed(() => {
+  if (currentOrganization.value && typeof currentOrganization.value.isResidence === 'function') {
+    return currentOrganization.value.isResidence();
+  }
   const type = String(organizationType.value).toLowerCase().trim();
   return type === 'resident' || type === 'residence';
 });
@@ -199,10 +205,9 @@ const loadOrganization = async () => {
       const baseUrl = `/organization/${organizationId.value}/${role}/${userId.value}`;
       
       if (currentOrganization.value) {
-        const orgType = currentOrganization.value.type;
-        if ((orgType === 'clinic') && isAdmin) {
+        if (currentOrganization.value.isClinic() && isAdmin) {
           router.push(`${baseUrl}/doctors`);
-        } else if ((orgType === 'residence' || orgType === 'resident') && isAdmin) {
+        } else if (currentOrganization.value.isResidence() && isAdmin) {
           router.push(`${baseUrl}/caregivers`);
         } else {
           router.push(`${baseUrl}/senior-citizens`);

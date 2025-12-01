@@ -59,23 +59,18 @@ onMounted(async () => {
 
   console.log('organization.type:', organization.value.type);
 
-  switch (organization.value.type) {
-    case 'clinic':
-    case 'HealthCenter':
+  if (organization.value.isClinic()) {
       // Always fetch doctors after organization is loaded to ensure proper filtering
       await fetchDoctorsByOrganization(organization.value.id);
       console.log('doctors loaded', doctorsLoaded.value);
       console.log('doctorsByOrganization:', doctorsByOrganization.value);
       console.log('doctorsByOrganizationCount:', doctorsByOrganizationCount.value);
-      break;
-    case 'residence':
-    case 'resident':
+  } else if (organization.value.isResidence()) {
       if (!caregiversLoaded.value) {
         await fetchCaregivers();
         console.log('caregivers loaded', caregiversLoaded.value);
       }
-      break;
-    default:
+  } else {
       console.warn('Unknown organization type:', organization.value.type);
   }
 })

@@ -37,11 +37,28 @@ export class Organization {
 
     // Domain logic: Checks if this organization is a clinic
     isClinic() {
-        return this._type === 'clinic';
+        const type = this._type.toLowerCase();
+        if (type === 'healthcenter') {
+            const nameLower = this._name.toLowerCase();
+            const isResidence = nameLower.includes('resident') || 
+                               nameLower.includes('reposo') || 
+                               nameLower.includes('nursing') || 
+                               nameLower.includes('asilo');
+            return !isResidence;
+        }
+        return type === 'clinic';
     }
 
     // Domain logic: Checks if this organization is a residence
     isResidence() {
-        return this._type === 'resident';
+        const type = this._type.toLowerCase();
+        if (type === 'healthcenter') {
+            const nameLower = this._name.toLowerCase();
+            return nameLower.includes('resident') || 
+                   nameLower.includes('reposo') || 
+                   nameLower.includes('nursing') || 
+                   nameLower.includes('asilo');
+        }
+        return type === 'resident' || type === 'residence';
     }
 }
