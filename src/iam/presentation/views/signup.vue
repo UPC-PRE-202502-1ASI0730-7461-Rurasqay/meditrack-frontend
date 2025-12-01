@@ -22,6 +22,8 @@ const hidePassword = ref(true);
 const hideConfirmPassword = ref(true);
 const isLoading = ref(false);
 const errorMessage = ref(null);
+const emailError = ref(null);
+const checkingEmail = ref(false);
 
 const selectedRole = ref('user');
 
@@ -59,10 +61,40 @@ function isFormValid() {
     firstName.value.trim().length > 0 &&
     lastName.value.trim().length > 0 &&
     validateEmail(email.value) &&
+    !emailError.value &&
     password.value.length >= 6 &&
     confirmPassword.value.length >= 6 &&
     passwordsMatch()
   );
+}
+
+async function checkEmailAvailability() {
+  if (!validateEmail(email.value)) {
+    emailError.value = null;
+    return;
+  }
+
+  checkingEmail.value = true;
+  emailError.value = null;
+
+  try {
+    // Try to check if email exists by attempting a lightweight check
+    // You can use the IAM store or API directly
+    const { useIAMStore } = await import('../../application/iam.store.js');
+    const iamStore = useIAMStore();
+    
+    // Simple check: try to sign up with the email to see if it's taken
+    // If you have a dedicated endpoint, use that instead
+    // For now, we'll just clear the error and let the actual signup handle it
+    emailError.value = null;
+  } catch (err) {
+    const status = err?.response?.status;
+    if (status === 409 || status === 500) {
+      emailError.value = 'signup.errors.emailTaken';
+    }
+  } finally {
+    checkingEmail.value = false;
+  }
 }
 
 async function onSubmit() {
@@ -86,7 +118,13 @@ async function onSubmit() {
     await router.push({ name: 'subscription-selection', query: { role: normalizedRole } });
   } catch (err) {
     console.error('[Signup] submit error', err);
-    errorMessage.value = 'signup.errors.failed';
+    const status = err?.response?.status;
+    if (status === 409 || status === 500) {
+      emailError.value = 'signup.errors.emailTaken';
+      errorMessage.value = 'signup.errors.emailTaken';
+    } else {
+      errorMessage.value = 'signup.errors.failed';
+    }
   } finally {
     isLoading.value = false;
   }
@@ -143,9 +181,17 @@ function navigateToSignIn(event) {
                 v-model="email"
                 type="email"
                 class="w-full"
+                :class="{ 'p-invalid': emailError }"
+                @blur="checkEmailAvailability"
               />
               <label for="email">{{ t('signup.emailPlaceholder') }}</label>
             </pv-float-label>
+            <small v-if="checkingEmail" class="p-info">
+              <i class="pi pi-spin pi-spinner"></i> {{ t('signup.checkingEmail') }}
+            </small>
+            <small v-else-if="emailError" class="p-error">
+              {{ t(emailError) }}
+            </small>
           </div>
 
           <div class="form-field">

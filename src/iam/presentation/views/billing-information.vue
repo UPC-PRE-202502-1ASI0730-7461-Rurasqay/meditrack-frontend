@@ -164,7 +164,21 @@ async function onSubmit() {
     }
   } catch (err) {
     console.error('Error on billing submit', err);
-    errors.value.push(err.message || String(err));
+    
+    // Handle specific error cases
+    const status = err?.response?.status || err?.status;
+    const errorData = err?.response?.data || err?.data || {};
+    const errorMessage = errorData?.message || err?.message || String(err);
+    
+    if (status === 500 || status === 409 || errorMessage.toLowerCase().includes('duplicate') || errorMessage.toLowerCase().includes('already exists')) {
+      errors.value.push(t('billingInformation.errors.emailTaken'));
+    } else if (status === 400) {
+      errors.value.push(t('billingInformation.errors.invalidData'));
+    } else if (status === 401 || status === 403) {
+      errors.value.push(t('billingInformation.errors.unauthorized'));
+    } else {
+      errors.value.push(errorMessage);
+    }
   } finally {
     submitting.value = false;
   }

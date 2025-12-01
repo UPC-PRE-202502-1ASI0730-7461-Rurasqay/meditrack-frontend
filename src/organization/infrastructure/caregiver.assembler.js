@@ -11,19 +11,6 @@ export class CaregiverAssembler {
      * @returns {Caregiver}
      */
     static toEntityFromResource(resource) {
-        // If fullName exists but firstName/lastName don't, split fullName
-        if (resource.fullName && !resource.firstName && !resource.lastName) {
-            const nameParts = resource.fullName.trim().split(' ');
-            const firstName = nameParts[0] || '';
-            const lastName = nameParts.slice(1).join(' ') || '';
-            
-            return new Caregiver({
-                ...resource,
-                firstName,
-                lastName
-            });
-        }
-        
         return new Caregiver(resource);
     }
 

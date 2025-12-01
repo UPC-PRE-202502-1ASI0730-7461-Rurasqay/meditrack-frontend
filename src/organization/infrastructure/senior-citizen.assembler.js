@@ -7,6 +7,7 @@ import { SeniorCitizen } from "../domain/model/senior-citizen.entity.js";
 export class SeniorCitizenAssembler {
     /**
      * Converts a raw resource object into a SeniorCitizen entity.
+     * Handles both camelCase and PascalCase from backend.
      * @param resource
      * @returns {SeniorCitizen}
      */
@@ -28,3 +29,4 @@ export class SeniorCitizenAssembler {
         return resources.map(resource => this.toEntityFromResource(resource));
     }
 }
+

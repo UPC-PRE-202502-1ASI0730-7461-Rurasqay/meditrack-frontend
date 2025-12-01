@@ -71,4 +71,19 @@ export class IamApi extends BaseApi {
         }
     }
 
+    /**
+     * Retrieves a user by ID.
+     * @param {number} id - The user ID.
+     * @returns {Promise<User|null>} A promise that resolves with the User entity or null.
+     */
+    async getUserById(id) {
+        try {
+            const response = await this.#usersEndpoint.getById(id);
+            return UserAssembler.toEntityFromResponse(response);
+        } catch (err) {
+            console.error('IamApi.getUserById error ->', err);
+            throw err;
+        }
+    }
+
 }

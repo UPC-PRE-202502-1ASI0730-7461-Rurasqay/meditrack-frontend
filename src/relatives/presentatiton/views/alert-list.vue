@@ -1,16 +1,11 @@
 <script setup>
 
-import {useRelativesStore} from "../../application/relatives.store.js";
-import {storeToRefs} from "pinia";
-import {onMounted} from "vue";
+import { useRelativesStore } from "../../application/relatives.store.js";
+import { storeToRefs } from "pinia";
+import { Card as PvCard } from 'primevue/card';
 
 const store = useRelativesStore()
-const { relative } = storeToRefs(store)
-const { fetchRelativeData } = store
-
-onMounted(() => {
-  fetchRelativeData()
-})
+const { relative, loading } = storeToRefs(store)
 
 const formatDate = (date) => new Date(date).toLocaleDateString()
 
@@ -18,7 +13,8 @@ const formatDate = (date) => new Date(date).toLocaleDateString()
 
 <template>
   <div class="p-4 flex flex-column gap-4">
-    <div v-if="relative?.seniorCitizen?.alerts?.length" class="alerts-grid">
+    <div v-if="loading" class="text-center">Loading alerts...</div>
+    <div v-else-if="relative?.seniorCitizen?.alerts?.length" class="alerts-grid">
       <pv-card
           v-for="alert in relative.seniorCitizen.alerts"
           :key="alert.id"

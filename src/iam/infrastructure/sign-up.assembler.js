@@ -23,10 +23,10 @@ export class SignUpAssembler {
       // Response payload may be directly in response.data or nested under a key (e.g., user, data)
       const payload = (response.data && (response.data.user || response.data.signUp || response.data)) || response.data || {};
 
-      // Normalize common field names
+      // Backend returns camelCase
       const resourceData = {
           id: payload.id ?? payload.userId ?? payload._id ?? null,
-          email: payload.email ?? payload.user?.email ?? null,
+          email: payload.username ?? payload.email ?? payload.user?.email ?? null,
           firstName: payload.firstName ?? payload.name ?? payload.user?.firstName ?? null,
           lastName: payload.lastName ?? payload.user?.lastName ?? null,
           role: payload.role ?? payload.user?.role ?? null,
@@ -40,7 +40,7 @@ export class SignUpAssembler {
           institutionType: payload.institutionType ?? payload.institution?.type ?? payload.organization?.type ?? null,
 
 
-          planType: payload.planType ?? payload.plan?.type ?? payload.plan ?? null,
+          planType: payload.PlanType ?? payload.planType ?? payload.plan?.type ?? payload.plan ?? null,
       };
 
       return new SignUpResource(resourceData);

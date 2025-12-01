@@ -102,6 +102,8 @@ const onAssignSeniorCitizen = async () => {
     try {
       await assignSeniorCitizenToCaregiver(caregiver.value.id, selectedSeniorCitizenId.value);
       console.log('Senior citizen assigned successfully');
+      // Refresh senior citizens to reflect the assignment
+      await store.fetchSeniorCitizensByOrganization(organizationId.value);
       selectedSeniorCitizenId.value = null;
     } catch (error) {
       console.error('Error assigning senior citizen:', error);
@@ -119,6 +121,8 @@ const onUnassignSeniorCitizen = (seniorCitizen) => {
       try {
         await unassignSeniorCitizenFromCaregiver(caregiver.value.id, seniorCitizen.id);
         console.log('Senior citizen unassigned successfully');
+        // Refresh senior citizens to reflect the unassignment
+        await store.fetchSeniorCitizensByOrganization(organizationId.value);
       } catch (error) {
         console.error('Error unassigning senior citizen:', error);
         alert(error.message || t('caregiver.errors.assignError'));

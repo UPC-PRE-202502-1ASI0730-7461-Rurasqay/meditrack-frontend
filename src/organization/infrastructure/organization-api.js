@@ -35,7 +35,7 @@ export class OrganizationApi extends BaseApi {
         return this.#doctorsEndpoint.create(resource);
     }
 
-    updateDoctor( resource){
+    updateDoctor(resource){
         return this.#doctorsEndpoint.update(resource.id, resource);
     }
 
@@ -55,7 +55,7 @@ export class OrganizationApi extends BaseApi {
         return this.#caregiversEndpoint.create(resource);
     }
 
-    updateCaregiver( resource){
+    updateCaregiver(resource){
         return this.#caregiversEndpoint.update(resource.id, resource);
     }
 
@@ -75,7 +75,7 @@ export class OrganizationApi extends BaseApi {
         return this.#organizationsEndpoint.create(resource);
     }
 
-    updateOrganization( resource){
+    updateOrganization(resource){
         return this.#organizationsEndpoint.update(resource.id, resource);
     }
 
@@ -128,7 +128,11 @@ export class OrganizationApi extends BaseApi {
     }
 
     getAdminByUserId(userId) {
-        return this.http.get(`${adminsEndpointPath}?userId=${userId}`);
+        return this.http.get(`${adminsEndpointPath}?userId=${userId}`).then(response => {
+            // Backend returns an array, so we need to extract the first element
+            const admins = response.data;
+            return Array.isArray(admins) && admins.length > 0 ? admins[0] : null;
+        });
     }
 
     getAdminsByOrganization(organizationId) {
@@ -157,12 +161,31 @@ export class OrganizationApi extends BaseApi {
         // First get the senior citizen
         return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
             .then(response => {
-                const seniorCitizen = response.data;
-                // Update with the doctor assignment (and remove caregiver if exists)
-                seniorCitizen.assignedDoctorId = doctorId;
-                seniorCitizen.assignedCaregiverId = null;
+                const seniorCitizenData = response.data;
+                // Format birthDate to YYYY-MM-DD if it contains time
+                let formattedBirthDate = seniorCitizenData.birthDate;
+                if (formattedBirthDate && formattedBirthDate.includes('T')) {
+                    formattedBirthDate = formattedBirthDate.split('T')[0];
+                }
+                // Create a clean payload with only the necessary fields
+                const payload = {
+                    id: seniorCitizenData.id,
+                    organizationId: seniorCitizenData.organizationId,
+                    firstName: seniorCitizenData.firstName,
+                    lastName: seniorCitizenData.lastName,
+                    birthDate: formattedBirthDate,
+                    gender: seniorCitizenData.gender,
+                    weight: seniorCitizenData.weight,
+                    height: seniorCitizenData.height,
+                    dni: seniorCitizenData.dni,
+                    imageUrl: seniorCitizenData.imageUrl,
+                    deviceId: seniorCitizenData.deviceId,
+                    assignedDoctorId: doctorId,
+                    assignedCaregiverId: null,
+                    planType: seniorCitizenData.planType || 'freemium'
+                };
                 // Use PUT to update the entire senior citizen
-                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, payload);
             });
     }
 
@@ -170,11 +193,31 @@ export class OrganizationApi extends BaseApi {
         // First get the senior citizen
         return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
             .then(response => {
-                const seniorCitizen = response.data;
-                // Remove doctor assignment
-                seniorCitizen.assignedDoctorId = null;
+                const seniorCitizenData = response.data;
+                // Format birthDate to YYYY-MM-DD if it contains time
+                let formattedBirthDate = seniorCitizenData.birthDate;
+                if (formattedBirthDate && formattedBirthDate.includes('T')) {
+                    formattedBirthDate = formattedBirthDate.split('T')[0];
+                }
+                // Create a clean payload with only the necessary fields
+                const payload = {
+                    id: seniorCitizenData.id,
+                    organizationId: seniorCitizenData.organizationId,
+                    firstName: seniorCitizenData.firstName,
+                    lastName: seniorCitizenData.lastName,
+                    birthDate: formattedBirthDate,
+                    gender: seniorCitizenData.gender,
+                    weight: seniorCitizenData.weight,
+                    height: seniorCitizenData.height,
+                    dni: seniorCitizenData.dni,
+                    imageUrl: seniorCitizenData.imageUrl,
+                    deviceId: seniorCitizenData.deviceId,
+                    assignedDoctorId: null,
+                    assignedCaregiverId: seniorCitizenData.assignedCaregiverId,
+                    planType: seniorCitizenData.planType || 'freemium'
+                };
                 // Use PUT to update the entire senior citizen
-                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, payload);
             });
     }
 
@@ -182,12 +225,41 @@ export class OrganizationApi extends BaseApi {
         // First get the senior citizen
         return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
             .then(response => {
-                const seniorCitizen = response.data;
-                // Update with the caregiver assignment (and remove doctor if exists)
-                seniorCitizen.assignedCaregiverId = caregiverId;
-                seniorCitizen.assignedDoctorId = null;
+                const seniorCitizenData = response.data;
+                // Format birthDate to YYYY-MM-DD if it contains time
+                let formattedBirthDate = seniorCitizenData.birthDate;
+                if (formattedBirthDate && formattedBirthDate.includes('T')) {
+                    formattedBirthDate = formattedBirthDate.split('T')[0];
+                }
+                // Create a clean payload with only the necessary fields
+                const payload = {
+                    id: seniorCitizenData.id,
+                    organizationId: seniorCitizenData.organizationId,
+                    firstName: seniorCitizenData.firstName,
+                    lastName: seniorCitizenData.lastName,
+                    birthDate: formattedBirthDate,
+                    gender: seniorCitizenData.gender,
+                    weight: seniorCitizenData.weight,
+                    height: seniorCitizenData.height,
+                    dni: seniorCitizenData.dni,
+                    imageUrl: seniorCitizenData.imageUrl,
+                    deviceId: seniorCitizenData.deviceId,
+                    assignedDoctorId: null,
+                    assignedCaregiverId: caregiverId,
+                    planType: seniorCitizenData.planType || 'freemium'
+                };
+                console.log('Sending assignment payload:', payload);
                 // Use PUT to update the entire senior citizen
-                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, payload)
+                    .then(response => {
+                        console.log('Backend response:', response);
+                        console.log('Updated senior citizen:', response.data);
+                        return response;
+                    })
+                    .catch(error => {
+                        console.error('Backend error:', error.response || error);
+                        throw error;
+                    });
             });
     }
 
@@ -195,11 +267,31 @@ export class OrganizationApi extends BaseApi {
         // First get the senior citizen
         return this.http.get(`${seniorCitizensEndpointPath}/${seniorCitizenId}`)
             .then(response => {
-                const seniorCitizen = response.data;
-                // Remove caregiver assignment
-                seniorCitizen.assignedCaregiverId = null;
+                const seniorCitizenData = response.data;
+                // Format birthDate to YYYY-MM-DD if it contains time
+                let formattedBirthDate = seniorCitizenData.birthDate;
+                if (formattedBirthDate && formattedBirthDate.includes('T')) {
+                    formattedBirthDate = formattedBirthDate.split('T')[0];
+                }
+                // Create a clean payload with only the necessary fields
+                const payload = {
+                    id: seniorCitizenData.id,
+                    organizationId: seniorCitizenData.organizationId,
+                    firstName: seniorCitizenData.firstName,
+                    lastName: seniorCitizenData.lastName,
+                    birthDate: formattedBirthDate,
+                    gender: seniorCitizenData.gender,
+                    weight: seniorCitizenData.weight,
+                    height: seniorCitizenData.height,
+                    dni: seniorCitizenData.dni,
+                    imageUrl: seniorCitizenData.imageUrl,
+                    deviceId: seniorCitizenData.deviceId,
+                    assignedDoctorId: seniorCitizenData.assignedDoctorId,
+                    assignedCaregiverId: null,
+                    planType: seniorCitizenData.planType || 'freemium'
+                };
                 // Use PUT to update the entire senior citizen
-                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, seniorCitizen);
+                return this.http.put(`${seniorCitizensEndpointPath}/${seniorCitizenId}`, payload);
             });
     }
 
@@ -211,6 +303,22 @@ export class OrganizationApi extends BaseApi {
 
     getCaregiversByOrganization(organizationId) {
         return this.http.get(`${caregiversEndpointPath}?organizationId=${organizationId}`);
+    }
+
+    getDoctorByUserId(userId) {
+        return this.http.get(`${doctorsEndpointPath}?userId=${userId}`).then(response => {
+            // Backend returns an array, so we need to extract the first element
+            const doctors = response.data;
+            return Array.isArray(doctors) && doctors.length > 0 ? doctors[0] : null;
+        });
+    }
+
+    getCaregiverByUserId(userId) {
+        return this.http.get(`${caregiversEndpointPath}?userId=${userId}`).then(response => {
+            // Backend returns an array, so we need to extract the first element
+            const caregivers = response.data;
+            return Array.isArray(caregivers) && caregivers.length > 0 ? caregivers[0] : null;
+        });
     }
 
     getDoctorByUserIdAndOrganizationId(userId, organizationId) {

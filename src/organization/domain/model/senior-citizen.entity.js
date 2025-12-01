@@ -148,4 +148,26 @@ export class SeniorCitizen {
     isAssignedToCaregiver(caregiverId) {
         return this._assignedCaregiverId === caregiverId;
     }
+
+    // Convert to plain object for API requests (using getters to get public values)
+    toJSON() {
+        return {
+            id: this.id,
+            organizationId: this.organizationId,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            birthDate: this.birthDate instanceof Date ? this.birthDate.toISOString().split('T')[0] : this.birthDate,
+            gender: this.gender,
+            weight: this.weight,
+            height: this.height,
+            dni: this.dni,
+            imageUrl: this.imageUrl,
+            deviceId: this.deviceId,
+            assignedDoctorId: this.assignedDoctorId,
+            assignedCaregiverId: this.assignedCaregiverId,
+            planType: this.planType
+        };
+    }
 }
+
+

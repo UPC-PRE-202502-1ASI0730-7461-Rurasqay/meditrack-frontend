@@ -10,6 +10,10 @@ const relativesRoutes = [
         component: RelativesLayout,
         children: [
             {
+                path: '',
+                redirect: { name: 'relative-profile' }
+            },
+            {
                 path: 'alerts',
                 name: 'relative-alerts',
                 component: alertList,

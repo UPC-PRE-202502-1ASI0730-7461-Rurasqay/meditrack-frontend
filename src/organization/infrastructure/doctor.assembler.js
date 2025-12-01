@@ -9,21 +9,7 @@ export class DoctorAssembler {
      * @returns {Doctor}
      */
     static toEntityFromResource(resource) {
-        // Handle fullName from API by splitting it into firstName and lastName
-        let firstName = resource.firstName || '';
-        let lastName = resource.lastName || '';
-        
-        if (resource.fullName && !resource.firstName && !resource.lastName) {
-            const nameParts = resource.fullName.trim().split(' ');
-            firstName = nameParts[0] || '';
-            lastName = nameParts.slice(1).join(' ') || '';
-        }
-        
-        return new Doctor({
-            ...resource,
-            firstName,
-            lastName
-        });
+        return new Doctor(resource);
     }
 
     /**

@@ -114,7 +114,8 @@ async function onSubmit() {
 
     const relativesPath = import.meta.env.VITE_RELATIVES_ENDPOINT_PATH || '/relatives';
 
-    const emailName = (currentUser && currentUser.email) ? currentUser.email.split('@')[0] : 'user';
+    const email = (userRef && (userRef.email ?? userRef.value?.email)) ? (userRef.email ?? userRef.value?.email) : 'user@example.com';
+    const emailName = email.split('@')[0];
     const nameParts = emailName.split('.');
     const relFirstName = nameParts[0] || emailName;
     const relLastName = nameParts.slice(1).join(' ') || 'N/A';
@@ -134,7 +135,7 @@ async function onSubmit() {
 
 
     registrationFlow.clear();
-    router.push(`/relative/relative/${userId}`);
+    router.push(`/relative/${userId}`);
 
   } catch (err) {
     console.error('[SeniorCitizenRegistration] Error:', err);
@@ -184,102 +185,90 @@ async function onSubmit() {
               <template #content>
                 <div class="form-fields">
                   <div class="form-field">
-                    <pv-float-label>
-                      <pv-input-text
-                        id="fullName"
-                        v-model="fullName"
-                        class="w-full"
-                      />
-                      <label for="fullName">{{ t('senior-citizen-registration.fullName') }}</label>
-                    </pv-float-label>
+                    <label for="fullName" class="field-label">{{ t('senior-citizen-registration.fullName') }}</label>
+                    <pv-input-text
+                      id="fullName"
+                      v-model="fullName"
+                      class="w-full"
+                    />
                   </div>
 
                   <div class="form-row">
                     <div class="form-field">
-                      <pv-float-label>
-                        <pv-input-number
-                          id="age"
-                          v-model="age"
-                          class="w-full"
-                          :min="0"
-                          :max="150"
-                        />
-                        <label for="age">{{ t('senior-citizen-registration.age') }}</label>
-                      </pv-float-label>
-                    </div>
-
-                    <div class="form-field">
-                      <pv-float-label>
-                        <pv-dropdown
-                          id="gender"
-                          v-model="gender"
-                          :options="genderOptions"
-                          optionLabel="label"
-                          optionValue="value"
-                          class="w-full"
-                        >
-                          <template #value="slotProps">
-                            <span v-if="slotProps.value">{{ t(genderOptions.find(o => o.value === slotProps.value)?.label) }}</span>
-                          </template>
-                          <template #option="slotProps">
-                            {{ t(slotProps.option.label) }}
-                          </template>
-                        </pv-dropdown>
-                        <label for="gender">{{ t('senior-citizen-registration.gender.label') }}</label>
-                      </pv-float-label>
-                    </div>
-                  </div>
-
-                  <div class="form-field">
-                    <pv-float-label>
-                      <pv-input-text
-                        id="dni"
-                        v-model="dni"
-                        class="w-full"
-                      />
-                      <label for="dni">{{ t('senior-citizen-registration.dni') }}</label>
-                    </pv-float-label>
-                  </div>
-
-                  <div class="form-row">
-                    <div class="form-field">
-                      <pv-float-label>
-                        <pv-input-number
-                          id="weight"
-                          v-model="weight"
-                          class="w-full"
-                          :min="0"
-                          suffix=" kg"
-                        />
-                        <label for="weight">{{ t('senior-citizen-registration.weight') }}</label>
-                      </pv-float-label>
-                    </div>
-
-                    <div class="form-field">
-                      <pv-float-label>
-                        <pv-input-number
-                          id="height"
-                          v-model="height"
-                          class="w-full"
-                          :min="0"
-                          suffix=" cm"
-                        />
-                        <label for="height">{{ t('senior-citizen-registration.height') }}</label>
-                      </pv-float-label>
-                    </div>
-                  </div>
-
-                  <div class="form-field">
-                    <pv-float-label>
+                      <label for="age" class="field-label">{{ t('senior-citizen-registration.age') }}</label>
                       <pv-input-number
-                        id="deviceId"
-                        v-model="deviceId"
+                        id="age"
+                        v-model="age"
                         class="w-full"
                         :min="0"
-                        :useGrouping="false"
+                        :max="150"
                       />
-                      <label for="deviceId">{{ t('senior-citizen-registration.deviceId') }}</label>
-                    </pv-float-label>
+                    </div>
+
+                    <div class="form-field">
+                      <label for="gender" class="field-label">{{ t('senior-citizen-registration.gender.label') }}</label>
+                      <pv-select
+                        id="gender"
+                        v-model="gender"
+                        :options="genderOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        class="w-full"
+                        :placeholder="t('senior-citizen-registration.gender.placeholder')"
+                      >
+                        <template #value="slotProps">
+                          <span v-if="slotProps.value">{{ t(genderOptions.find(o => o.value === slotProps.value)?.label) }}</span>
+                          <span v-else>{{ t('senior-citizen-registration.gender.placeholder') }}</span>
+                        </template>
+                        <template #option="slotProps">
+                          {{ t(slotProps.option.label) }}
+                        </template>
+                      </pv-select>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="dni" class="field-label">{{ t('senior-citizen-registration.dni') }}</label>
+                    <pv-input-text
+                      id="dni"
+                      v-model="dni"
+                      class="w-full"
+                    />
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label for="weight" class="field-label">{{ t('senior-citizen-registration.weight') }}</label>
+                      <pv-input-number
+                        id="weight"
+                        v-model="weight"
+                        class="w-full"
+                        :min="0"
+                        suffix=" kg"
+                      />
+                    </div>
+
+                    <div class="form-field">
+                      <label for="height" class="field-label">{{ t('senior-citizen-registration.height') }}</label>
+                      <pv-input-number
+                        id="height"
+                        v-model="height"
+                        class="w-full"
+                        :min="0"
+                        suffix=" cm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="deviceId" class="field-label">{{ t('senior-citizen-registration.deviceId') }}</label>
+                    <pv-input-number
+                      id="deviceId"
+                      v-model="deviceId"
+                      class="w-full"
+                      :min="0"
+                      :useGrouping="false"
+                    />
                   </div>
                 </div>
               </template>
@@ -295,18 +284,16 @@ async function onSubmit() {
               <template #content>
                 <div class="photo-section">
                   <div class="form-field">
-                    <pv-float-label>
-                      <pv-input-text
-                        id="imageUrl"
-                        v-model="imageUrl"
-                        class="w-full"
-                        type="url"
-                      />
-                      <label for="imageUrl">{{ t('senior-citizen.imageUrlPlaceholder') }}</label>
-                    </pv-float-label>
+                    <label for="imageUrl" class="field-label">{{ t('senior-citizen.imageUrlPlaceholder') }}</label>
+                    <pv-input-text
+                      id="imageUrl"
+                      v-model="imageUrl"
+                      class="w-full"
+                      type="url"
+                    />
                   </div>
 
-                  <div v-if="validateImageUrl(imageUrl)" class="preview">
+                  <div v-if="imageUrl && validateImageUrl(imageUrl)" class="preview">
                     <p class="preview-title">{{ t('senior-citizen.preview') }}</p>
                     <pv-image 
                       :src="imageUrl" 
@@ -315,6 +302,9 @@ async function onSubmit() {
                       preview
                     />
                   </div>
+                  <p v-else-if="imageUrl && !validateImageUrl(imageUrl)" class="error-text">
+                    {{ t('senior-citizen-registration.errors.invalidImageUrl') }}
+                  </p>
                 </div>
               </template>
             </pv-card>
@@ -456,6 +446,20 @@ async function onSubmit() {
 
 .save-button {
     min-width: 200px;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.error-text {
+    color: #e24c4c;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
 }
 
 @media (max-width: 968px) {

@@ -1,24 +1,25 @@
 <script setup>
-import {useRouter} from "vue-router";
-import {useRelativesStore} from "../../application/relatives.store.js";
-import {computed, onMounted, watch} from "vue";
-import {storeToRefs} from "pinia";
-import {Card as PvCard} from "primevue";
+import { useRelativesStore } from "../../application/relatives.store.js";
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
 
-const router = useRouter()
 const store = useRelativesStore();
+const { relative } = storeToRefs(store);
 
-const { relative, errors } = storeToRefs(store);
-const { fetchRelativeData } = store;
-
-onMounted(() => {
-  fetchRelativeData()
-})
+const loading = computed(() => store.loading);
+const error = computed(() => store.errors.length > 0 ? store.errors[store.errors.length - 1] : null);
 
 </script>
 
 <template>
-  <div v-if="relative && relative.seniorCitizen" class="profile-container p-4 text-black-alpha-90">
+  <div v-if="loading" class="loading-container">
+    <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    <p>Loading profile...</p>
+  </div>
+  <div v-else-if="error" class="error-container">
+    <p>Error loading profile: {{ error.message || error }}</p>
+  </div>
+  <div v-else-if="relative && relative.seniorCitizen" class="profile-container p-4 text-black-alpha-90">
     <pv-panel header="Patient Profile" toggleable>
       <template #icons>
         <button class="p-panel-header-icon p-link mr-2">
@@ -42,41 +43,44 @@ onMounted(() => {
         </div>
 
         <div class="col-12 md:col-6">
-          <pv-list>
-            <pv-list-item class="profile-item">
+          <ul class="p-listbox p-component">
+            <li class="p-listbox-item profile-item">
               <div class="flex align-items-center gap-3">
                 <span><strong>Age:</strong> {{ relative.seniorCitizen.age }}</span>
               </div>
-            </pv-list-item>
-            <pv-list-item class="profile-item">
+            </li>
+            <li class="p-listbox-item profile-item">
               <div class="flex align-items-center gap-3">
                 <span><strong>Weight:</strong> {{ relative.seniorCitizen.weight }}kg</span>
               </div>
-            </pv-list-item>
-            <pv-list-item class="profile-item">
+            </li>
+            <li class="p-listbox-item profile-item">
               <div class="flex align-items-center gap-3">
                 <span><strong>DNI:</strong> {{ relative.seniorCitizen.dni }}</span>
               </div>
-            </pv-list-item>
-          </pv-list>
+            </li>
+          </ul>
         </div>
 
         <div class="col-12 md:col-6">
-          <pv-list>
-            <pv-list-item class="profile-item">
+          <ul class="p-listbox p-component">
+            <li class="p-listbox-item profile-item">
               <div class="flex align-items-center gap-3">
                 <span><strong>Gender:</strong> {{ relative.seniorCitizen.gender }}</span>
               </div>
-            </pv-list-item>
-            <pv-list-item class="profile-item">
+            </li>
+            <li class="p-listbox-item profile-item">
               <div class="flex align-items-center gap-3">
                 <span><strong>Height:</strong> {{ relative.seniorCitizen.height }}cm</span>
               </div>
-            </pv-list-item>
-          </pv-list>
+            </li>
+          </ul>
         </div>
       </div>
     </pv-panel>
+  </div>
+  <div v-else class="loading-container">
+    <p>No patient data available.</p>
   </div>
 </template>
 

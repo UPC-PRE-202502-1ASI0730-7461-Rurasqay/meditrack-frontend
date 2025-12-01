@@ -223,7 +223,7 @@ const navigateTo = (item) => {
 // Handle logout
 const logout = () => {
   iamStore.logout();
-  router.push('/login');
+  router.push('/auth/login');
 };
 
 // Lifecycle hooks

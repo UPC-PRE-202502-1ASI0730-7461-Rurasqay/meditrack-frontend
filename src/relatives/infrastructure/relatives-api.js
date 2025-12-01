@@ -16,4 +16,20 @@ export class RelativesApi extends BaseApi {
     getRelativeById(id){
         return this.#relativesEndpoint.getById(id);
     }
+
+    getRelativeByUserId(userId) {
+        return this.http.get(`relatives/user/${userId}`);
+    }
+
+    createRelative(resource) {
+        return this.#relativesEndpoint.create(resource);
+    }
+
+    updateRelative(resource) {
+        return this.#relativesEndpoint.update(resource.id, resource);
+    }
+
+    deleteRelative(id) {
+        return this.#relativesEndpoint.delete(id);
+    }
 }

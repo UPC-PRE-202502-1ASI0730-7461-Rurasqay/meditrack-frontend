@@ -14,6 +14,17 @@
       "sign-up": "Registrarse"
     }
   },
+  "login": {
+    "errors": {
+      "requiredFields": "El correo electrónico y la contraseña son requeridos",
+      "invalidCredentials": "Correo electrónico o contraseña inválidos",
+      "userNotFound": "Usuario no encontrado",
+      "adminNotFound": "Perfil de administrador no encontrado",
+      "doctorNotFound": "Perfil de doctor no encontrado",
+      "caregiverNotFound": "Perfil de cuidador no encontrado",
+      "serverError": "Error del servidor. Por favor intente más tarde"
+    }
+  },
   "organization": {
     "clinic": "Clínica",
     "residentHome": "Casa de Reposo",
@@ -132,6 +143,10 @@
     "deleteHeader": "Eliminar Adulto Mayor",
     "assignedTo": "Asignado a",
     "unassigned": "No asignado",
+    "imageUrlPlaceholder": "https://ejemplo.com/imagen.jpg",
+    "preview": "Vista previa",
+    "photo": "Foto",
+    "save": "Guardar",
     "alertsTab": {
       "date": "Fecha",
       "time": "Hora",
@@ -214,7 +229,7 @@
   },
   "common": {
     "menu": "Menú",
-    "loading": "Cargando",
+    "loading": "Cargando...",
     "logout": "Cerrar Sesión",
     "home": "Inicio"
   },
@@ -234,15 +249,17 @@
     "subtitle": "Plataforma profesional de gestión sanitaria",
     "noAccount": "¿No tienes cuenta?",
     "signUp": "Regístrate",
-
-    "errors": {
-      "invalidCredentials": "Correo o contraseña inválidos",
-      "adminNotFound": "Usuario administrador no encontrado",
-      "doctorNotFound": "Usuario doctor no encontrado",
-      "caregiverNotFound": "Usuario cuidador no encontrado"
-    },
     "emailPlaceholder": "Correo electrónico",
-    "passwordPlaceholder": "Contraseña"
+    "passwordPlaceholder": "Contraseña",
+    "errors": {
+      "requiredFields": "El correo electrónico y la contraseña son requeridos",
+      "invalidCredentials": "Correo electrónico o contraseña inválidos",
+      "userNotFound": "Usuario no encontrado",
+      "adminNotFound": "Perfil de administrador no encontrado",
+      "doctorNotFound": "Perfil de doctor no encontrado",
+      "caregiverNotFound": "Perfil de cuidador no encontrado",
+      "serverError": "Error del servidor. Por favor intente más tarde"
+    }
   },
 
   "billingInformation": {
@@ -271,7 +288,10 @@
       "securityCodeRequired": "El código de seguridad es obligatorio",
       "passwordRequired": "La contraseña es obligatoria",
       "passwordMismatch": "Las contraseñas no coinciden",
-      "confirmPasswordRequired": "Confirmar contraseña es obligatorio"
+      "confirmPasswordRequired": "Confirmar contraseña es obligatorio",
+      "emailTaken": "Credenciales inválidas, el correo electrónico ya está en uso.",
+      "invalidData": "Datos inválidos proporcionados. Por favor verifica tu información.",
+      "unauthorized": "Acceso no autorizado. Por favor intenta nuevamente."
     }
   },
 
@@ -298,6 +318,7 @@
     "age": "Edad",
     "gender": {
       "label": "Género",
+      "placeholder": "Seleccionar género",
       "male": "Masculino",
       "female": "Femenino"
     },
@@ -306,6 +327,7 @@
     "weight": "Peso (kg)",
     "height": "Talla (cm)",
     "uploadPhoto": "Subir Foto",
+    "save": "Registrar Adulto Mayor",
     "errors": {
       "invalidForm": "Por favor completa todos los campos requeridos correctamente",
       "authRequired": "Debes iniciar sesión para registrar a un adulto mayor",
@@ -313,15 +335,9 @@
       "failed": "Error al registrar al adulto mayor. Inténtalo nuevamente.",
       "deviceIdInUse": "El ID del dispositivo ya está en uso",
       "serviceNotFound": "Servicio requerido no encontrado",
-      "invalidData": "Datos proporcionados inválidos"
+      "invalidData": "Datos proporcionados inválidos",
+      "invalidImageUrl": "Por favor ingresa una URL de imagen válida (jpg, jpeg, png, gif, webp)"
     }
-  },
-
-  "senior-citizen": {
-    "imageUrlPlaceholder": "https://ejemplo.com/imagen.jpg",
-    "preview": "Vista previa",
-    "photo": "Foto",
-    "save": "Guardar"
   },
 
   "signup": {
@@ -337,9 +353,12 @@
     "haveAccount": "¿Ya tienes una cuenta?",
     "signIn": "Inicia sesión",
 
+    "checkingEmail": "Verificando disponibilidad del correo...",
+
     "errors": {
       "invalidForm": "Por favor completa todos los campos requeridos correctamente",
-      "failed": "Error al crear la cuenta. Inténtalo nuevamente."
+      "failed": "Error al crear la cuenta. Inténtalo nuevamente.",
+      "emailTaken": "Este correo ya está registrado. Por favor usa un correo diferente o inicia sesión."
     }
   },
 
@@ -377,6 +396,16 @@
     "nursingHomeDescription": "Gestiona múltiples pacientes en tu instalación",
     "clinic": "Clínica Médica",
     "clinicDescription": "Gestión profesional de salud para tu práctica"
+  },
+  "navigation": {
+    "logout": "Cerrar Sesión"
+  },
+  "relatives": {
+    "navigation": {
+      "profile": "Perfil",
+      "statistics": "Estadísticas",
+      "alerts": "Alertas",
+      "support": "Soporte"
+    }
   }
-
 }

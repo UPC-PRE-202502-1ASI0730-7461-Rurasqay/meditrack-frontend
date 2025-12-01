@@ -25,4 +25,17 @@ export class UserAssembler {
         return resources.map(resource => this.toEntityFromResource(resource));
 
     }
+
+    /**
+     * Convert an API response containing a single resource into a User entity.
+     * @param response - The API response object from Axios.
+     * @returns {User|null}
+     */
+    static toEntityFromResponse(response) {
+        if (response.status !== 200) {
+            console.error(`${response.status} - ${response.statusText}`);
+            return null;
+        }
+        return this.toEntityFromResource(response.data);
+    }
 }

@@ -119,3 +119,4 @@ export class Doctor {
         this._assignedSeniorIds = this._assignedSeniorIds.filter(id => id !== seniorId);
     }
 }
+

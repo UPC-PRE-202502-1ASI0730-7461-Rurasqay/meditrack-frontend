@@ -131,6 +131,42 @@ export const useOrganizationStore = defineStore('organization', () => {
         })
     }
 
+    function fetchDoctorsByOrganization(organizationId) {
+        loading.value = true;
+        return organizationApi.getDoctorsByOrganization(organizationId).then((response) => {
+            const orgDoctors = DoctorAssembler.toEntitiesFromResponse(response);
+            // Update the global doctors array and the filtered one
+            doctors.value = orgDoctors;
+            doctorsByOrganization.value = orgDoctors;
+            doctorsLoaded.value = true;
+            loading.value = false;
+            console.log("fetchDoctorsByOrganization loaded", orgDoctors);
+            return orgDoctors;
+        }).catch((error) => {
+            errors.value.push(error);
+            loading.value = false;
+            throw error;
+        })
+    }
+
+    function fetchCaregiversByOrganization(organizationId) {
+        loading.value = true;
+        return organizationApi.getCaregiversByOrganization(organizationId).then((response) => {
+            const orgCaregivers = CaregiverAssembler.toEntitiesFromResponse(response);
+            // Update the global caregivers array and the filtered one
+            caregivers.value = orgCaregivers;
+            caregiversByOrganization.value = orgCaregivers;
+            caregiversLoaded.value = true;
+            loading.value = false;
+            console.log("fetchCaregiversByOrganization loaded", orgCaregivers);
+            return orgCaregivers;
+        }).catch((error) => {
+            errors.value.push(error);
+            loading.value = false;
+            throw error;
+        })
+    }
+
     function getDoctorsById(id) {
         let idInt = parseInt(id);
         return doctorsByOrganization.value.filter((item) => item.id === idInt)
@@ -502,6 +538,7 @@ export const useOrganizationStore = defineStore('organization', () => {
         
         // Doctor methods
         fetchDoctors,
+        fetchDoctorsByOrganization,
         getDoctorsById,
         updateDoctor,
         deleteDoctor,
@@ -509,6 +546,7 @@ export const useOrganizationStore = defineStore('organization', () => {
         
         // Caregiver methods
         fetchCaregivers,
+        fetchCaregiversByOrganization,
         getCaregiversById,
         updateCaregiver,
         deleteCaregiver,

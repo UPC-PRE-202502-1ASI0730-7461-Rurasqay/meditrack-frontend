@@ -46,8 +46,35 @@ export const useIAMStore = defineStore('iam', () => {
             }
 
             token.value = resource.token || null;
+            
+            // Persist token to localStorage
+            if (resource.token) {
+                localStorage.setItem('token', resource.token);
+            }
 
+            // If role is not in the response or is generic 'user', try to determine the actual role
+            console.log('[IAMStore.signIn] Initial resource role:', resource.role);
+            if ((!resource.role || resource.role === 'user') && resource.id) {
+                console.log('[IAMStore.signIn] Role not found or generic, fetching user by id:', resource.id);
+                try {
+                    const userResponse = await iamApi.getUserById(resource.id);
+                    console.log('[IAMStore.signIn] User response:', userResponse);
+                    
+                    // If the user has a valid role (not 'user' generic), use it
+                    if (userResponse && userResponse.role && userResponse.role !== 'user') {
+                        resource.role = userResponse.role;
+                        console.log('[IAMStore.signIn] Updated resource with role from user:', resource.role);
+                    } else {
+                        console.warn('[IAMStore.signIn] User response has no valid role, will infer from entity tables');
+                        resource.role = 'user'; // Keep as 'user' for now, login component will handle detection
+                    }
+                } catch (userErr) {
+                    console.warn('[IAMStore.signIn] Could not fetch user role:', userErr);
+                    resource.role = 'user'; // Default to 'user', login component will handle detection
+                }
+            }
 
+            console.log('[IAMStore.signIn] Final resource:', resource);
             currentUser.value = resource;
             currentUserLoaded.value = true;
             return resource;
@@ -80,14 +107,18 @@ export const useIAMStore = defineStore('iam', () => {
                 throw e;
             }
 
-            const payload = command.toPayload();
-            const resource = await iamApi.signUp(payload);
+            const resource = await iamApi.signUp(command);
             if (!resource) {
                 throw new Error('Invalid sign up response');
             }
 
-
             token.value = resource.token || null;
+            
+            // Persist token to localStorage
+            if (resource.token) {
+                localStorage.setItem('token', resource.token);
+            }
+            
             currentUser.value = resource;
             currentUserLoaded.value = true;
 

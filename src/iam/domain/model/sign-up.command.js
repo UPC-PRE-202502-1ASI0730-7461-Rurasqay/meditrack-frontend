@@ -131,39 +131,6 @@ export class SignUpCommand {
     return this.isComplete(requirePaymentConfirmation) && this.validateEmail() && this.validatePassword();
   }
 
-  toPayload() {
-    // Build user object and only include names when present
-    const user = {
-      email: this.email,
-      password: this.password,
-      role: this.role
-    };
-    if (this.userFirstName) user.firstName = this.userFirstName;
-    if (this.userLastName) user.lastName = this.userLastName;
-
-    // Admin object: only include if any admin field is present
-    const admin = (this.adminFirstName || this.adminLastName) ? {
-      firstName: this.adminFirstName,
-      lastName: this.adminLastName
-    } : undefined;
-
-    // Organization object: only include when name/type present
-    const organization = (this.institutionName || this.institutionType) ? {
-      name: this.institutionName,
-      type: this.institutionType
-    } : undefined;
-
-
-    const payload = { user };
-
-    if (admin) payload.admin = admin;
-    if (organization) payload.organization = organization;
-    if (this.planType) payload.planType = this.planType;
-    if (this.payment) payload.payment = this.payment;
-
-    return payload;
-  }
-
   /**
    * Validate command completeness and return detailed errors.
    * @param {boolean} requirePaymentConfirmation - if true, premium plans must have payment.confirmed === true
@@ -212,5 +179,32 @@ export class SignUpCommand {
       userLastName: flow.userLastName || flow.user?.lastName || '',
       payment: flow.payment || null
     });
+  }
+
+  /**
+   * Convert to plain object for API requests.
+   * Backend expects: email, password, role, firstName, lastName, organizationName, organizationType
+   */
+  toJSON() {
+    const payload = {
+      email: this.email,
+      password: this.password,
+      role: this.role
+    };
+
+    // For admin role, send firstName/lastName (not adminFirstName/adminLastName)
+    if (this.role === 'admin') {
+      payload.firstName = this.adminFirstName;
+      payload.lastName = this.adminLastName;
+      payload.organizationName = this.institutionName;
+      payload.organizationType = this.institutionType;
+    } else if (this.role === 'relative') {
+      // For relative, send planType
+      if (this.planType) {
+        payload.planType = this.planType;
+      }
+    }
+
+    return payload;
   }
 }

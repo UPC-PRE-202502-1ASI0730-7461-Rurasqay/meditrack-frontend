@@ -52,7 +52,7 @@ async function onSubmit() {
     const role = resource.role ?? resource.user?.role ?? null;
 
     if (role === 'relative') {
-      await router.push({ path: `/relative/relative/${userId}` });
+      await router.push({ path: `/relative/${userId}` });
       return;
     }
 
@@ -62,7 +62,7 @@ async function onSubmit() {
         const data = resp && resp.data ? resp.data : resp;
         const admin = Array.isArray(data) ? (data[0] || null) : data;
         if (admin && admin.organizationId) {
-          await router.push({ path: `/organization/${admin.organizationId}/admin/${userId}` });
+          await router.push({ path: `/organization/${admin.organizationId}/admin/${userId}/senior-citizens` });
         } else {
           errorMessage.value = 'login.errors.adminNotFound';
         }

@@ -14,6 +14,17 @@
       "sign-up": "Sign Up"
     }
   },
+  "login": {
+    "errors": {
+      "requiredFields": "Email and password are required",
+      "invalidCredentials": "Invalid email or password",
+      "userNotFound": "User not found",
+      "adminNotFound": "Admin profile not found",
+      "doctorNotFound": "Doctor profile not found",
+      "caregiverNotFound": "Caregiver profile not found",
+      "serverError": "Server error. Please try again later"
+    }
+  },
   "organization": {
     "clinic": "Clinic",
     "residentHome": "Resident Home",
@@ -132,6 +143,10 @@
     "deleteHeader": "Delete Senior Citizen",
     "assignedTo": "Assigned to",
     "unassigned": "Not assigned",
+    "imageUrlPlaceholder": "https://example.com/image.jpg",
+    "preview": "Preview",
+    "photo": "Photo",
+    "save": "Save",
     "alertsTab": {
       "date": "Date",
       "time": "Time",
@@ -214,7 +229,7 @@
   },
   "common": {
     "menu": "Menu",
-    "loading": "Loading",
+    "loading": "Loading...",
     "logout": "Logout",
     "home": "Home"
   },
@@ -234,15 +249,17 @@
     "subtitle": "Professional healthcare management platform",
     "noAccount": "Don't have an account?",
     "signUp": "Sign Up",
-
-    "errors": {
-      "invalidCredentials": "Invalid email or password",
-      "adminNotFound": "Admin user not found",
-      "doctorNotFound": "Doctor user not found",
-      "caregiverNotFound": "Caregiver user not found"
-    },
     "emailPlaceholder": "Email",
-    "passwordPlaceholder": "Password"
+    "passwordPlaceholder": "Password",
+    "errors": {
+      "requiredFields": "Email and password are required",
+      "invalidCredentials": "Invalid email or password",
+      "userNotFound": "User not found",
+      "adminNotFound": "Admin profile not found",
+      "doctorNotFound": "Doctor profile not found",
+      "caregiverNotFound": "Caregiver profile not found",
+      "serverError": "Server error. Please try again later"
+    }
   },
 
   "billingInformation": {
@@ -271,7 +288,10 @@
       "securityCodeRequired": "Security code is required",
       "passwordRequired": "Password is required",
       "passwordMismatch": "Passwords do not match",
-      "confirmPasswordRequired": "Confirm password is required"
+      "confirmPasswordRequired": "Confirm password is required",
+      "emailTaken": "Invalid credentials, user email is already taken.",
+      "invalidData": "Invalid data provided. Please check your information.",
+      "unauthorized": "Unauthorized access. Please try again."
     }
   },
 
@@ -298,6 +318,7 @@
     "age": "Age",
     "gender": {
       "label": "Gender",
+      "placeholder": "Select gender",
       "male": "Male",
       "female": "Female"
     },
@@ -306,6 +327,7 @@
     "weight": "Weight (kg)",
     "height": "Height (cm)",
     "uploadPhoto": "Upload Photo",
+    "save": "Register Senior Citizen",
     "errors": {
       "invalidForm": "Please fill out all required fields correctly",
       "authRequired": "You must be logged in to register a senior citizen",
@@ -313,15 +335,9 @@
       "failed": "Failed to register senior citizen. Please try again.",
       "deviceIdInUse": "Device ID is already in use",
       "serviceNotFound": "Required service not found",
-      "invalidData": "Invalid data provided"
+      "invalidData": "Invalid data provided",
+      "invalidImageUrl": "Please enter a valid image URL (jpg, jpeg, png, gif, webp)"
     }
-  },
-
-  "senior-citizen": {
-    "imageUrlPlaceholder": "https://example.com/image.jpg",
-    "preview": "Preview",
-    "photo": "Photo",
-    "save": "Save"
   },
 
   "signup": {
@@ -337,10 +353,12 @@
     "haveAccount": "Already have an account?",
     "signIn": "Sign In",
 
+    "checkingEmail": "Checking email availability...",
+
     "errors": {
       "invalidForm": "Please fill out all required fields correctly",
-      "failed": "Failed to create account. Please try again."
-
+      "failed": "Failed to create account. Please try again.",
+      "emailTaken": "This email is already registered. Please use a different email or sign in."
     }
   },
 
@@ -378,5 +396,16 @@
     "nursingHomeDescription": "Manage multiple patients in your facility",
     "clinic": "Medical Clinic",
     "clinicDescription": "Professional healthcare management for your practice"
+  },
+  "navigation": {
+    "logout": "Logout"
+  },
+  "relatives": {
+    "navigation": {
+      "profile": "Profile",
+      "statistics": "Statistics",
+      "alerts": "Alerts",
+      "support": "Support"
+    }
   }
 }
