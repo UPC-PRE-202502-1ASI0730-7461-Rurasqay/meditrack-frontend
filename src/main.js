@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from './app.vue'
-import i18n from "./i18n.js";
+import App from './App.vue'
+import i18n from "./i18n.js"; 
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import PrimeVue from 'primevue/config';
