@@ -66,8 +66,19 @@ const app = createApp(App)
     .use(router)
     .use(pinia);
 
-// Restore session from localStorage
-const iamStore = useIAMStore();
-iamStore.restoreSession();
+// Restore session from localStorage safely
+try {
+    const iamStore = useIAMStore();
+    iamStore.restoreSession();
+} catch (error) {
+    console.error('Error during session restoration:', error);
+    // Clear potentially corrupted data
+    try {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
+    } catch (e) {
+        // Ignore localStorage errors
+    }
+}
 
 app.mount('#app')

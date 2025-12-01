@@ -182,38 +182,57 @@ export const useIAMStore = defineStore('iam', () => {
     }
 
     function restoreSession() {
-        const storedUser = localStorage.getItem('currentUser');
-        const storedToken = localStorage.getItem('token');
-        
-        // Check if storedUser exists and is not the string "undefined"
-        if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
-            try {
-                const userData = JSON.parse(storedUser);
-                // Validate that userData is an object and has expected properties
-                if (userData && typeof userData === 'object' && userData.id) {
-                    currentUser.value = userData;
-                    currentUserLoaded.value = true;
-                    if (storedToken && storedToken !== 'undefined' && storedToken !== 'null') {
-                        token.value = storedToken;
-                    }
-                    return userData;
-                } else {
-                    // Invalid user data structure, clean up
-                    console.warn('Invalid user data structure in localStorage, cleaning up');
-                    localStorage.removeItem('currentUser');
-                    localStorage.removeItem('token');
-                }
-            } catch (error) {
-                console.error('Error restoring session:', error);
+        try {
+            const storedUser = localStorage.getItem('currentUser');
+            const storedToken = localStorage.getItem('token');
+            
+            // Check if storedUser exists and is a valid string
+            if (!storedUser || storedUser === 'undefined' || storedUser === 'null' || storedUser.trim() === '') {
+                // Clean up invalid values
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('token');
+                return null;
             }
-        } else if (storedUser === 'undefined' || storedUser === 'null') {
-            // Clean up invalid values
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('token');
+            
+            // Try to parse the stored user data
+            let userData;
+            try {
+                userData = JSON.parse(storedUser);
+            } catch (parseError) {
+                console.error('Failed to parse stored user data:', parseError);
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+                return null;
+            }
+            
+            // Validate that userData is an object and has expected properties
+            if (!userData || typeof userData !== 'object' || !userData.id) {
+                console.warn('Invalid user data structure in localStorage, cleaning up');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+                return null;
+            }
+            
+            // All validations passed, restore the session
+            currentUser.value = userData;
+            currentUserLoaded.value = true;
+            
+            if (storedToken && storedToken !== 'undefined' && storedToken !== 'null' && storedToken.trim() !== '') {
+                token.value = storedToken;
+            }
+            
+            return userData;
+        } catch (error) {
+            // Catch any unexpected errors
+            console.error('Unexpected error in restoreSession:', error);
+            try {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+            } catch (e) {
+                // Ignore localStorage errors
+            }
+            return null;
         }
-        return null;
     }
 
     return {
