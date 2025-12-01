@@ -27,7 +27,10 @@ const form = ref({
   dni: '',
   imageUrl: '',
   deviceId: null,
-  organizationId: null
+  organizationId: null,
+  planType: 'freemium',
+  assignedDoctorId: null,
+  assignedCaregiverId: null
 });
 
 const genderOptions = [
@@ -59,7 +62,10 @@ onMounted(() => {
         dni: seniorCitizen.dni,
         imageUrl: seniorCitizen.imageUrl,
         deviceId: seniorCitizen.deviceId,
-        organizationId: seniorCitizen.organizationId
+        organizationId: seniorCitizen.organizationId,
+        planType: seniorCitizen.planType || 'freemium',
+        assignedDoctorId: seniorCitizen.assignedDoctorId,
+        assignedCaregiverId: seniorCitizen.assignedCaregiverId
       };
     }
   }
@@ -125,8 +131,9 @@ const onSubmit = () => {
     imageUrl: form.value.imageUrl || '/assets/default-senior-citizen.png',
     deviceId: parseInt(form.value.deviceId),
     organizationId: form.value.organizationId,
-    assignedDoctorId: null,
-    assignedCaregiverId: null
+    planType: form.value.planType || 'freemium',
+    assignedDoctorId: form.value.assignedDoctorId,
+    assignedCaregiverId: form.value.assignedCaregiverId
   };
 
   try {
