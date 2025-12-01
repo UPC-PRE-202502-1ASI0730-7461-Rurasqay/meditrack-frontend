@@ -36,11 +36,13 @@ const navigateBack = () => {
 const saveDoctor = () => {
   const organizationId = route.params.organizationId;
   const doctorData = {
-    fullName: `${form.value.name} ${form.value.lastname}`,
+    firstName: form.value.name,
+    lastName: form.value.lastname,
     specialty: form.value.specialty,
     age: form.value.age ? parseInt(form.value.age) : null,
     phoneNumber: form.value.phone,
     email: form.value.email,
+    imageUrl: 'https://via.placeholder.com/150x150/CCCCCC/FFFFFF?text=Doctor',
     organizationId: organizationId ? parseInt(organizationId) : null
   };
   addDoctor(doctorData);
