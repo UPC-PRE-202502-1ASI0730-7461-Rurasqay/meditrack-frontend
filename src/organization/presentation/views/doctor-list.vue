@@ -61,6 +61,7 @@ onMounted(async () => {
 
   switch (organization.value.type) {
     case 'clinic':
+    case 'HealthCenter':
       // Always fetch doctors after organization is loaded to ensure proper filtering
       await fetchDoctorsByOrganization(organization.value.id);
       console.log('doctors loaded', doctorsLoaded.value);
@@ -68,6 +69,7 @@ onMounted(async () => {
       console.log('doctorsByOrganizationCount:', doctorsByOrganizationCount.value);
       break;
     case 'residence':
+    case 'resident':
       if (!caregiversLoaded.value) {
         await fetchCaregivers();
         console.log('caregivers loaded', caregiversLoaded.value);
