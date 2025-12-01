@@ -66,19 +66,30 @@ const app = createApp(App)
     .use(router)
     .use(pinia);
 
-// Restore session from localStorage safely
-try {
-    const iamStore = useIAMStore();
-    iamStore.restoreSession();
-} catch (error) {
-    console.error('Error during session restoration:', error);
-    // Clear potentially corrupted data
-    try {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('token');
-    } catch (e) {
-        // Ignore localStorage errors
-    }
-}
+app.mount('#app');
 
-app.mount('#app')
+// Restore session from localStorage after app is mounted
+// Wrapped in a microtask to ensure app is fully initialized
+Promise.resolve().then(() => {
+    try {
+        // First, clean any potentially corrupted data
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser === 'undefined' || storedUser === 'null' || storedUser === '') {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
+            return;
+        }
+        
+        const iamStore = useIAMStore();
+        iamStore.restoreSession();
+    } catch (error) {
+        console.error('Error during session restoration:', error);
+        // Clear potentially corrupted data
+        try {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
+        } catch (e) {
+            // Ignore localStorage errors
+        }
+    }
+});
