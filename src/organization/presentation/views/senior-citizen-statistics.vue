@@ -105,21 +105,15 @@ const temperatureData = computed(() => {
 
       <hr />
 
-      <!-- Temperature (Premium only) -->
-      <div v-if="isPremium">
-        <TemperatureChart 
-          v-if="hasTemperatureData" 
-          :temperature="temperatureData" 
-          :is-premium="isPremium" 
-        />
-        <div v-else class="stat-placeholder">
-          <i class="pi pi-sun"></i>
-          <p>{{ t('senior-citizen.statisticsTab.noTemperature') }}</p>
-        </div>
-      </div>
-      <div v-else class="stat-placeholder premium">
+      <!-- Temperature -->
+      <TemperatureChart 
+        v-if="hasTemperatureData" 
+        :temperature="temperatureData" 
+        :is-premium="isPremium" 
+      />
+      <div v-else class="stat-placeholder">
         <i class="pi pi-sun"></i>
-        <p>{{ t('senior-citizen.statisticsTab.temperaturePremiumOnly') }}</p>
+        <p>{{ t('senior-citizen.statisticsTab.noTemperature') }}</p>
       </div>
     </div>
   </div>

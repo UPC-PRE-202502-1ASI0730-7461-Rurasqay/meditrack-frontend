@@ -67,7 +67,7 @@ const initChart = () => {
         responsive: true,
         plugins: {
           legend: { display: true },
-          title: { display: true, text: "Body Temperature - Last 7 Days (Premium)" }
+          title: { display: true, text: "Body Temperature - Last 7 Days" }
         },
         scales: {
           x: {
@@ -85,9 +85,7 @@ const initChart = () => {
 };
 
 onMounted(() => {
-  if (props.isPremium) {
-    initChart();
-  }
+  initChart();
 });
 
 onUnmounted(() => {
@@ -103,7 +101,7 @@ onUnmounted(() => {
 });
 
 watch(() => props.temperature, () => {
-  if (props.isPremium && !isUnmounting.value) {
+  if (!isUnmounting.value) {
     updateChartData();
   }
 }, { deep: true });
@@ -111,7 +109,7 @@ watch(() => props.temperature, () => {
 </script>
 
 <template>
-  <div v-if="isPremium" class="chart-container">
+  <div class="chart-container">
     <canvas ref="chartRef" height="300"></canvas>
   </div>
 </template>

@@ -21,7 +21,7 @@ const seniorCitizen = computed(() => organizationStore.currentSeniorCitizen);
 const assignedPerson = computed(() => {
   if (!seniorCitizen.value) return null;
   
-  if (seniorCitizen.value.assignedDoctorId) {
+  if (seniorCitizen.value.assignedDoctorId && seniorCitizen.value.assignedDoctorId > 0) {
     const doctor = organizationStore.doctors.find(d => d.id === seniorCitizen.value.assignedDoctorId);
     return {
       type: 'doctor',
@@ -30,7 +30,7 @@ const assignedPerson = computed(() => {
     };
   }
   
-  if (seniorCitizen.value.assignedCaregiverId) {
+  if (seniorCitizen.value.assignedCaregiverId && seniorCitizen.value.assignedCaregiverId > 0) {
     const caregiver = organizationStore.caregivers.find(c => c.id === seniorCitizen.value.assignedCaregiverId);
     return {
       type: 'caregiver',
