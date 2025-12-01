@@ -185,20 +185,33 @@ export const useIAMStore = defineStore('iam', () => {
         const storedUser = localStorage.getItem('currentUser');
         const storedToken = localStorage.getItem('token');
         
-        if (storedUser) {
+        // Check if storedUser exists and is not the string "undefined"
+        if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
             try {
                 const userData = JSON.parse(storedUser);
-                currentUser.value = userData;
-                currentUserLoaded.value = true;
-                if (storedToken) {
-                    token.value = storedToken;
+                // Validate that userData is an object and has expected properties
+                if (userData && typeof userData === 'object' && userData.id) {
+                    currentUser.value = userData;
+                    currentUserLoaded.value = true;
+                    if (storedToken && storedToken !== 'undefined' && storedToken !== 'null') {
+                        token.value = storedToken;
+                    }
+                    return userData;
+                } else {
+                    // Invalid user data structure, clean up
+                    console.warn('Invalid user data structure in localStorage, cleaning up');
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('token');
                 }
-                return userData;
             } catch (error) {
                 console.error('Error restoring session:', error);
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('token');
             }
+        } else if (storedUser === 'undefined' || storedUser === 'null') {
+            // Clean up invalid values
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('token');
         }
         return null;
     }
