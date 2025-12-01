@@ -152,7 +152,14 @@ export const useOrganizationStore = defineStore('organization', () => {
     function fetchCaregiversByOrganization(organizationId) {
         loading.value = true;
         return organizationApi.getCaregiversByOrganization(organizationId).then((response) => {
-            const orgCaregivers = CaregiverAssembler.toEntitiesFromResponse(response);
+            let orgCaregivers = CaregiverAssembler.toEntitiesFromResponse(response);
+            
+            // Manual filter because backend might return all records ignoring the query param
+            if (organizationId) {
+                const orgIdInt = parseInt(organizationId);
+                orgCaregivers = orgCaregivers.filter(c => c.organizationId === orgIdInt);
+            }
+            
             // Update the global caregivers array and the filtered one
             caregivers.value = orgCaregivers;
             caregiversByOrganization.value = orgCaregivers;

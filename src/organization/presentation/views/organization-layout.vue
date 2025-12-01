@@ -38,10 +38,14 @@ const currentOrganization = computed(() => {
 });
 
 const organizationType = computed(() => currentOrganization.value?.type || 'clinic');
-const isClinic = computed(() => String(organizationType.value).toLowerCase() === 'clinic');
+const isClinic = computed(() => {
+  const type = String(organizationType.value).toLowerCase().trim();
+  console.log('Organization Type Check:', { raw: organizationType.value, processed: type, isClinic: type === 'clinic' });
+  return type === 'clinic';
+});
 // Accept both 'resident' and 'residence' for backward compatibility
 const isResidentHome = computed(() => {
-  const type = String(organizationType.value).toLowerCase();
+  const type = String(organizationType.value).toLowerCase().trim();
   return type === 'resident' || type === 'residence';
 });
 
