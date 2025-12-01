@@ -15,6 +15,14 @@
     }
   },
   "login": {
+    "welcome": "Bienvenido de Nuevo",
+    "subtitle": "Plataforma profesional de gestión geriátrica",
+    "emailPlaceholder": "Correo electrónico",
+    "passwordPlaceholder": "Contraseña",
+    "loginButton": "Iniciar Sesión",
+    "loggingIn": "Iniciando sesión...",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Regístrate",
     "errors": {
       "requiredFields": "El correo electrónico y la contraseña son requeridos",
       "invalidCredentials": "Correo electrónico o contraseña inválidos",

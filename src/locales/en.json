@@ -8,13 +8,21 @@
       "login-title": "Welcome to MediTrack",
       "email-placeholder": "Email address",
       "password-placeholder": "Password",
-      "forgot-password": " Forgot password?",
+      "forgot-password": "Forgot password?",
       "login-button": "Login",
       "dont-have-account": "Don't have an account?",
       "sign-up": "Sign Up"
     }
   },
   "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Professional healthcare management platform",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "loginButton": "Sign In",
+    "loggingIn": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
     "errors": {
       "requiredFields": "Email and password are required",
       "invalidCredentials": "Invalid email or password",
