@@ -107,7 +107,14 @@ const onAssignSeniorCitizen = async () => {
       selectedSeniorCitizenId.value = null;
     } catch (error) {
       console.error('Error assigning senior citizen:', error);
-      alert(error.message || t('caregiver.errors.assignError'));
+      if (error.response) {
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+        console.error('Error response headers:', error.response.headers);
+        alert(`Error: ${error.response.status} - ${JSON.stringify(error.response.data)}`);
+      } else {
+        alert(error.message || t('caregiver.errors.assignError'));
+      }
     }
   }
 };

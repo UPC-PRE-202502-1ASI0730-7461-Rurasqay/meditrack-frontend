@@ -167,6 +167,7 @@ export class OrganizationApi extends BaseApi {
             seniorCitizenId: parseInt(seniorCitizenId),
             doctorId: parseInt(doctorId)
         };
+        console.log('Assigning senior citizen to doctor with payload:', payload);
         return this.http.post('doctor-assignments', payload);
     }
 
@@ -179,6 +180,7 @@ export class OrganizationApi extends BaseApi {
             seniorCitizenId: parseInt(seniorCitizenId),
             caregiverId: parseInt(caregiverId)
         };
+        console.log('Assigning senior citizen to caregiver with payload:', payload);
         return this.http.post('caregiver-assignments', payload);
     }
 
