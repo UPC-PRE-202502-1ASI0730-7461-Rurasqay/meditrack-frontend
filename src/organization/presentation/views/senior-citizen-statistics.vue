@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useOrganizationStore } from '../../application/organization.store.js';
+import { useDevicesStore } from '../../../devices/application/devices.store.js';
 import { onMounted, computed, ref } from 'vue';
 import BloodPressureChart from '../components/blood-pressure-chart.vue';
 import HeartRateChart from '../components/heart-rate-chart.vue';
@@ -11,17 +12,28 @@ import TemperatureChart from '../components/temperature-chart.vue';
 const route = useRoute();
 const { t } = useI18n();
 const organizationStore = useOrganizationStore();
+const devicesStore = useDevicesStore();
 
 const isLoading = ref(true);
 const seniorCitizenId = computed(() => parseInt(route.params.id));
 
 const seniorCitizen = computed(() => organizationStore.currentSeniorCitizen);
-const signalVitals = computed(() => seniorCitizen.value?.signalVitals || {});
-const isPremium = computed(() => seniorCitizen.value?.planType === 'premium');
+const isPremium = computed(() => {
+  const planType = seniorCitizen.value?.planType?.toLowerCase();
+  return planType === 'premium';
+});
+
+const measurements = computed(() => devicesStore.measurements);
 
 onMounted(async () => {
   try {
     await organizationStore.fetchSeniorCitizenById(seniorCitizenId.value);
+    const deviceId = seniorCitizen.value?.deviceId;
+    if (deviceId && deviceId > 0) {
+      await devicesStore.fetchAllMeasurements(deviceId);
+    } else {
+      console.warn('No valid device ID found for senior citizen');
+    }
   } catch (error) {
     console.error('Error loading senior citizen statistics:', error);
   } finally {
@@ -30,23 +42,23 @@ onMounted(async () => {
 });
 
 const hasBloodPressureData = computed(() => {
-  return signalVitals.value?.bloodPressure && signalVitals.value.bloodPressure.length > 0;
+  return measurements.value?.bloodPressure && measurements.value.bloodPressure.length > 0;
 });
 
 const hasHeartRateData = computed(() => {
-  return signalVitals.value?.heartRate && signalVitals.value.heartRate.length > 0;
+  return measurements.value?.heartRate && measurements.value.heartRate.length > 0;
 });
 
 const hasOxygenLevelData = computed(() => {
-  return signalVitals.value?.oxygenLevel && signalVitals.value.oxygenLevel.length > 0;
+  return measurements.value?.oxygen && measurements.value.oxygen.length > 0;
 });
 
 const hasTemperatureData = computed(() => {
-  return signalVitals.value?.temperature && signalVitals.value.temperature.length > 0 && isPremium.value;
+  return measurements.value?.temperature && measurements.value.temperature.length > 0;
 });
 
 const temperatureData = computed(() => {
-  return signalVitals.value?.temperature || [];
+  return measurements.value?.temperature || [];
 });
 </script>
 
@@ -60,7 +72,7 @@ const temperatureData = computed(() => {
       <!-- Blood Pressure -->
       <BloodPressureChart 
         v-if="hasBloodPressureData" 
-        :blood-pressure="signalVitals.bloodPressure" 
+        :blood-pressure="measurements.bloodPressure" 
       />
       <div v-else class="stat-placeholder">
         <i class="pi pi-heart"></i>
@@ -72,7 +84,7 @@ const temperatureData = computed(() => {
       <!-- Heart Rate -->
       <HeartRateChart 
         v-if="hasHeartRateData" 
-        :heart-rate="signalVitals.heartRate" 
+        :heart-rate="measurements.heartRate" 
       />
       <div v-else class="stat-placeholder">
         <i class="pi pi-pulse"></i>
@@ -84,28 +96,30 @@ const temperatureData = computed(() => {
       <!-- Oxygen Level -->
       <OxygenSaturationChart 
         v-if="hasOxygenLevelData" 
-        :oxygen-level="signalVitals.oxygenLevel" 
+        :oxygen-level="measurements.oxygen" 
       />
       <div v-else class="stat-placeholder">
         <i class="pi pi-circle"></i>
         <p>{{ t('senior-citizen.statisticsTab.noOxygenLevel') }}</p>
       </div>
 
-      <hr v-if="hasOxygenLevelData || hasTemperatureData" />
+      <hr />
 
       <!-- Temperature (Premium only) -->
-      <TemperatureChart 
-        v-if="hasTemperatureData" 
-        :temperature="temperatureData" 
-        :is-premium="isPremium" 
-      />
-      <div v-else-if="!isPremium" class="stat-placeholder premium">
+      <div v-if="isPremium">
+        <TemperatureChart 
+          v-if="hasTemperatureData" 
+          :temperature="temperatureData" 
+          :is-premium="isPremium" 
+        />
+        <div v-else class="stat-placeholder">
+          <i class="pi pi-sun"></i>
+          <p>{{ t('senior-citizen.statisticsTab.noTemperature') }}</p>
+        </div>
+      </div>
+      <div v-else class="stat-placeholder premium">
         <i class="pi pi-sun"></i>
         <p>{{ t('senior-citizen.statisticsTab.temperaturePremiumOnly') }}</p>
-      </div>
-      <div v-else class="stat-placeholder">
-        <i class="pi pi-sun"></i>
-        <p>{{ t('senior-citizen.statisticsTab.noTemperature') }}</p>
       </div>
     </div>
   </div>

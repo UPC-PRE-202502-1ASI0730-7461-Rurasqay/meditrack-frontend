@@ -61,11 +61,11 @@ const loadCaregiver = async (id) => {
 };
 
 const getAssignedPersonName = (seniorCitizen) => {
-  if (seniorCitizen.assignedDoctorId) {
+  if (seniorCitizen.assignedDoctorId && seniorCitizen.assignedDoctorId > 0) {
     const doctor = doctors.value.find(d => d.id === seniorCitizen.assignedDoctorId);
     return doctor ? `Dr. ${doctor.fullName}` : `Doctor ID: ${seniorCitizen.assignedDoctorId}`;
   }
-  if (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId !== caregiver.value?.id) {
+  if (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId > 0 && seniorCitizen.assignedCaregiverId !== caregiver.value?.id) {
     const caregiverData = getCaregiversById(seniorCitizen.assignedCaregiverId);
     const otherCaregiver = caregiverData && caregiverData.length > 0 ? caregiverData[0] : null;
     return otherCaregiver ? otherCaregiver.fullName : `Caregiver ID: ${seniorCitizen.assignedCaregiverId}`;
@@ -74,17 +74,17 @@ const getAssignedPersonName = (seniorCitizen) => {
 };
 
 const isAssignedToAnother = (seniorCitizen) => {
-  // Check if assigned to a doctor or another caregiver
-  return seniorCitizen.assignedDoctorId || 
-         (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId !== caregiver.value?.id);
+  // Check if assigned to a doctor or another caregiver (-1 means unassigned)
+  return (seniorCitizen.assignedDoctorId && seniorCitizen.assignedDoctorId > 0) || 
+         (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId > 0 && seniorCitizen.assignedCaregiverId !== caregiver.value?.id);
 };
 
 const canAssignSelectedSeniorCitizen = computed(() => {
   if (!selectedSeniorCitizenId.value) return false;
   const selectedSenior = availableSeniorCitizens.value.find(sc => sc.id === selectedSeniorCitizenId.value);
   if (!selectedSenior) return false;
-  // Block if assigned to doctor (exclusión mutua)
-  return !selectedSenior.assignedDoctorId;
+  // Block if assigned to doctor (exclusión mutua), -1 means unassigned
+  return !selectedSenior.assignedDoctorId || selectedSenior.assignedDoctorId <= 0;
 });
 
 const onAssignSeniorCitizen = async () => {
@@ -93,7 +93,7 @@ const onAssignSeniorCitizen = async () => {
     const selectedSenior = availableSeniorCitizens.value.find(sc => sc.id === selectedSeniorCitizenId.value);
     
     if (selectedSenior && isAssignedToAnother(selectedSenior)) {
-      if (selectedSenior.assignedDoctorId) {
+      if (selectedSenior.assignedDoctorId && selectedSenior.assignedDoctorId > 0) {
         alert(t('caregiver.errors.cannotAssignToDoctor'));
         return;
       }

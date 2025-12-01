@@ -12,6 +12,10 @@ export class SeniorCitizenAssembler {
      * @returns {SeniorCitizen}
      */
     static toEntityFromResource(resource) {
+        // Map profileImage from backend to imageUrl
+        if (resource.profileImage && !resource.imageUrl) {
+            resource.imageUrl = resource.profileImage;
+        }
         return new SeniorCitizen(resource);
     }
 

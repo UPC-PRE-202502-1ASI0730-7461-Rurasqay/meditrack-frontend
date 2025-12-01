@@ -1,6 +1,6 @@
 <script setup>
 import { useRelativesStore } from "../../application/relatives.store.js";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 
 const store = useRelativesStore();
@@ -20,20 +20,18 @@ const error = computed(() => store.errors.length > 0 ? store.errors[store.errors
     <p>Error loading profile: {{ error.message || error }}</p>
   </div>
   <div v-else-if="relative && relative.seniorCitizen" class="profile-container p-4 text-black-alpha-90">
-    <pv-panel header="Patient Profile" toggleable>
-      <template #icons>
-        <button class="p-panel-header-icon p-link mr-2">
-          <i class="pi pi-cog"></i>
-        </button>
-      </template>
-
+    <pv-panel header="Patient Profile">
       <div class="grid justify-content-center">
         <div class="col-12 flex justify-content-center mb-4">
           <img
-              v-if="relative.seniorCitizen.image"
-              :src="relative.seniorCitizen.image"
+              v-if="relative.seniorCitizen.imageUrl"
+              :src="relative.seniorCitizen.imageUrl"
+              :alt="`${relative.seniorCitizen.firstName} ${relative.seniorCitizen.lastName}`"
               class="profile-image"
           />
+          <div v-else class="profile-image-placeholder">
+            <i class="pi pi-user" style="font-size: 4rem"></i>
+          </div>
         </div>
 
         <div class="col-12 text-center mb-5">
@@ -98,6 +96,18 @@ const error = computed(() => store.errors.length > 0 ? store.errors[store.errors
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   object-fit: cover;
+}
+
+.profile-image-placeholder {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
 }
 
 .profile-item {

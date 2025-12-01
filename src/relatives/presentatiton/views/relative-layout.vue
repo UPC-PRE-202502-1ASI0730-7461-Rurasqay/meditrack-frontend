@@ -158,7 +158,7 @@ watch(() => route.params.id, async (newId) => {
   left: 0;
   right: 0;
   height: 64px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #1976d2;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -236,11 +236,11 @@ watch(() => route.params.id, async (newId) => {
 
 .nav-item:hover {
   background: #f5f5f5;
-  color: #667eea;
+  color: #1976d2;
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #1976d2;
   color: white;
 }
 

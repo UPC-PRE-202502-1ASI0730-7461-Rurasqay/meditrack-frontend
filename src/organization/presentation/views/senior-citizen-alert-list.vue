@@ -2,21 +2,33 @@
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useOrganizationStore } from '../../application/organization.store.js';
+import { useDevicesStore } from '../../../devices/application/devices.store.js';
 import { onMounted, computed, ref } from 'vue';
 
 const route = useRoute();
 const { t } = useI18n();
 const organizationStore = useOrganizationStore();
+const devicesStore = useDevicesStore();
 
 const isLoading = ref(true);
 const seniorCitizenId = computed(() => parseInt(route.params.id));
 
 const seniorCitizen = computed(() => organizationStore.currentSeniorCitizen);
-const alerts = computed(() => seniorCitizen.value?.alerts || []);
+const alerts = computed(() => {
+  const deviceId = seniorCitizen.value?.deviceId;
+  if (!deviceId) return [];
+  return devicesStore.getAlertsByDevice(deviceId);
+});
 
 onMounted(async () => {
   try {
     await organizationStore.fetchSeniorCitizenById(seniorCitizenId.value);
+    const deviceId = seniorCitizen.value?.deviceId;
+    if (deviceId && deviceId > 0) {
+      await devicesStore.fetchAlertsByDevice(deviceId);
+    } else {
+      console.warn('No valid device ID found for senior citizen');
+    }
   } catch (error) {
     console.error('Error loading senior citizen alerts:', error);
   } finally {

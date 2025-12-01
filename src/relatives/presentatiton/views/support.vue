@@ -1,5 +1,4 @@
 <script setup>
-import { Card as PvCard } from 'primevue/card';
 </script>
 
 <template>

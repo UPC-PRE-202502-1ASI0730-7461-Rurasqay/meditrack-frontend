@@ -104,11 +104,13 @@ const confirmDelete = (seniorCitizen) => {
 
 // Helper to get assigned person name (doctor or caregiver)
 const getAssignedPerson = (seniorCitizen) => {
-  if (seniorCitizen.assignedDoctorId) {
+  // Check if assigned to a doctor (-1 means unassigned)
+  if (seniorCitizen.assignedDoctorId && seniorCitizen.assignedDoctorId > 0) {
     const doctor = store.doctors.find(d => d.id === seniorCitizen.assignedDoctorId);
     return { type: 'doctor', name: doctor ? doctor.fullName : `Doctor ID: ${seniorCitizen.assignedDoctorId}` };
   }
-  if (seniorCitizen.assignedCaregiverId) {
+  // Check if assigned to a caregiver (-1 means unassigned)
+  if (seniorCitizen.assignedCaregiverId && seniorCitizen.assignedCaregiverId > 0) {
     const caregiver = store.caregivers.find(c => c.id === seniorCitizen.assignedCaregiverId);
     return { type: 'caregiver', name: caregiver ? caregiver.fullName : `Caregiver ID: ${seniorCitizen.assignedCaregiverId}` };
   }
