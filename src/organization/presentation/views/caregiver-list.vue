@@ -3,13 +3,16 @@ import { useOrganizationStore } from "../../application/organization.store.js";
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useConfirm } from "primevue/useconfirm";
 
 const { t } = useI18n();
 const store = useOrganizationStore();
 const router = useRouter();
+const route = useRoute();
 const confirm = useConfirm();
+
+const organizationId = computed(() => parseInt(route.params.organizationId));
 
 const {
   caregiversByOrganization,
@@ -19,7 +22,7 @@ const {
 } = storeToRefs(store);
 
 const {
-  fetchCaregivers,
+  fetchCaregiversByOrganization,
   deleteCaregiver,
   getCaregiversById
 } = store;
@@ -28,9 +31,9 @@ const showForm = ref(false);
 const editingCaregiver = ref(null);
 
 onMounted(async () => {
-  console.log('CaregiverList mounted');
-  if (!caregiversLoaded.value) {
-    await fetchCaregivers();
+  console.log('CaregiverList mounted for organization:', organizationId.value);
+  if (!caregiversLoaded.value && organizationId.value) {
+    await fetchCaregiversByOrganization(organizationId.value);
     console.log('caregivers loaded', caregiversLoaded.value);
     console.log('caregiversByOrganization:', caregiversByOrganization.value);
   }

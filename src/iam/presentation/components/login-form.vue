@@ -58,9 +58,7 @@ async function onSubmit() {
 
     if (role === 'admin') {
       try {
-        const resp = await organizationApi.getAdminByUserId(String(userId));
-        const data = resp && resp.data ? resp.data : resp;
-        const admin = Array.isArray(data) ? (data[0] || null) : data;
+        const admin = await organizationApi.getAdminByUserId(String(userId));
         if (admin && admin.organizationId) {
           await router.push({ path: `/organization/${admin.organizationId}/admin/${userId}/senior-citizens` });
         } else {

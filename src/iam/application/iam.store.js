@@ -77,6 +77,10 @@ export const useIAMStore = defineStore('iam', () => {
             console.log('[IAMStore.signIn] Final resource:', resource);
             currentUser.value = resource;
             currentUserLoaded.value = true;
+            
+            // Persist user to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(resource));
+            
             return resource;
         } catch (err) {
             errors.value.push(err);
@@ -121,6 +125,9 @@ export const useIAMStore = defineStore('iam', () => {
             
             currentUser.value = resource;
             currentUserLoaded.value = true;
+            
+            // Persist user to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(resource));
 
              try {
                 if (command.role === 'admin') {
@@ -163,12 +170,37 @@ export const useIAMStore = defineStore('iam', () => {
         currentUser.value = null;
         currentUserLoaded.value = false;
         token.value = null;
+        // Clear localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
     }
 
     function setCurrentUserFromResource(resource) {
         currentUser.value = resource;
         currentUserLoaded.value = !!resource;
         if (resource && resource.token) token.value = resource.token;
+    }
+
+    function restoreSession() {
+        const storedUser = localStorage.getItem('currentUser');
+        const storedToken = localStorage.getItem('token');
+        
+        if (storedUser) {
+            try {
+                const userData = JSON.parse(storedUser);
+                currentUser.value = userData;
+                currentUserLoaded.value = true;
+                if (storedToken) {
+                    token.value = storedToken;
+                }
+                return userData;
+            } catch (error) {
+                console.error('Error restoring session:', error);
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+            }
+        }
+        return null;
     }
 
     return {
@@ -184,7 +216,8 @@ export const useIAMStore = defineStore('iam', () => {
         signUp,
         login,
         logout,
-        setCurrentUserFromResource
+        setCurrentUserFromResource,
+        restoreSession
     }
 });
 

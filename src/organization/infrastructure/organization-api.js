@@ -128,10 +128,15 @@ export class OrganizationApi extends BaseApi {
     }
 
     getAdminByUserId(userId) {
-        return this.http.get(`${adminsEndpointPath}?userId=${userId}`).then(response => {
-            // Backend returns an array, so we need to extract the first element
+        const url = `${adminsEndpointPath}?userId=${userId}`;
+        return this.http.get(url).then(response => {
             const admins = response.data;
-            return Array.isArray(admins) && admins.length > 0 ? admins[0] : null;
+            // Backend may return multiple admins, so we need to find the one with matching userId
+            if (Array.isArray(admins)) {
+                const admin = admins.find(a => a.userId === parseInt(userId));
+                return admin || null;
+            }
+            return null;
         });
     }
 
@@ -193,17 +198,25 @@ export class OrganizationApi extends BaseApi {
 
     getDoctorByUserId(userId) {
         return this.http.get(`${doctorsEndpointPath}?userId=${userId}`).then(response => {
-            // Backend returns an array, so we need to extract the first element
             const doctors = response.data;
-            return Array.isArray(doctors) && doctors.length > 0 ? doctors[0] : null;
+            // Backend may return multiple doctors, so we need to find the one with matching userId
+            if (Array.isArray(doctors)) {
+                const doctor = doctors.find(d => d.userId === parseInt(userId));
+                return doctor || null;
+            }
+            return null;
         });
     }
 
     getCaregiverByUserId(userId) {
         return this.http.get(`${caregiversEndpointPath}?userId=${userId}`).then(response => {
-            // Backend returns an array, so we need to extract the first element
             const caregivers = response.data;
-            return Array.isArray(caregivers) && caregivers.length > 0 ? caregivers[0] : null;
+            // Backend may return multiple caregivers, so we need to find the one with matching userId
+            if (Array.isArray(caregivers)) {
+                const caregiver = caregivers.find(c => c.userId === parseInt(userId));
+                return caregiver || null;
+            }
+            return null;
         });
     }
 

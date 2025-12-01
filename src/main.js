@@ -19,9 +19,10 @@ import {
 } from "primevue";
 import router from "./router.js";
 import pinia from "./pinia.js";
+import useIAMStore from "./iam/application/iam.store.js";
 
 // noinspection JSCheckFunctionSignatures
-createApp(App)
+const app = createApp(App)
     .use(i18n)
     .use(PrimeVue, { theme: { preset: Material }, ripple: true})
     .use(ConfirmationService)
@@ -63,5 +64,10 @@ createApp(App)
     .component('pv-list', Listbox)
     .directive('tooltip', Tooltip)
     .use(router)
-    .use(pinia)
-    .mount('#app')
+    .use(pinia);
+
+// Restore session from localStorage
+const iamStore = useIAMStore();
+iamStore.restoreSession();
+
+app.mount('#app')
