@@ -25,6 +25,9 @@ export const useOrganizationStore = defineStore('organization', () => {
     const seniorCitizensLoaded = ref(false);
     const adminsLoaded = ref(false);
     const loading = ref(false);
+    
+    // Request deduplication promises
+    let fetchOrganizationsPromise = null;
 
     // Current context
     const organization = ref(null);
@@ -85,7 +88,18 @@ export const useOrganizationStore = defineStore('organization', () => {
     })
 
     function fetchOrganizationById(id) {
-        return organizationApi.getOrganizations().then((response) => {
+        if (organizationsLoaded.value) {
+            organization.value = organizations.value.find((item) => item.id === id);
+            return Promise.resolve();
+        }
+
+        if (fetchOrganizationsPromise) {
+            return fetchOrganizationsPromise.then(() => {
+                organization.value = organizations.value.find((item) => item.id === id);
+            });
+        }
+
+        fetchOrganizationsPromise = organizationApi.getOrganizations().then((response) => {
             organizations.value = OrganizationAssembler.toEntitiesFromResponse(response);
             organizationsLoaded.value = true;
             console.log("organizationLoaded", organizationsLoaded.value)
@@ -94,7 +108,11 @@ export const useOrganizationStore = defineStore('organization', () => {
             organization.value = organizations.value.find((item) => item.id === id);
         }).catch((error) => {
             errors.value.push(error);
-        })
+        }).finally(() => {
+            fetchOrganizationsPromise = null;
+        });
+
+        return fetchOrganizationsPromise;
     }
 
     function fetchDoctors() {
