@@ -3,15 +3,15 @@ import { useOrganizationStore } from "../../application/organization.store.js";
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
-import { CaregiverAssembler } from "../../infrastructure/caregiver.assembler.js";
+import { storeToRefs } from "pinia";
 
 const { t } = useI18n();
 const store = useOrganizationStore();
 const router = useRouter();
 const route = useRoute();
 
+const { organization } = storeToRefs(store);
 const {
-  organization,
   addCaregiver,
   updateCaregiver,
   getCaregiversById
@@ -36,7 +36,10 @@ const form = ref({
 
 const institutionEmailDomain = computed(() => {
   // This would come from the organization/store in a real implementation
-  return organization.value ? `@${organization.value.name.toLowerCase().replace(/\s+/g, '')}.com` : '';
+  if (organization.value && organization.value.name) {
+    return `@${organization.value.name.toLowerCase().replace(/\s+/g, '')}.com`;
+  }
+  return '';
 });
 
 const errors = ref({});
