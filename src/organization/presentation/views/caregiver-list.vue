@@ -32,7 +32,8 @@ const editingCaregiver = ref(null);
 
 onMounted(async () => {
   console.log('CaregiverList mounted for organization:', organizationId.value);
-  if (!caregiversLoaded.value && organizationId.value) {
+  // Always fetch to ensure we have the correct data for the current organization
+  if (organizationId.value) {
     await fetchCaregiversByOrganization(organizationId.value);
     console.log('caregivers loaded', caregiversLoaded.value);
     console.log('caregiversByOrganization:', caregiversByOrganization.value);

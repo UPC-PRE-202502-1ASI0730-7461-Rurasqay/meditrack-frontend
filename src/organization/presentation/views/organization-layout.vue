@@ -38,11 +38,12 @@ const currentOrganization = computed(() => {
 });
 
 const organizationType = computed(() => currentOrganization.value?.type || 'clinic');
-const isClinic = computed(() => organizationType.value === 'clinic');
+const isClinic = computed(() => String(organizationType.value).toLowerCase() === 'clinic');
 // Accept both 'resident' and 'residence' for backward compatibility
-const isResidentHome = computed(() => 
-  organizationType.value === 'resident' || organizationType.value === 'residence'
-);
+const isResidentHome = computed(() => {
+  const type = String(organizationType.value).toLowerCase();
+  return type === 'resident' || type === 'residence';
+});
 
 // Navigation items based on organization type and user role
 const navigationItems = computed(() => {
